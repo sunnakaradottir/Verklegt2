@@ -6,8 +6,10 @@
     <div class="location">{{ item.location }}</div>
     <div class="price">{{ item.price }}</div>
     <div class="image">
-        {% with item.imageid as image %}
-            <img src="{{ image.img_url }}" />
-        {% endwith %}
+        {% for itemimage in itemimages %}
+            {% if itemimage.item == item %}
+                <img src="{{ itemimage.img_url }}" />
+            {% endif %}
+        {% endfor %}
     </div>
 </div>

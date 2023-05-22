@@ -3,6 +3,6 @@
 {% block content %}
     <div>Items</div>
     {% for item in items %}
-        {% include "items/__single_item.html" with item=item imageid=image.id %}
+        {% include "items/__single_item.html" with item=item itemimages=itemimages %}
     {% endfor %}
 {% endblock %}

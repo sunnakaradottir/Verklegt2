@@ -33,7 +33,7 @@ def create_member(request):
 
 def get_items(request):
     return render(
-        request, "items/index.html", {"items": models.Item.objects.all()}
+        request, "items/index.html", {"items": models.Item.objects.all(), "itemimages": models.ItemImage.objects.all()}
     )
 
 def create_item(request):
@@ -41,11 +41,12 @@ def create_item(request):
         # add filled out information to the database
         form = ItemForm(data=request.POST)
         if form.is_valid():
-            # create a new member object and save it to the database
-            item = form.save()
-            # create a new image object and save it to the database
-            item_image = models.ItemImage(request.POST['image'], item_id=item)
-            item_image.save()
+            item = form.save(commit=False)  # Save the item object without committing to the database yet
+            item.save()  # Save the item object to generate an ID
+            image_url = form.cleaned_data['image']  # Get the image URL from the form
+            item_image = models.ItemImage.objects.create(item=item, img_url=image_url)  # Create the ItemImage instance and link it to the Item
+            # Set the image field of the Item model to the ItemImage instance
+            item.image = item_image
             # redirect the user to the members page
             return redirect("items")
     else:
