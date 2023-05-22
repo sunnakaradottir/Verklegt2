@@ -6,7 +6,7 @@ from .forms.item_form import ItemForm
 
 # Create your views here
 def index(request):
-    return render(request, "base.html")
+    return render(request, "base.html", {"items": models.Item.objects.all(), "itemimages": models.ItemImage.objects.all()})
 
 
 def get_members(request):
