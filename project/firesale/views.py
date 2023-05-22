@@ -5,7 +5,7 @@ from .models import MyData
 
 # Create your views here
 def index(request):
-    return HttpResponse("Hello, world. You're at the firesale index.")
+    return render(request, 'base.html')
 
 def upload_data(request):
     if request.method == 'POST':
@@ -25,3 +25,6 @@ def upload_data(request):
 
 def success_view(request):
     return render(request, 'success.html')
+
+def get_members(request):
+    return render(request, 'members/index.html')

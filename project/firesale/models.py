@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class MyData(models.Model):
@@ -6,31 +7,27 @@ class MyData(models.Model):
     name = models.CharField(max_length=100)
     age = models.IntegerField()
 
-class LogIn(models.Model):
-    email = models.CharField(primary_key=True, max_length=320)
-    password = models.CharField(max_length=64)
-    phone = models.CharField(max_length=7)
-
 class Member(models.Model):
-    image_id = models.ForeignKey('Image', on_delete=models.CASCADE)
-    email = models.ForeignKey('LogIn', on_delete=models.CASCADE)
+    image_id = models.ForeignKey('Image', on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=7)
     birthday = models.DateField()
-    bio = models.CharField(max_length=1000)
-    login = models.BooleanField(default=False)
+    bio = models.CharField(max_length=1000, blank=True, null=True)
+
+    def __str__(self):
+        return f"name: {self.name}, id: {self.id}"
 
 class Image(models.Model):
     img_url = models.CharField(max_length=1000)
 
 class Item(models.Model):
-    category_id = models.ForeignKey('Category', on_delete=models.CASCADE)
-    image_id = models.ForeignKey('Image', on_delete=models.CASCADE)
+    category_id = models.ForeignKey('Category', on_delete=models.CASCADE, blank=True, null=True)
+    image_id = models.ForeignKey('Image', on_delete=models.CASCADE, blank=True, null=True)
     member_id = models.ForeignKey('Member', on_delete=models.CASCADE, related_name='my_listings')
-    location_id = models.ForeignKey('Location', on_delete=models.CASCADE)
-    bid_id = models.ForeignKey('Bid', on_delete=models.CASCADE)
-    description = models.CharField(max_length=1000)
-    price = models.IntegerField()
+    location_id = models.ForeignKey('Location', on_delete=models.CASCADE, blank=True, null=True)
+    bid_id = models.ForeignKey('Bid', on_delete=models.CASCADE, blank=True, null=True)
+    description = models.CharField(max_length=1000, blank=True, null=True)
+    price = models.IntegerField(blank=True, null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
 
 class Category(models.Model):
@@ -84,7 +81,7 @@ class Review(models.Model):
     from_member = models.ForeignKey('Member', on_delete=models.CASCADE, related_name='reviews_sent')
     to_member = models.ForeignKey('Member', on_delete=models.CASCADE, related_name='reviews_recieved')
     rating = models.IntegerField()
-    comment = models.CharField(max_length=1000)
+    comment = models.CharField(max_length=1000, blank=True, null=True)
     creation_time = models.DateTimeField(auto_now_add=True)
 
 class Favorite(models.Model):
