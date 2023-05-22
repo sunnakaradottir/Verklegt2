@@ -52,4 +52,4 @@ def create_item(request):
     else:
         # if user has not submitted the form yet, show them a blank form
         form = ItemForm()
-    return render(request, "items/create_item.html", {'form': form})
+    return render(request, "items/create.html", {'form': form})
