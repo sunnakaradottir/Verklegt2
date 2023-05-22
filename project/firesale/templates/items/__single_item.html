@@ -1,15 +1,16 @@
-<div class="item">
+<div class="single_item">
     <div class="name">{{ item.name }}</div>
     <div class="category">{{ item.category }}</div>
     <div class="condition">{{ item.condition }}</div>
     <div class="description">{{ item.description }}</div>
     <div class="location">{{ item.location }}</div>
-    <div class="price">{{ item.price }}</div>
-    <div class="image">
+    <!-- TODO: Add location to item form -->
+    <div class="single_item_image">
         {% for itemimage in itemimages %}
             {% if itemimage.item == item %}
-                <img src="{{ itemimage.img_url }}" />
+                <img src="{{ itemimage.img_url }}" width="150px" alt="Picture of {{ item.name }}"/>
             {% endif %}
         {% endfor %}
     </div>
+    <div class="price">{{ item.price }}</div>
 </div>
