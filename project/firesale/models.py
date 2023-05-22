@@ -8,7 +8,7 @@ class MyData(models.Model):
     age = models.IntegerField()
 
 class Member(models.Model):
-    image_id = models.ForeignKey('Image', on_delete=models.CASCADE, blank=True, null=True)
+    image_id = models.ForeignKey('MemberImage', on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=7)
     birthday = models.DateField()
@@ -18,12 +18,17 @@ class Member(models.Model):
     def __str__(self):
         return f"name: {self.name}, id: {self.id}"
 
-class Image(models.Model):
+class MemberImage(models.Model):
+    member_id = models.ForeignKey('Member', on_delete=models.CASCADE, related_name='profile_picture')
+    img_url = models.CharField(max_length=1000)
+
+class ItemImage(models.Model):
+    item_id = models.ForeignKey('Item', on_delete=models.CASCADE, related_name='item_image')
     img_url = models.CharField(max_length=1000)
 
 class Item(models.Model):
     category_id = models.ForeignKey('Category', on_delete=models.CASCADE, blank=True, null=True)
-    image_id = models.ForeignKey('Image', on_delete=models.CASCADE, blank=True, null=True)
+    image_id = models.ForeignKey('ItemImage', on_delete=models.CASCADE, blank=True, null=True)
     member_id = models.ForeignKey('Member', on_delete=models.CASCADE, related_name='my_listings')
     location_id = models.ForeignKey('Location', on_delete=models.CASCADE, blank=True, null=True)
     bid_id = models.ForeignKey('Bid', on_delete=models.CASCADE, blank=True, null=True)

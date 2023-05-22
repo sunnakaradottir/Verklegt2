@@ -15,7 +15,17 @@ def get_members(request):
 
 def create_member(request):
     if request.method == "POST":
-        print(1)
+        # add filled out information to the database
+        form = MemberForm(data=request.POST)
+        if form.is_valid():
+            # create a new member object and save it to the database
+            member = form.save()
+            # create a new image object and save it to the database
+            member_image = models.MemberImage(request.POST['image'], member_id=member)
+            member_image.save()
+            # redirect the user to the members page
+            return redirect("members")
     else:
+        # if user has not submitted the form yet, show them a blank form
         form = MemberForm()
     return render(request, "members/create.html", {'form': form})
