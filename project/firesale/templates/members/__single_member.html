@@ -4,8 +4,10 @@
     <div class="birthday">{{ member.birthday }}</div>
     <div class="bio">{{ member.bio }}</div>
     <div class="image">
-        {% with member.imageid as image %}
-            <img src="{{ image.img_url }}" />
-        {% endwith %}
+        {% for memberimage in memberimages %}
+            {% if memberimage.member == member %}
+                <img src="{{ memberimage.img_url }}" />
+            {% endif %}
+        {% endfor %}
     </div>
 </div>

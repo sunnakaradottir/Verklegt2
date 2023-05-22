@@ -11,7 +11,7 @@ def index(request):
 
 def get_members(request):
     return render(
-        request, "members/index.html", {"members": models.Member.objects.all()}
+        request, "members/index.html", {"members": models.Member.objects.all(), "memberimages": models.MemberImage.objects.all()}
     )
 
 def create_member(request):
