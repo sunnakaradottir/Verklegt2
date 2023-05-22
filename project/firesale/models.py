@@ -13,6 +13,7 @@ class Member(models.Model):
     phone = models.CharField(max_length=7)
     birthday = models.DateField()
     bio = models.CharField(max_length=1000, blank=True, null=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"name: {self.name}, id: {self.id}"
