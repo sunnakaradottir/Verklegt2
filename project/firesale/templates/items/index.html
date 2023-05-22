@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div>Items</div>
+    {% for item in items %}
+        {% include "items/__single_item.html" with item=item imageid=image.id %}
+    {% endfor %}
+{% endblock %}

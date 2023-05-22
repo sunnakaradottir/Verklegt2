@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . import models
 from .forms.member_form import MemberForm
+from .forms.item_form import ItemForm
 
 # Create your views here
 def index(request):
@@ -29,3 +30,25 @@ def create_member(request):
         # if user has not submitted the form yet, show them a blank form
         form = MemberForm()
     return render(request, "members/create.html", {'form': form})
+
+def get_items(request):
+    return render(
+        request, "items/index.html", {"items": models.Item.objects.all()}
+    )
+
+def create_item(request):
+    if request.method == "POST":
+        # add filled out information to the database
+        form = ItemForm(data=request.POST)
+        if form.is_valid():
+            # create a new member object and save it to the database
+            item = form.save()
+            # create a new image object and save it to the database
+            item_image = models.ItemImage(request.POST['image'], item_id=item)
+            item_image.save()
+            # redirect the user to the members page
+            return redirect("items")
+    else:
+        # if user has not submitted the form yet, show them a blank form
+        form = ItemForm()
+    return render(request, "items/create_item.html", {'form': form})
