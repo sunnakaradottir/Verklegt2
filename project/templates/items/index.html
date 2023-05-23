@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div>Items</div>
+    <div class="all_items">
     {% for item in items %}
         <!-- include_item_information=False -->
         {% include "items/__single_item.html" with item=item itemimages=itemimages %}
     {% endfor %}
+    </div>
 {% endblock %}

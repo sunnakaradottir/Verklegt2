@@ -6,8 +6,7 @@ from .forms.item_form import ItemForm
 
 # Create your views here
 def index(request):
-    return render(request, "base.html", {"items": models.Item.objects.all(), "itemimages": models.ItemImage.objects.all()})
-
+    return render(request, "items/index.html", {"items": models.Item.objects.all(), "itemimages": models.ItemImage.objects.all()})
 
 def get_members(request):
     return render(
@@ -30,11 +29,6 @@ def create_member(request):
         # if user has not submitted the form yet, show them a blank form
         form = MemberForm()
     return render(request, "members/create.html", {'form': form})
-
-def get_items(request):
-    return render(
-        request, "items/index.html", {"items": models.Item.objects.all(), "itemimages": models.ItemImage.objects.all()}
-    )
 
 def create_item(request):
     if request.method == "POST":
