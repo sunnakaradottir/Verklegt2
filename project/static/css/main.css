@@ -1,15 +1,20 @@
 .all_items{
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    flex-wrap:wrap;
+    justify-content: flex-start;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .single_item {
+    flex-basis: calc(33.33% - 10px);
     padding: 20px;
     background-color: #F5F5F5;
     margin: 5px;
     position: relative;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .single_item.content{
@@ -28,10 +33,13 @@
     border: 2px solid darkgrey;
     padding: 2px;
 }
-
+.single_item .description,
+.single_item .condition{
+    margin-bottom: 0.5em;
+}
 .single_item .price{
     font-size: 1.1em;
     font-weight: bold;
-    margin-bottom: 0.5em;
     color: green;
+    margin-top:auto;
 }
