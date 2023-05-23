@@ -4,7 +4,34 @@
     justify-content: space-around;
 }
 
-.single_item{
-    margin: 20px;
-    border: 1px solid red;
+.single_item {
+    padding: 20px;
+    background-color: #F5F5F5;
+    margin: 5px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.single_item.content{
+    position: absolute;
+}
+.single_item .name{
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    text-transform: uppercase;
+    color: #784C92;
+    text-align: center;
+}
+.single_item .single_item_image {
+    margin-bottom: 0.5em;
+    border: 2px solid darkgrey;
+    padding: 2px;
+}
+
+.single_item .price{
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: green;
 }
