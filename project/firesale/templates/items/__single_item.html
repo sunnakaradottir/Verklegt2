@@ -2,16 +2,36 @@
     <div class="name">{{ item.name }}</div>
 
     <!-- TODO: Add location to item form -->
-    <div class="single_item_image">
+    <div class="item_content" id="single_item_image">
         {% for itemimage in itemimages %}
             {% if itemimage.item == item %}
-                <img src="{{ itemimage.img_url }}" width="200px" alt="Picture of {{ item.name }}"/>
+                {% if itemimage.img_url is None %}
+                    No image of {{ item.name }} available
+                {% else %}
+                    <img src="{{ itemimage.img_url }}" width="200px" alt="Image of {{ item.name }}"/>
+                {% endif %}
             {% endif %}
         {% endfor %}
     </div>
-    <div class="category">{{ item.category }}</div>
-    <div class="condition">{{ item.condition }}</div>
-    <div class="description">{{ item.description }}</div>
-    <div class="location">{{ item.location }}</div>
-    <div class="price">{{ item.price }}</div>
+
+    <!-- if include_item_information -->
+    <div class="item_information">Category: {{ item.category }}</div>
+    <div class="item_information">Condition: {{ item.condition }}</div>
+    <div class="item_information">Description: {{ item.description }}</div>
+    <div class="item_information">Location: {{ item.location }}</div>
+    <!-- endif -->
+
+    <div class="item_content" id="price">Starting price: $
+        {% if item.price is None %}
+            0
+        {% else %}
+            {{ item.price }}
+        {% endif %}
+    </div>
+
+    <!-- if not include_item_information
+        <div class="item_content">
+            <button type="button" class="info_btn">More Information</button>
+        </div>
+     endif -->
 </div>
