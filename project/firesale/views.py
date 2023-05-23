@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from . import models
 from .forms.member_form import MemberForm
 from .forms.item_form import ItemForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here
 def index(request):
@@ -30,6 +31,7 @@ def create_member(request):
         form = MemberForm()
     return render(request, "members/create.html", {'form': form})
 
+@login_required
 def create_item(request):
     if request.method == "POST":
         # add filled out information to the database
