@@ -51,3 +51,41 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.single_item_page {
+    width: 40%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #F5F5F5;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: black;
+}
+
+#bidButton {
+    background-color: orange;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-top: 10px;
+    /*display: block; /* Add this */
+    /*margin-left: auto; /* Add this */
+    /*margin-right: auto; /* Add this */
+}
+
+/* Styling for the Highest Bid Element */
+.highest_bid {
+    background-color: mediumpurple;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-top: 10px;
+    display: block; /* Add this */
+    text-align: center; /* Add this */
+}

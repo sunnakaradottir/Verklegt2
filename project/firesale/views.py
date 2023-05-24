@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here
 def index(request):
-    return render(request, "items/index.html", {"items": models.Item.objects.all(), "itemimages": models.ItemImage.objects.all()})
+    return render(request, "items/index.html", {"items": models.Item.objects.all(), "itemimages": models.ItemImage.objects.all(), 'include_item_information': True,})
 
 def get_members(request):
     return render(
