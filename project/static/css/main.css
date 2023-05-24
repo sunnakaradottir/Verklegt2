@@ -67,7 +67,6 @@
     color: black;
 }
 
-
 #bidButton {
     background-color: orange;
     color: white;
@@ -100,5 +99,8 @@
   float: left;
   box-sizing: border-box;
 }
+
+
+
 
 
