@@ -2,10 +2,12 @@
 {% block content %}
     <div class="single_item_page">
         {% include "items/__single_item.html" with item=item itemimages=itemimages include_item_information=False %}
+        <div class="item_description">{{ item.description }}</div>
 
         <button id="bidButton">Make a bid</button>
         <p class ="highest_bid" >Highest Bid: $xxx</p>
         <!--<p>Highest Bid: ${{ highest_bid }}</p> -->
+
     </div>
 
 {% endblock %}
