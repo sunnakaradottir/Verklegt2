@@ -1,10 +1,34 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="all_items">
-    {% for item in items %}
-        <!-- include_item_information=False -->
-        {% include "items/__single_item.html" with item=item itemimages=itemimages %}
+    <div class="home_page">
+        <div class="categories">
+            Categories
+            <div class="category-buttons">
+                <button class="category-button">Children</button>
+                <button class="category-button">Clothing</button>
+                <button class="category-button">Electronics</button>
+                <button class="category-button">Entertainment</button>
+                <button class="category-button">Free</button>
+                <button class="category-button">Housing</button>
+                <button class="category-button">Home</button>
+                <button class="category-button">Industry</button>
+                <button class="category-button">Jobs</button>
+                <button class="category-button">Pets</button>
+                <button class="category-button">Spare Parts</button>
+                <button class="category-button">Sports and Health</button>
+                <button class="category-button">Vehicle</button>
+            </div>
+
+        </div>
+
+        <div class="all_items">
+        {% for item in items %}
+            <!-- include_item_information=False -->
+            {% include "items/__single_item.html" with item=item itemimages=itemimages %}
     {% endfor %}
+        </div>
     </div>
 {% endblock %}
+
+<!-- Bæta við categories hér -->
