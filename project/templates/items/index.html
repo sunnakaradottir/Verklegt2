@@ -3,7 +3,7 @@
 {% block content %}
     <div class="home_page">
         <div class="categories">
-            Categories
+            Filter by category
             <div class="category-buttons">
                 <button class="category-button">Children</button>
                 <button class="category-button">Clothing</button>
@@ -24,7 +24,6 @@
 
         <div class="all_items">
         {% for item in items %}
-            <!-- include_item_information=False -->
             {% include "items/__single_item.html" with item=item itemimages=itemimages %}
     {% endfor %}
         </div>

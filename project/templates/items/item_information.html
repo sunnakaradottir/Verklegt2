@@ -5,9 +5,11 @@
         <div class="item_description">{{ item.description }}</div>
 
         <button id="bidButton">Make a bid</button>
+        <form action="{% url 'delete_item' item.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" id="deleteButton">Delete item</button>
+        </form>
         <p class ="highest_bid" >Highest Bid: $xxx</p>
         <!--<p>Highest Bid: ${{ highest_bid }}</p> -->
-
     </div>
-
 {% endblock %}

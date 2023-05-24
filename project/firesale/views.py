@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from . import models
 from .forms.member_form import MemberForm
@@ -49,6 +49,13 @@ def create_item(request):
         # if user has not submitted the form yet, show them a blank form
         form = ItemForm()
     return render(request, "items/create.html", {'form': form})
+
+def delete_item(request, item_id):
+    item = get_object_or_404(models.Item, id=item_id)
+    if request.method == 'POST':
+        item.delete()
+        return redirect('index')
+    return redirect('item_information', item_id=item_id) 
 
 def item_information(request, item_id):
     item = models.Item.objects.filter(id=item_id).first()
