@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {% if not user.is_authenticated %}
+    <div id="introduction">
+        <h1>Welcome to FireSale!</h1>
+        <p>Experience the thrill of auctions and discover unique items from fellow users.<br>
+            Whether you're looking to sell your items or find something special, FireSale provides a platform for both auctioning and purchasing.<br>
+            If you already have an account, <a href="{% url 'login' %}">log in</a> to continue your journey.<br>
+            If not, join our community by registering today and start exploring the world of online auctions!</p>
+    </div>
+        {% endif %}
     <div class="home_page">
         <div class="categories">
             Filter by category
@@ -29,5 +38,3 @@
         </div>
     </div>
 {% endblock %}
-
-<!-- Bæta við categories hér -->
