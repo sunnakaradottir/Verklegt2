@@ -16,6 +16,8 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    text-decoration: none;
+    color: black;
 }
 
 .single_item .content{

@@ -1,5 +1,7 @@
-<a class="single_item" href="{% url 'item_information' item.id %}">
-    <div class="name"> {{item.name}} </div>
+{% extends "base.html" %}
+{% block content %}
+<div class="single_item">
+    <div class="name">{{ item.name }}</div>
 
     <!-- TODO: Add location to item form -->
     <div class="item_content" id="single_item_image">
@@ -34,4 +36,5 @@
             <button type="button" class="info_btn">More Information</button>
         </div>
      endif -->
-</a>
+</div>
+{% endblock %}

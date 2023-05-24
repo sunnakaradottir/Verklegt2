@@ -49,3 +49,7 @@ def create_item(request):
         # if user has not submitted the form yet, show them a blank form
         form = ItemForm()
     return render(request, "items/create.html", {'form': form})
+
+def item_information(request, item_id):
+    item = models.Item.objects.filter(id=item_id).first()
+    return render(request, "items/item_information.html", {'item': item})
