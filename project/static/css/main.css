@@ -108,15 +108,23 @@
     margin-top: 15px;
 }
 
+  
+
 .category-buttons {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    background-color: #f3e1fa;
+    padding: 10px;
+    border-radius: 10px;
+    height: relative;
 }
 
-.category-content {
-    background-color: #F5F5F5;
-    padding: 10px;
+.category-button {
+    border: 2px solid #de90fc;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 5px 10px;
 }
 
 #introduction {
