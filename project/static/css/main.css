@@ -5,6 +5,7 @@
     max-width: 1000px;
     margin: 0 auto;
     gap: 10px;
+    margin-left: 15px;
 }
 
 .single_item {
@@ -100,7 +101,16 @@
   box-sizing: border-box;
 }
 
+.home_page {
+    display: flex;
+    text-align: center;
+    margin-left: 15px;
+    margin-top: 15px;
+}
 
-
-
+.category-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 
