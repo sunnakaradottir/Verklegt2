@@ -6,7 +6,7 @@
             <div class="item_description">{{ item.description }}</div>
         </div>
         <div class="offer_buttons">
-            <form class="bid_form" action="{% url 'submit_bid' item.id %}" method="post" target="_blank">
+            <form class="bid_form" action="{% url 'submit_bid' item.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit" id="bidButton">Place an Offer</button>
             </form>
