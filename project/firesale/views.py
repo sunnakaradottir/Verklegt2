@@ -41,7 +41,7 @@ def create_item(request):
         form = ItemForm(data=request.POST)
         if form.is_valid():
             item = form.save(commit=False)
-            item.seller_id = request.POST.get('member')
+            item.user = request.user
             item.save()
 
             image_url = form.cleaned_data['image']
@@ -60,9 +60,7 @@ def delete_item(request, item_id):
     return redirect('item_information', item_id=item_id) 
 
 def item_information(request, item_id):
-
     item = models.Item.objects.filter(id=item_id).select_related('member').first()
-
     item_images = models.ItemImage.objects.all()
     return render(request, "items/item_information.html", {'item': item, 'itemimages': item_images})
 
@@ -78,6 +76,11 @@ def create_bid(request, item_id):
             bid.save()
             return redirect("item_information", item_id=item_id)
     return render(request, "items/bid.html", {'form': BidForm(), 'item': item})
+
+@login_required
+def view_bids(request, item_id):
+    item = get_object_or_404(models.Item, id=item_id)
+    pass
 
 @login_required()
 def profile(request):

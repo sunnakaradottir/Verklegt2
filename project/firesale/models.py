@@ -29,7 +29,7 @@ class ItemImage(models.Model):
 class Item(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE, blank=True, null=True)
     image = models.ForeignKey('ItemImage', on_delete=models.CASCADE, blank=True, null=True, related_name='item_image')
-    member = models.ForeignKey('Member', on_delete=models.CASCADE, blank=True, null=True, related_name='my_listings')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     location = models.ForeignKey('Location', on_delete=models.CASCADE, blank=True, null=True)
     description = models.CharField(max_length=1000, blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
