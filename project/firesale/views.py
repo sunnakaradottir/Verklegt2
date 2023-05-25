@@ -60,7 +60,7 @@ def delete_item(request, item_id):
     return redirect('item_information', item_id=item_id) 
 
 def item_information(request, item_id):
-    item = models.Item.objects.filter(id=item_id).select_related('member').first()
+    item = models.Item.objects.filter(id=item_id).first()
     item_images = models.ItemImage.objects.all()
     return render(request, "items/item_information.html", {'item': item, 'itemimages': item_images})
 

@@ -13,11 +13,9 @@
         {% endfor %}
     </div>
 
-    {% if include_item_information %}
     <div class="item_information">Category: {{ item.category }}</div>
     <div class="item_information">Condition: {{ item.condition }}</div>
     <div class="item_information">Location: {{ item.location }}</div>
-    {% endif %}
 
     <div class="item_content" id="price">Starting price: $
         {% if item.price is None %}
