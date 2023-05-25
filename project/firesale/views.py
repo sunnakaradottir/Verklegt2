@@ -40,7 +40,7 @@ def create_item(request):
         form = ItemForm(data=request.POST)
         if form.is_valid():
             item = form.save(commit=False)
-            item.seller = request.user
+            item.seller_id = request.POST.get('member')
             item.save()
 
             image_url = form.cleaned_data['image']
