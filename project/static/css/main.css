@@ -81,6 +81,18 @@
     margin-left: auto;
 }
 
+.single_item_page button:hover {
+    background-color: lightgray;
+}
+
+#deleteButton {
+    background-color: red;
+}
+
+#deleteButton:hover {
+    background-color: lightgray;
+}
+
 .highest_bid {
     width: 50%;
     background-color: mediumpurple;
@@ -135,4 +147,17 @@
 
 #introduction {
     margin-left: 15px;
+}
+
+.nav-link:hover {
+    background-color: lightgray;
+}
+
+.navbar-logo:hover {
+    background-color: lightgray;
+}
+
+.image_container {
+    width: 200px;
+    height: 200px;
 }
