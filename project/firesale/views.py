@@ -5,6 +5,9 @@ from .forms.member_form import MemberForm
 from .forms.item_form import ItemForm
 from django.contrib.auth.decorators import login_required
 
+from django.contrib.auth.models import User
+from .models import Item, ItemImage
+
 # Create your views here
 def index(request):
     return render(request, "items/index.html", {"items": models.Item.objects.all(), "itemimages": models.ItemImage.objects.all(), 'include_item_information': True,})
@@ -34,21 +37,19 @@ def create_member(request):
 @login_required
 def create_item(request):
     if request.method == "POST":
-        # add filled out information to the database
         form = ItemForm(data=request.POST)
         if form.is_valid():
-            item = form.save(commit=False)  # Save the item object without committing to the database yet
-            item.save()  # Save the item object to generate an ID
-            image_url = form.cleaned_data['image']  # Get the image URL from the form
-            item_image = models.ItemImage.objects.create(item=item, img_url=image_url)  # Create the ItemImage instance and link it to the Item
-            # Set the image field of the Item model to the ItemImage instance
+            item = form.save(commit=False)
+            item.seller = request.user
+            item.save()
+
+            image_url = form.cleaned_data['image']
+            item_image = ItemImage.objects.create(item=item, img_url=image_url)
             item.image = item_image
-            # redirect the user to the members page
-            return redirect("items")
+            return redirect("index")
     else:
-        # if user has not submitted the form yet, show them a blank form
         form = ItemForm()
-    return render(request, "items/create.html", {'form': form})
+    return render(request, "items/create_item.html", {'form': form})
 
 def delete_item(request, item_id):
     item = get_object_or_404(models.Item, id=item_id)
@@ -58,7 +59,9 @@ def delete_item(request, item_id):
     return redirect('item_information', item_id=item_id) 
 
 def item_information(request, item_id):
-    item = models.Item.objects.filter(id=item_id).first()
+
+    item = models.Item.objects.filter(id=item_id).select_related('member').first()
+
     item_images = models.ItemImage.objects.all()
     return render(request, "items/item_information.html", {'item': item, 'itemimages': item_images})
 

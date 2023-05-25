@@ -5,18 +5,26 @@
             {% include "items/__single_item.html" with item=item itemimages=itemimages include_item_information=False %}
             <div class="item_description">{{ item.description }}</div>
         </div>
-        <form class="bid_form" action="{% url 'submit_bid' item.id %}" method="post" target="_blank">
-            {% csrf_token %}
-            <button type="submit" id="bidButton">Make a bid</button>
-        </form>
+        <div class="offer_buttons">
+            <form class="bid_form" action="{% url 'submit_bid' item.id %}" method="post" target="_blank">
+                {% csrf_token %}
+                <button type="submit" id="bidButton">Place an Offer</button>
+            </form>
 
 
-        <form class="delete_form" action="{% url 'delete_item' item.id %}" method="post" style="display: inline;">
-            {% csrf_token %}
-            <button type="submit" id="deleteButton">Delete item</button>
-        </form>
-        <p class ="highest_bid" >Highest Bid: $xxx</p>
+            <form class="delete_form" action="{% url 'delete_item' item.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" id="deleteButton">Delete item</button>
+            </form>
+        </div>
+        <p class ="highest_bid" >Highest Offer: $xxx</p>
         <!--<p>Highest Bid: ${{ highest_bid }}</p> -->
+
+         {% if item.seller %}
+            <p class="Seller">Seller: {{ item.member.username }}</p>
+        {% else %}
+            <p class="Seller">Seller information not available.</p>
+        {% endif %}
     </div>
 {% endblock %}
 
