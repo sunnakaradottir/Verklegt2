@@ -1,0 +1,8 @@
+{% block content %}
+    <a class="single_bid_info" href="#">
+        <div class="bid_display">
+            <div class="bidder">Bidder: {{ bid.user }}</div>
+            <div class="bid_amount">Bid Amount: ${{ bid.bid_amount }}</div>
+        </div>
+    </a>
+{% endblock %}
