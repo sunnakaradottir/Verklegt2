@@ -11,31 +11,27 @@
     </div>
         {% endif %}
     <div class="home_page">
-        <div class="categories">
-            
-            <div class="category-buttons">
-                Filter by category
-                <button class="category-button">Children</button>
-                <button class="category-button">Clothing</button>
-                <button class="category-button">Electronics</button>
-                <button class="category-button">Entertainment</button>
-                <button class="category-button">Free</button>
-                <button class="category-button">Housing</button>
-                <button class="category-button">Home</button>
-                <button class="category-button">Industry</button>
-                <button class="category-button">Jobs</button>
-                <button class="category-button">Pets</button>
-                <button class="category-button">Spare Parts</button>
-                <button class="category-button">Sports and Health</button>
-                <button class="category-button">Vehicle</button>
-            </div>
-
+        <div class="category-buttons">
+            Filter by category
+            <button class="category-button">Children</button>
+            <button class="category-button">Clothing</button>
+            <button class="category-button">Electronics</button>
+            <button class="category-button">Entertainment</button>
+            <button class="category-button">H </button>
+            <button class="category-button">Housing</button>
+            <button class="category-button">Home</button>
+            <button class="category-button">Industry</button>
+            <button class="category-button">Jobs</button>
+            <button class="category-button">Pets</button>
+            <button class="category-button">Spare Parts</button>
+            <button class="category-button">Sports and Health</button>
+            <button class="category-button">Vehicle</button>
         </div>
 
         <div class="all_items">
         {% for item in items %}
             {% include "items/__single_item.html" with item=item itemimages=itemimages %}
-    {% endfor %}
+        {% endfor %}
         </div>
     </div>
 {% endblock %}
