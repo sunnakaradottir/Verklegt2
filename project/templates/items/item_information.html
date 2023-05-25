@@ -10,11 +10,15 @@
                 {% csrf_token %}
                 <button type="submit" id="bidButton">Place an Offer</button>
             </form>
-
-
             <form class="delete_form" action="{% url 'delete_item' item.id %}" method="post" style="display: inline;">
                 {% csrf_token %}
                 <button type="submit" id="deleteButton">Delete item</button>
+            </form>
+        </div>
+        <div class="item_bids">
+            <form class="view_bid_form" action="{% url 'view_bids' item.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" id="viewBidsButton">View Bids</button>
             </form>
         </div>
         <p class ="highest_bid" >Highest Offer: $xxx</p>

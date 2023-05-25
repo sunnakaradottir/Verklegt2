@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="single_item_page">
-        <div id="item_display">
-            {% include "items/__single_item.html" with item=item itemimages=itemimages %}
+    <div class="item_info_bids">
+        <div class="single_item">
+            <div id="item_display">
+                {% include "items/__single_item.html" with item=item itemimages=itemimages %}
+                {{ item.description }}
+            </div>
         </div>
-        <div class="item_description">
-            {{ item.description }}
+        <div class="item_bids">
+            {% for bid in bids %}
+                {% include "items/__single_bid.html" with bid=bid %}
+            {% endfor %}
         </div>
     </div>
-    <div class="item_bids">
-        {% include "items/__single_bid.html" with item=item %}
-    </div>
-
 {% endblock %}
