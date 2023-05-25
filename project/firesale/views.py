@@ -73,3 +73,8 @@ def submit_bid(request, item_id):
         return render(request, "items/bid.html",{"item_id":item_id})
 
     return redirect("item_information", item_id=item_id)
+@login_required()
+def profile(request):
+    member = models.Member.objects.get(user=request.user)
+    memberimages = models.MemberImage.objects.filter(member=member)
+    return render(request, 'user/profile.html', {'profile': profile, 'memberimages': memberimages})

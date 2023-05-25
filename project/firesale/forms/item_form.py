@@ -2,7 +2,6 @@ from django.forms import ModelForm, widgets
 from firesale.models import Item
 from django import forms
 
-
 class ItemForm(ModelForm):
     price = forms.DecimalField(
         required=False,
