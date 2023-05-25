@@ -42,6 +42,9 @@ def create_item(request):
         if form.is_valid():
             item = form.save(commit=False)
             item.user = request.user
+            category = models.Category.objects.filter(name=form.cleaned_data['category'])
+            if category:
+                item.category = category.first()
             item.save()
 
             image_url = form.cleaned_data['image']
