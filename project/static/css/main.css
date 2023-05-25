@@ -119,8 +119,6 @@
     align-self: flex-end;
 }
 
-<<<<<<< HEAD
-=======
 .single_item_page button:hover {
     background-color: lightgray;
 }
@@ -153,7 +151,6 @@
   float: left;
   box-sizing: border-box;
 }
->>>>>>> 9979f3a87a675f38be657f99f6185e8bde7fe1bd
 
 .home_page {
     gap: 30px;
@@ -189,19 +186,3 @@
 #introduction {
     margin-left: 15px;
 }
-<<<<<<< HEAD
-=======
-
-.nav-link:hover {
-    background-color: lightgray;
-}
-
-.navbar-logo:hover {
-    background-color: lightgray;
-}
-
-.image_container {
-    width: 200px;
-    height: 200px;
-}
->>>>>>> 9979f3a87a675f38be657f99f6185e8bde7fe1bd
