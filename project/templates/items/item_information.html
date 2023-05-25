@@ -2,7 +2,7 @@
 {% block content %}
     <div class="single_item_page">
            <div id="item_display">
-            {% include "items/__single_item.html" with item=item itemimages=itemimages include_item_information=False %}
+            {% include "items/__single_item.html" with item=item itemimages=itemimages %}
             <div class="item_description">{{ item.description }}</div>
         </div>
         <div class="offer_buttons">
