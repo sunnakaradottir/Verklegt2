@@ -5,12 +5,10 @@
     <div class="item_content" id="single_item_image">
         {% for itemimage in itemimages %}
             {% if itemimage.item == item %}
-                {% if itemimage.img_url is None %}
-                    No image of {{ item.name }} available
-                {% else %}
-                    <img src="{{ itemimage.img_url }}" width="200px" height="200px" alt="Image of {{ item.name }}"/>
+                <div class="image_container">
+                    <img src="{{ itemimage.img_url }}" width="200px" height="200px" alt="Image of {{ item.name }} "/>
+                </div>
 
-                {% endif %}
             {% endif %}
         {% endfor %}
     </div>
@@ -29,9 +27,4 @@
         {% endif %}
     </div>
 
-    <!-- if not include_item_information
-        <div class="item_content">
-            <button type="button" class="info_btn">More Information</button>
-        </div>
-     endif -->
 </a>
