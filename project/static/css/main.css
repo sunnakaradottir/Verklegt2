@@ -18,9 +18,8 @@
     flex-direction: column;
     text-decoration: none;
     color: black;
-    max-height: 480px;
+    max-height: 400px;
 }
-
 
 .single_item .content{
     position: absolute;
@@ -115,7 +114,6 @@
     text-align: center;
     align-self: flex-end;
 }
-
 
 .single_item_page button {
     background-color: orange;
