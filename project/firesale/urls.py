@@ -9,4 +9,5 @@ urlpatterns = [
     path('create_item/', views.create_item, name='create_item'),
     path('item/<slug:item_id>/', views.item_information, name='item_information'),
     path('items/delete/<int:item_id>/', views.delete_item, name='delete_item'),
+    path('item/<int:item_id>/bid/', views.submit_bid, name="submit_bid"),
 ]

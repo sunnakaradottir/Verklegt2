@@ -1,10 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="single_item_page">
-        {% include "items/__single_item.html" with item=item itemimages=itemimages include_item_information=False %}
-        <div class="item_description">{{ item.description }}</div>
+           <div id="item_display">
+            {% include "items/__single_item.html" with item=item itemimages=itemimages include_item_information=False %}
+            <div class="item_description">{{ item.description }}</div>
+        </div>
+        <form class="bid_form" action="{% url 'submit_bid' item.id %}" method="post" target="_blank">
+            {% csrf_token %}
+            <button type="submit" id="bidButton">Make a bid</button>
+        </form>
 
-        <button id="bidButton">Make a bid</button>
+
         <form class="delete_form" action="{% url 'delete_item' item.id %}" method="post" style="display: inline;">
             {% csrf_token %}
             <button type="submit" id="deleteButton">Delete item</button>
@@ -13,3 +19,4 @@
         <!--<p>Highest Bid: ${{ highest_bid }}</p> -->
     </div>
 {% endblock %}
+

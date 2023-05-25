@@ -61,3 +61,10 @@ def item_information(request, item_id):
     item = models.Item.objects.filter(id=item_id).first()
     item_images = models.ItemImage.objects.all()
     return render(request, "items/item_information.html", {'item': item, 'itemimages': item_images})
+def submit_bid(request, item_id):
+    item = get_object_or_404(models.Item, id=item_id)
+    if request.method =="POST":
+        bid_amount = request.POST.get("bid-amount")
+        return render(request, "items/bid.html",{"item_id":item_id})
+
+    return redirect("item_information", item_id=item_id)

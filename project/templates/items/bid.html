@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Place Your Bid</h3>
+    <form id="bid-form-element" method="POST" action="{% url 'submit_bid' item_id %}">
+        {% csrf_token %}
+        <input type="number" name="bid-amount" placeholder="Bid Amount" required>
+        <button type="submit">Submit Bid</button>
+    </form>
+{% endblock %}
