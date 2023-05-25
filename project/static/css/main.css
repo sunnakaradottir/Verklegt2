@@ -2,15 +2,14 @@
     display: flex;
     flex-wrap:wrap;
     justify-content: flex-start;
-    max-width: 1000px;
     margin: 0 auto;
     gap: 10px;
     margin-left: 15px;
 }
 
 .single_item {
-    flex-basis: calc(33.33% - 30px);
     padding: 20px;
+    min-width: 375px;
     background-color: #F5F5F5;
     margin: 5px;
     position: relative;
@@ -19,7 +18,7 @@
     flex-direction: column;
     text-decoration: none;
     color: black;
-    max-height: 500px;
+    max-height: 480px;
 }
 
 
@@ -104,7 +103,7 @@
 }
 
 .home_page {
-    gap: 80px;
+    gap: 30px;
     display: flex;
     margin-left: 15px;
     margin-top: 15px;
@@ -113,12 +112,12 @@
 .home_page .category-buttons {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     gap: 5px;
     background-color: #f3e1fa;
     padding: 10px;
     border-radius: 10px;
     align-items: center;
+    height: 565px;
 }
 
 .category-button {
@@ -127,6 +126,10 @@
     background-color: #FFFFFF;
     border-radius: 10px;
     padding: 5px 10px;
+}
+
+.category-button:hover{
+    background-color: lightgray;
 }
 
 

@@ -8,7 +8,8 @@
                 {% if itemimage.img_url is None %}
                     No image of {{ item.name }} available
                 {% else %}
-                    <img src="{{ itemimage.img_url }}" width="200px" alt="Image of {{ item.name }}"/>
+                    <img src="{{ itemimage.img_url }}" width="200px" height="200px" alt="Image of {{ item.name }}"/>
+
                 {% endif %}
             {% endif %}
         {% endfor %}
