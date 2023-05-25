@@ -52,7 +52,7 @@ class Location(models.Model):
 
 class Bid(models.Model):
     item = models.ForeignKey('Item', on_delete=models.CASCADE)
-    member = models.ForeignKey('Member', on_delete=models.CASCADE, related_name='bids')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     bid_amount = models.IntegerField()
     creation_time = models.DateTimeField(auto_now_add=True)
     STATUS_CHOICES = (
