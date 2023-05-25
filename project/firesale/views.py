@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from . import models
 from .forms.member_form import MemberForm
 from .forms.item_form import ItemForm
+from .forms.bid_form import BidForm
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
@@ -66,13 +67,18 @@ def item_information(request, item_id):
     return render(request, "items/item_information.html", {'item': item, 'itemimages': item_images})
 
 @login_required
-def submit_bid(request, item_id):
+def create_bid(request, item_id):
     item = get_object_or_404(models.Item, id=item_id)
     if request.method =="POST":
-        bid_amount = request.POST.get("bid-amount")
-        return render(request, "items/bid.html",{"item_id":item_id})
+        form = BidForm(data=request.POST)
+        if form.is_valid():
+            bid = form.save(commit=False)
+            bid.item = item
+            bid.user = request.user
+            bid.save()
+            return redirect("item_information", item_id=item_id)
+    return render(request, "items/bid.html", {'form': BidForm(), 'item': item})
 
-    return redirect("item_information", item_id=item_id)
 @login_required()
 def profile(request):
     member = models.Member.objects.get(user=request.user)

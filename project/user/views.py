@@ -22,3 +22,6 @@ def profile(request):
             profile.save()
             return redirect("profile")
     return render(request, "user/profile.html", {'form': ProfileForm(instance=profile)})
+
+def create_bid(request):
+    pass
