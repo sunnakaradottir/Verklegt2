@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from .forms.profile_form import ProfileForm
 from .models import Profile
+from django.contrib.auth.models import User
+from firesale.models import Message
 
 # Create your views here.
 def register(request):
@@ -24,4 +26,5 @@ def profile(request):
     return render(request, "user/profile.html", {'form': ProfileForm(instance=profile)})
 
 def inbox(request):
-    return render(request, "user/inbox.html")
+    recieved_messages = Message.objects.filter(receiver=request.user)
+    return render(request, "user/inbox.html", {'messages': recieved_messages})
