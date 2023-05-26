@@ -26,6 +26,4 @@ class ItemForm(ModelForm):
         }
         fields = ["name", "category", "condition", "price", "description"]  # Specify the desired order of fields
 
-    def __init__(self, *args, **kwargs): #VEIT EKKI MEÐ ÞETTA FALL?????????
-        super().__init__(*args, **kwargs)
-        self.fields['category'].queryset = Category.objects.all()
+    
