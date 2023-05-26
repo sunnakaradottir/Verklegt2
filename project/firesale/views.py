@@ -78,6 +78,8 @@ def create_bid(request, item_id):
             bid.user = request.user
             bid.save()
             return redirect("item_information", item_id=item_id)
+        else:
+            print("Form errors:", form.errors)
     return render(request, "items/bid.html", {'form': BidForm(), 'item': item})
 
 @login_required
