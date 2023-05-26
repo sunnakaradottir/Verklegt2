@@ -5,6 +5,7 @@ from .forms.member_form import MemberForm
 from .forms.item_form import ItemForm
 from .forms.bid_form import BidForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import Max
 
 from django.contrib.auth.models import User
 from .models import Item, ItemImage
@@ -73,7 +74,8 @@ def delete_item(request, item_id):
 def item_information(request, item_id):
     item = models.Item.objects.filter(id=item_id).first()
     item_images = models.ItemImage.objects.all()
-    return render(request, "items/item_information.html", {'item': item, 'itemimages': item_images})
+    highest_bid = models.Bid.objects.filter(item=item).aggregate(Max('bid_amount'))['bid_amount__max']
+    return render(request, "items/item_information.html", {'item': item, 'itemimages': item_images, "highest_bid": highest_bid})
 
 @login_required
 def create_bid(request, item_id):
