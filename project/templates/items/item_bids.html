@@ -5,7 +5,7 @@
             {% include "items/__single_item.html" with item=item itemimages=itemimages %}
         </div>
         <h2 id="bids_header" style="text-align: center;"> All offers placed on {{ item.name }}:</h2>
-        <div class="item_bids" style="display: flex; flex-wrap: wrap; gap:10px; margin-left: auto; margin-right: auto;">
+        <div class="item_bids" style="display: flex; flex-wrap: wrap; gap:10px; margin-left: auto; margin-right: auto; margin-bottom: 30px;">
             {% for bid in bids %}
                 {% include "items/__single_bid.html" with item=item bid=bid %}
             {% endfor %}

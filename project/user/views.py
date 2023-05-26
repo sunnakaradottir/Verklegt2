@@ -23,5 +23,5 @@ def profile(request):
             return redirect("profile")
     return render(request, "user/profile.html", {'form': ProfileForm(instance=profile)})
 
-def create_bid(request):
-    pass
+def inbox(request):
+    return render(request, "user/inbox.html")
