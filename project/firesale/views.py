@@ -87,11 +87,19 @@ def view_bids(request, item_id):
     bids = models.Bid.objects.filter(item=item_id)
     return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
 
-def accept_bid(request, bid_id):
-    pass
+def accept_bid(request, item_id, bid_id):
+    item = get_object_or_404(models.Item, id=item_id)
+    bid = get_object_or_404(models.Bid, id=bid_id)
+    bid.status = 'accepted'
+    bid.save()
+    return render(request, "items/item_bids.html", {'item': item, 'bid': bid})
 
-def reject_bid(request, bid_id):
-    pass
+def reject_bid(request, item_id, bid_id):
+    item = get_object_or_404(models.Item, id=item_id)
+    bid = get_object_or_404(models.Bid, id=bid_id)
+    bid.status = 'rejected'
+    bid.save()
+    return render(request, "items/item_bids.html", {'item': item, 'bid': bid})
 
 @login_required()
 def profile(request):
