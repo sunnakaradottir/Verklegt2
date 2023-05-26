@@ -6,5 +6,5 @@ from firesale.models import Item
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=30, blank=True, null=True)
-    favorite_item = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True, related_name='favorite_item')
+    favorite_item = models.ForeignKey(Item, on_delete=models.SET_NULL, blank=True, null=True, related_name='favorite_item')
     profile_image = models.CharField(max_length=9999, blank=True, null=True)

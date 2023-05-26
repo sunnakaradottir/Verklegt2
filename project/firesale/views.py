@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from . import models
 from .forms.member_form import MemberForm
 from .forms.item_form import ItemForm
@@ -11,6 +11,14 @@ from .models import Item, ItemImage
 
 # Create your views here
 def index(request):
+    if 'search_filter' in request.GET:
+        search_filter = request.GET['search_filter']
+        items = [{
+            'id': x.id,
+            'name': x.name,
+            'description': x.description
+        }for x in models.Item.objects.filter(name=search_filter)]
+        return JsonResponse({'data': items})
     return render(request, "items/index.html", {"items": models.Item.objects.all(), "itemimages": models.ItemImage.objects.all(), 'include_item_information': True,})
 
 def get_members(request):
