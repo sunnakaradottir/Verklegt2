@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="item_info_bids">
-        <div class="single_item">
-            <div id="item_display">
-                {% include "items/__single_item.html" with item=item itemimages=itemimages %}
-                {{ item.description }}
-            </div>
+    <div class="item_info_bids" style="display: flex; flex-direction: column; gap: 10px; margin-left:15px;">
+        <div id="item_display">
+            {% include "items/__single_item.html" with item=item itemimages=itemimages %}
         </div>
-        <div class="item_bids">
+        <h2 id="bids_header" style="text-align: center;"> All offers placed on {{ item.name }}:</h2>
+        <div class="item_bids" style="display: flex; flex-wrap: wrap; gap:10px; margin-left: auto; margin-right: auto;">
             {% for bid in bids %}
                 {% include "items/__single_bid.html" with item=item bid=bid %}
             {% endfor %}
