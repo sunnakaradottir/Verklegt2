@@ -110,7 +110,7 @@ def accept_bid(request, item_id, bid_id):
     # Create a message from the sender to the reciever
     sender = request.user
     receiver = bid.user
-    message_content = f"Your bid of ${bid.bid_amount} on listing: {item.name} has been accepted!"
+    message_content = f"Your bid of ${bid.bid_amount} on {item.name} has been accepted!"
     message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=bid)
     return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
 
@@ -125,10 +125,10 @@ def reject_bid(request, item_id, bid_id):
     # Create a message from the sender to the reciever
     sender = request.user
     receiver = bid.user
-    message_content = f"Your bid of ${bid.bid_amount} on listing: {item.name} has been rejected."
+    message_content = f"Your bid of ${bid.bid_amount} on {item.name} has been rejected."
     message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=bid)
     # Delete bid / Only show pending bids?
-    return render(request, "items/item_bids.html", {'item': item, 'bid': bid})
+    render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
 
 @login_required()
 def profile(request):
