@@ -9,7 +9,7 @@
         </div>
         <div class="item_bids">
             {% for bid in bids %}
-                {% include "items/__single_bid.html" with bid=bid %}
+                {% include "items/__single_bid.html" with item=item bid=bid %}
             {% endfor %}
         </div>
     </div>
