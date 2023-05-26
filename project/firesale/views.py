@@ -108,3 +108,12 @@ def profile(request):
     member = models.Member.objects.get(user=request.user)
     memberimages = models.MemberImage.objects.filter(member=member)
     return render(request, 'user/profile.html', {'profile': profile, 'memberimages': memberimages})
+
+def filtered_categories(request, category_id):
+    selected_category = int(category_id)
+    items = models.Item.objects.all()
+    item_images = models.ItemImage.objects.all()
+    if selected_category:
+        items = items.filter(category_id=selected_category)
+    categories = models.Category.objects.all()
+    return render(request, "items/index.html", {"items": items, "itemimages": item_images, "categories": categories, "selected_category": selected_category})

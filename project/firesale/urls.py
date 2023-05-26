@@ -13,5 +13,6 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('items/bids/<int:item_id>/', views.view_bids, name='view_bids'),
     path('items/bids/<int:item_id>/<int:bid_id>/', views.accept_bid, name='accept_bid'),
-    path('items/bids/<int:item_id>/<int:bid_id>/', views.reject_bid, name='reject_bid')
+    path('items/bids/<int:item_id>/<int:bid_id>/', views.reject_bid, name='reject_bid'),
+    path('filter/<slug:category_id>/', views.filtered_categories, name='filtered_categories'),
 ]

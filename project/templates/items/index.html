@@ -13,24 +13,25 @@
     <div class="home_page">
         <div class="category-buttons">
             Filter by category
-            <button class="category-button" data-category="Children">Children</button>
-            <button class="category-button" data-category="Clothing">Clothing</button>
-            <button class="category-button" data-category="Electronics">Electronics</button>
-            <button class="category-button" data-category="Entertainment">Entertainment</button>
-            <button class="category-button" data-category="Housing">Housing</button>
-            <button class="category-button" data-category="Home">Home</button>
-            <button class="category-button" data-category="Industry">Industry</button>
-            <button class="category-button" data-category="Jobs">Jobs</button>
-            <button class="category-button" data-category="Pets">Pets</button>
-            <button class="category-button" data-category="Spare Parts">Spare Parts</button>
-            <button class="category-button" data-category="Sports and Health">Sports and Health</button>
-            <button class="category-button" data-category="Vehicle">Vehicle</button>
+            <a href="{% url 'filtered_categories' category_id='1' %}"{% if selected_category == '1' %} class="selected"{% endif %}><button class="category-button">Children</button></a>
+            <a href="{% url 'filtered_categories' category_id='2' %}"{% if selected_category == '2' %} class="selected"{% endif %}><button class="category-button">Clothing</button></a>
+            <a href="{% url 'filtered_categories' category_id='3' %}"{% if selected_category == '3' %} class="selected"{% endif %}><button class="category-button">Electronics</button></a>
+            <a href="{% url 'filtered_categories' category_id='4' %}"{% if selected_category == '4' %} class="selected"{% endif %}><button class="category-button">Entertainment</button></a>
+            <a href="{% url 'filtered_categories' category_id='5' %}"{% if selected_category == '5' %} class="selected"{% endif %}><button class="category-button">Housing</button></a>
+            <a href="{% url 'filtered_categories' category_id='6' %}"{% if selected_category == '6' %} class="selected"{% endif %}><button class="category-button">Home</button></a>
+            <a href="{% url 'filtered_categories' category_id='7' %}"{% if selected_category == '7' %} class="selected"{% endif %}><button class="category-button">Industry</button></a>
+            <a href="{% url 'filtered_categories' category_id='8' %}"{% if selected_category == '8' %} class="selected"{% endif %}><button class="category-button">Jobs</button></a>
+            <a href="{% url 'filtered_categories' category_id='9' %}"{% if selected_category == '9' %} class="selected"{% endif %}><button class="category-button">Pets</button></a>
+            <a href="{% url 'filtered_categories' category_id='10' %}"{% if selected_category == '10' %} class="selected"{% endif %}><button class="category-button">Spare Parts</button></a>
+            <a href="{% url 'filtered_categories' category_id='11' %}"{% if selected_category == '11' %} class="selected"{% endif %}><button class="category-button">Sports and Health</button></a>
+            <a href="{% url 'filtered_categories' category_id='12' %}"{% if selected_category == '12' %} class="selected"{% endif %}><button class="category-button">Vehicle</button></a>
         </div>
 
         <div class="all_items">
-        {% for item in items %}
-            {% include "items/__single_item.html" with item=item itemimages=itemimages %}
-        {% endfor %}
+            {% for item in items %}
+                {% include "items/__single_item.html" with item=item itemimages=itemimages %}
+            {% endfor %}
         </div>
+
     </div>
 {% endblock %}

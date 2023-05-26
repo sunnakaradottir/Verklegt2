@@ -1,5 +1,5 @@
 from django.forms import ModelForm, widgets
-from firesale.models import Item
+from firesale.models import Item, Category
 from django import forms
 
 class ItemForm(ModelForm):
@@ -7,8 +7,9 @@ class ItemForm(ModelForm):
         required=False,
         widget=forms.NumberInput(attrs={"class": "form-control", "placeholder": "Set starting price of the item (Optional)"})
     )
-    category = forms.ChoiceField(
-        choices=[('', 'Select a category'),('category1', 'Children'), ('category2', 'Clothing'), ('category3', 'Electronics'), ('category4', 'Home'), ('category5', 'Entertainment'), ('category6', 'Sports & Health'), ('category7', 'Toys & Hobbies'), ('category8', 'Vehicle'), ('category9', 'Other')],
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.all(),
+        empty_label='Select a category',
         widget=forms.Select(attrs={"class": "form-control", "placeholder": "Category"})
     )
     image = forms.CharField(
@@ -20,7 +21,11 @@ class ItemForm(ModelForm):
         exclude = ["id", "category", "location", "image", "creation_date"]
         widgets = {
             "name": widgets.TextInput(attrs={"class": "form-control", "placeholder": "Item name", "required": "true"}),
-            "condition": widgets.Select(attrs={"class": "form-control", "placeholder": "Condition"}, choices=[('', 'Select condition'),('brand_new', 'Brand new'), ('good', 'Good'), ('fair', 'Fair'), ('poor', 'Poor')]),
+            "condition": widgets.Select(attrs={"class": "form-control", "placeholder": "Condition"}, choices=[('', 'Select condition'),('Brand new', 'Brand new'), ('Good', 'Good'), ('Fair', 'Fair'), ('Poor', 'Poor')]),
             "description": widgets.Textarea(attrs={"class": "form-control", "placeholder": "Description of the item"}),
         }
         fields = ["name", "category", "condition", "price", "description"]  # Specify the desired order of fields
+
+    def __init__(self, *args, **kwargs): #VEIT EKKI MEÐ ÞETTA FALL?????????
+        super().__init__(*args, **kwargs)
+        self.fields['category'].queryset = Category.objects.all()

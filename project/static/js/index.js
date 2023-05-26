@@ -1,9 +1,9 @@
-function show_item(this_item) {
+/*function show_item(this_item) {
         // Code to run when the element is clicked
         console.log("Blesssssss");
         // Add your logic here to display more information or perform other actions
-      }
-/*$(document).ready(function() {
+      }*/
+$(document).ready(function() {
   $('.category-button').on('click', function() {
     var selectedCategory = $(this).data('category');
 
@@ -24,4 +24,4 @@ function show_item(this_item) {
       }
     });
   });
-});*/
+});
