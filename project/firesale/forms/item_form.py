@@ -18,12 +18,12 @@ class ItemForm(ModelForm):
     )
     class Meta:
         model = Item
-        exclude = ["id", "category", "location", "image", "creation_date"]
+        exclude = ["id", "creation_date"]
         widgets = {
             "name": widgets.TextInput(attrs={"class": "form-control", "placeholder": "Item name", "required": "true"}),
             "condition": widgets.Select(attrs={"class": "form-control", "placeholder": "Condition"}, choices=[('', 'Select condition'),('Brand new', 'Brand new'), ('Good', 'Good'), ('Fair', 'Fair'), ('Poor', 'Poor')]),
             "description": widgets.Textarea(attrs={"class": "form-control", "placeholder": "Description of the item"}),
+            "item_location": widgets.TextInput(attrs={"class": "form-control", "placeholder": "Location"}),
         }
-        fields = ["name", "category", "condition", "price", "description"]  # Specify the desired order of fields
+        fields = ["name", "category", "condition", "price", "description", "item_location"]
 
-    

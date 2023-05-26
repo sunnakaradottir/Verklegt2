@@ -30,10 +30,10 @@ class Item(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE, blank=True, null=True)
     image = models.ForeignKey('ItemImage', on_delete=models.CASCADE, blank=True, null=True, related_name='item_image')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    location = models.ForeignKey('Location', on_delete=models.CASCADE, blank=True, null=True)
+    item_location = models.CharField(max_length=100)
     description = models.CharField(max_length=1000, blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
-    name = models.CharField(max_length=100, blank=True, null=True) # AFH ÞURFTI ÉG AÐ GERA BLANK=TRUE OG NULL = TRUE
+    name = models.CharField(max_length=100)
     condition = models.CharField(max_length=100, blank=True, null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
 
