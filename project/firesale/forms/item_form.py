@@ -23,7 +23,10 @@ class ItemForm(ModelForm):
             "name": widgets.TextInput(attrs={"class": "form-control", "placeholder": "Item name", "required": "true"}),
             "condition": widgets.Select(attrs={"class": "form-control", "placeholder": "Condition"}, choices=[('', 'Select condition'),('Brand new', 'Brand new'), ('Good', 'Good'), ('Fair', 'Fair'), ('Poor', 'Poor')]),
             "description": widgets.Textarea(attrs={"class": "form-control", "placeholder": "Description of the item"}),
-            "item_location": widgets.TextInput(attrs={"class": "form-control", "placeholder": "Location"}),
+            "item_location": widgets.TextInput(attrs={"class": "form-control", "placeholder": "Set the location of the item"}),
+        }
+        labels = {
+            "item_location": "Location",
         }
         fields = ["name", "category", "condition", "price", "description", "item_location"]
 

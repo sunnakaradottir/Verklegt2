@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if items %}
+        <div id="item_display">
+            {% for item in items %}
+                {% include "items/__single_item.html" with item=item itemimages=itemimages %}
+            {% endfor %}
+    </div>
+    {% else %}
+        <p>No items listed.</p>
+    {% endif %}
+
+{% endblock %}

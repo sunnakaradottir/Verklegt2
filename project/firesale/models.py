@@ -66,15 +66,11 @@ class Bid(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
 
 class Message(models.Model):
-    sender = models.ForeignKey('Member', on_delete=models.CASCADE, related_name='sent_messages')
-    receiver = models.ForeignKey('Member', on_delete=models.CASCADE, related_name='received_messages')
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
+    bid = models.ForeignKey('Bid', on_delete=models.CASCADE, blank=True, null=True)
     message = models.CharField(max_length=1000)
     creation_time = models.DateTimeField(auto_now_add=True)
-    STATUS_CHOICES = (
-        ('read', 'Read'),
-        ('unread', 'Unread'),
-    )
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='unread')
 
 class Order(models.Model):
     item = models.ForeignKey('Item', on_delete=models.CASCADE)
