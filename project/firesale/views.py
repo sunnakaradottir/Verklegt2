@@ -91,16 +91,33 @@ def view_bids(request, item_id):
 
 def accept_bid(request, item_id, bid_id):
     item = get_object_or_404(models.Item, id=item_id)
+    bids = models.Bid.objects.filter(item=item_id)
+    item_images = models.ItemImage.objects.all()
     bid = get_object_or_404(models.Bid, id=bid_id)
+    # Bid is accepted
     bid.status = 'accepted'
     bid.save()
-    return render(request, "items/item_bids.html", {'item': item, 'bid': bid})
+    # Create a message from the sender to the reciever
+    sender = request.user
+    receiver = bid.user
+    message_content = "Your bid has been accepted!"
+    message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content)
+    return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
 
 def reject_bid(request, item_id, bid_id):
     item = get_object_or_404(models.Item, id=item_id)
+    bids = models.Bid.objects.filter(item=item_id)
+    item_images = models.ItemImage.objects.all()
     bid = get_object_or_404(models.Bid, id=bid_id)
+    # Bid is rejected
     bid.status = 'rejected'
     bid.save()
+    # Create a message from the sender to the reciever
+    sender = request.user
+    receiver = bid.user
+    message_content = "Your bid has been rejected."
+    message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content)
+    # Delete bid / Only show pending bids?
     return render(request, "items/item_bids.html", {'item': item, 'bid': bid})
 
 @login_required()
