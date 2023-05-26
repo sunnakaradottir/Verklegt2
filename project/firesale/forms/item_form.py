@@ -17,7 +17,7 @@ class ItemForm(ModelForm):
     )
     class Meta:
         model = Item
-        exclude = ["id", "member", "category", "location", "image", "creation_date"]
+        exclude = ["id", "category", "location", "image", "creation_date"]
         widgets = {
             "name": widgets.TextInput(attrs={"class": "form-control", "placeholder": "Item name", "required": "true"}),
             "condition": widgets.Select(attrs={"class": "form-control", "placeholder": "Condition"}, choices=[('', 'Select condition'),('brand_new', 'Brand new'), ('good', 'Good'), ('fair', 'Fair'), ('poor', 'Poor')]),
