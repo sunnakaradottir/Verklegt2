@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
     <h3>Place Your Bid</h3>
-    <form class=" form form-horizontal" method="POST" action="{% url 'create_bid' item.id %}">
+    <form class="form form-horizontal" action="{% url 'create_bid' item.id %}" method="post">
         {% csrf_token %}
         {{ form }}
-        <button type="submit">Submit Offer</button>
+        <button type="submit" class="btn btn-primary">Submit Offer</button>
     </form>
 {% endblock %}
