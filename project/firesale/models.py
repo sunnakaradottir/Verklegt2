@@ -68,7 +68,7 @@ class Bid(models.Model):
 class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
-    item = models.ForeignKey('Item', on_delete=models.CASCADE, blank=True, null=True)
+    bid = models.ForeignKey('Bid', on_delete=models.CASCADE, blank=True, null=True)
     message = models.CharField(max_length=1000)
     creation_time = models.DateTimeField(auto_now_add=True)
 
