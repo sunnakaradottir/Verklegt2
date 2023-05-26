@@ -8,4 +8,5 @@ urlpatterns = [
     path("logout", LogoutView.as_view(next_page='login'), name="logout"),
     path("profile", views.profile, name="profile"),
     path("inbox", views.inbox, name="inbox"),
+    path("listings", views.my_listings, name="listings"),
 ]
