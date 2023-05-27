@@ -11,32 +11,35 @@ from django.contrib.auth.models import User
 from .models import Item, ItemImage
 
 
-
 # Create your views here
 
 def index(request):
-     if 'search_filter' in request.GET:
-         search_filter = request.GET['search_filter']
-         items = []
-         itemimages = ItemImage.objects.all()
+    if 'search_filter' in request.GET:
+        search_filter = request.GET['search_filter']
+        items = []
+        itemimages = ItemImage.objects.all()
 
-         for item_found in Item.objects.filter(name__icontains=search_filter):
-             for itemimage in itemimages:
-                 if itemimage.item == item_found:
-                     items.append({
-                        'id': item_found.id,
-                       'name': item_found.name,
-                       'image': itemimage.img_url,
-                       'description': item_found.description
-                    })
+        for item_found in Item.objects.filter(name__icontains=search_filter):
+            for itemimage in itemimages:
+                if itemimage.item == item_found:
+                    items.append({'id': item_found.id, 'name': item_found.name, 'image': itemimage.img_url,
+                                  'category': item_found.category.name,
+                                  'condition': item_found.condition,
+                                  'item_location': item_found.item_location,
+                                  'price': item_found.price})
 
 
-         return JsonResponse({'data': items})
 
-     return render(request, "items/index.html",
-                   {"items": models.Item.objects.all(),
-                    "itemimages": models.ItemImage.objects.all(),
+
+        return JsonResponse({'data': items})
+    items = Item.objects.all()
+    itemimages = ItemImage.objects.all()
+
+    return render(request, "items/index.html",
+                  {"items": items,
+                   "itemimages": itemimages,
                    'include_item_information': True, })
+
 
 def get_members(request):
     return render(
@@ -96,7 +99,8 @@ def item_information(request, item_id):
     item = models.Item.objects.filter(id=item_id).first()
     item_images = models.ItemImage.objects.all()
     highest_bid = models.Bid.objects.filter(item=item).aggregate(Max('bid_amount'))['bid_amount__max']
-    return render(request, "items/item_information.html", {'item': item, 'itemimages': item_images, "highest_bid": highest_bid})
+    return render(request, "items/item_information.html",
+                  {'item': item, 'itemimages': item_images, "highest_bid": highest_bid})
 
 
 @login_required
