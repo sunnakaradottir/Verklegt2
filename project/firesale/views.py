@@ -162,9 +162,18 @@ def filtered_categories(request, category_id):
     if selected_category:
         items = items.filter(category_id=selected_category)
     categories = models.Category.objects.all()
-    return render(request, "items/index.html", {"items": items, "itemimages": item_images, "categories": categories,
-                                                "selected_category": selected_category})
 
+    is_category_empty = not items.exists()
+
+    context = {
+        "items": items,
+        "itemimages": item_images,
+        "categories": categories,
+        "selected_category": selected_category,
+        "is_category_empty": is_category_empty
+    }
+
+    return render(request, "items/index.html", context)
 
 
 def sort_items(request):

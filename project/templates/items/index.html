@@ -50,9 +50,13 @@
         </div>
 
         <div class="all_items">
+            {% if is_category_empty %}
+                <h6>Sorry! There are no items available in this category.</h6>
+            {% else %}
             {% for item in items %}
                 {% include "items/__single_item.html" with item=item itemimages=itemimages %}
             {% endfor %}
+            {% endif %}
         </div>
 
     </div>
