@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+
 {% block content %}
     {% if not user.is_authenticated %}
     <div id="introduction">
@@ -11,7 +12,7 @@
     </div>
     {% endif %}
 
-    <div class="input-group">
+    <div class="input_group">
         <input type="search" class="form-control" id="search-box" placeholder="Enter your search here..."/>
         <div class="input-group-btn">
             <button type="button" id="search-btn" class="btn btn-default">Search</button>

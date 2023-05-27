@@ -204,3 +204,39 @@
     width: 200px;
     height: 200px;
 }
+
+.input_group {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    padding: 5px;
+}
+
+.input_group button{
+    background-color: #784C92 !important;
+    border-color: #784C92 !important;
+    color: #FFFFFF;
+}
+
+
+.sort-form label {
+    width: fit-content;
+    white-space: nowrap;
+}
+
+.sort-form {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+}
+
+.sort-form button {
+    background-color: #784C92 !important;
+    border-color: #784C92 !important;
+}
+
+.sort-form button:hover {
+    background-color: gray !important;
+    border-color: #784C92 !important;
+}
