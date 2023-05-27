@@ -10,15 +10,16 @@ $(document).ready(function(){
                 console.log(resp.data)
                 var newHtml = resp.data.map(d =>{
                     return '<div class="single_item">' +
-                        '<a href="/${d.id}"`> ' +
-                        '<img class="item_content" src="${d.img_url}"/>' +
-                        '<h4>${d.name}</h4> ' +
-                        '<p>${d.description}</p>' +
+                        '<a href="/' + d.id + '">' +
+                        '<img class="item_content" src="' + d.image + '" alt="Image of ' + d.name + '"/>' +
+                        '<h4 class="name">' + d.name + '</h4>' +
+                        '<p class="description">' + d.description + '</p>' +
                         '</a>' +
-                        ' </div>'
-                    }
+                        ' </div>';
+                });
 
-                )
+
+
                  //var newHtml = resp.data.map(d => {
                      //var itemImagesHtml = '';
                     //{% for itemimage in itemimages %}
