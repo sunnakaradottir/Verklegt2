@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms.profile_form import ProfileForm
 from .models import Profile
 from django.contrib.auth.models import User
+from firesale.models import Bid
 from firesale.models import Message
 from firesale.models import Item, ItemImage
 
@@ -28,7 +29,8 @@ def profile(request):
 
 def inbox(request):
     recieved_messages = Message.objects.filter(receiver=request.user)
-    return render(request, "user/inbox.html", {'messages': recieved_messages})
+    bids = Bid.objects.filter(user=request.user)
+    return render(request, "user/inbox.html", {'messages': recieved_messages, 'bids': bids})
 
 def my_listings(request):
     user = request.user

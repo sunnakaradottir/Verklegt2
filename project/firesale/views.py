@@ -5,6 +5,7 @@ from .forms.member_form import MemberForm
 from .forms.item_form import ItemForm
 from .forms.bid_form import BidForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import Max
 
 from django.contrib.auth.models import User
 from .models import Item, ItemImage
@@ -85,7 +86,8 @@ def delete_item(request, item_id):
 def item_information(request, item_id):
     item = models.Item.objects.filter(id=item_id).first()
     item_images = models.ItemImage.objects.all()
-    return render(request, "items/item_information.html", {'item': item, 'itemimages': item_images})
+    highest_bid = models.Bid.objects.filter(item=item).aggregate(Max('bid_amount'))['bid_amount__max']
+    return render(request, "items/item_information.html", {'item': item, 'itemimages': item_images, "highest_bid": highest_bid})
 
 
 @login_required
@@ -123,7 +125,7 @@ def accept_bid(request, item_id, bid_id):
     # Create a message from the sender to the reciever
     sender = request.user
     receiver = bid.user
-    message_content = f"Your bid of ${bid.bid_amount} on listing: {item.name} has been accepted!"
+    message_content = f"Your bid of ${bid.bid_amount} on {item.name} has been accepted!"
     message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=bid)
     return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
 
@@ -139,10 +141,10 @@ def reject_bid(request, item_id, bid_id):
     # Create a message from the sender to the reciever
     sender = request.user
     receiver = bid.user
-    message_content = f"Your bid of ${bid.bid_amount} on listing: {item.name} has been rejected."
+    message_content = f"Your bid of ${bid.bid_amount} on {item.name} has been rejected."
     message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=bid)
     # Delete bid / Only show pending bids?
-    return render(request, "items/item_bids.html", {'item': item, 'bid': bid})
+    render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
 
 
 @login_required()
