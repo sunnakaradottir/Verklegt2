@@ -209,7 +209,7 @@
 .input_group {
     display: flex;
     flex-direction: row;
-    gap: 5px;
+    gap: 15px;
     padding: 5px;
 }
 
