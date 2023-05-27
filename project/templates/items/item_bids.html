@@ -6,6 +6,7 @@
         </div>
         <h2 id="bids_header" style="text-align: center;"> All pending offers placed on {{ item.name }}:</h2>
         <div class="item_bids" style="display: flex; flex-wrap: wrap; gap:10px; margin-left: auto; margin-right: auto; margin-bottom: 30px;">
+            
             {% for bid in bids %}
                 {% if bid.status == 'pending' %}
                     {% include "items/__single_bid.html" with item=item bid=bid %}

@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from .models import Item, ItemImage
 
 
+
 # Create your views here
 
 def index(request):
@@ -169,5 +170,41 @@ def filtered_categories(request, category_id):
     if selected_category:
         items = items.filter(category_id=selected_category)
     categories = models.Category.objects.all()
-    return render(request, "items/index.html", {"items": items, "itemimages": item_images, "categories": categories,
-                                                "selected_category": selected_category})
+
+    is_category_empty = not items.exists()
+
+    context = {
+        "items": items,
+        "itemimages": item_images,
+        "categories": categories,
+        "selected_category": selected_category,
+        "is_category_empty": is_category_empty
+    }
+
+    return render(request, "items/index.html", context)
+
+
+def sort_items(request):
+    all_items = Item.objects.all()
+    item_images = models.ItemImage.objects.all()
+    sort_option = request.GET.get('sort_option', 'name')  # Default to sorting by name if no option is selected
+
+    if sort_option == 'name_asc':
+        all_items = all_items.order_by('name')
+    elif sort_option == 'name_desc':
+        all_items = all_items.order_by('-name')
+    elif sort_option == 'price_asc':
+        all_items = all_items.order_by('price')
+    elif sort_option == 'price_desc':
+        all_items = all_items.order_by('-price')
+    # Add more sorting options if needed
+
+    # Pass the sorted items queryset and sort_option to the template context
+    context = {
+        "items": all_items,
+        "itemimages": item_images,
+        'sort_option': sort_option,
+        # Other context variables
+    }
+
+    return render(request, "items/index.html", context)
