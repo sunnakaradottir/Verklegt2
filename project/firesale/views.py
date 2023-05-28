@@ -99,8 +99,13 @@ def item_information(request, item_id):
     item = models.Item.objects.filter(id=item_id).first()
     item_images = models.ItemImage.objects.all()
     highest_bid = models.Bid.objects.filter(item=item).aggregate(Max('bid_amount'))['bid_amount__max']
+
+    similar_items = models.Item.objects.filter(category=item.category).exclude(id=item.id)[:5]
+
     return render(request, "items/item_information.html",
-                  {'item': item, 'itemimages': item_images, "highest_bid": highest_bid})
+                  {'item': item, 'itemimages': item_images, "highest_bid": highest_bid, 'similar_items': similar_items})
+
+
 
 
 @login_required

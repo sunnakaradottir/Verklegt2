@@ -130,6 +130,35 @@
     background-color: lightgray;
 }
 
+.Seller {
+    display: inline-block;
+    border: 1px solid #000;
+    padding: 5px;
+    max-width: fit-content;
+    margin-bottom: 20px; /* Increased margin */
+    margin-left:20px;
+
+}
+
+.Seller .About {
+    margin-bottom: 5px;
+    background: mediumpurple;
+    color: white;
+    text-align: center;
+}
+
+.Seller .seller_info {
+    display: flex;
+    align-items: center;
+}
+
+.Seller .seller_info .profile_image {
+    margin-right: 5px;
+}
+
+.Seller .seller_info p {
+    margin: 0;
+}
 #deleteButton {
     background-color: red;
 }
@@ -241,4 +270,19 @@
 .sort-form button:hover {
     background-color: gray !important;
     border-color: #784C92 !important;
+}
+
+.similar_items .name {
+ font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    text-transform: uppercase;
+    color: #784C92;
+}
+.similar_items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-left: 15px;
 }
