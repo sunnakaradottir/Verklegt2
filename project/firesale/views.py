@@ -5,6 +5,7 @@ from .forms.bid_form import BidForm
 from .forms.contact_form import ContactForm
 from .forms.payment_form import PaymentForm
 from .forms.orderreview_form import OrderReviewForm
+from .forms import MemberForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from .models import Item, ItemImage
@@ -51,7 +52,7 @@ def get_members(request):
 def create_member(request):
     if request.method == "POST":
         # add filled out information to the database
-        form = forms.MemberForm(data=request.POST)
+        form = MemberForm(data=request.POST)
         if form.is_valid():
             # create a new member object and save it to the database
             member = form.save()
@@ -60,13 +61,13 @@ def create_member(request):
             member_image.save()
             # redirect the user to the members page
             return redirect("members")
-    return render(request, "members/create.html", {'form': forms.MemberForm()})
+    return render(request, "members/create.html", {'form': MemberForm()})
 
 
 @login_required
 def create_item(request):
     if request.method == "POST":
-        form = forms.ItemForm(data=request.POST)
+        form = ItemForm(data=request.POST)
         if form.is_valid():
             item = form.save(commit=False)
             item.user = request.user
@@ -79,7 +80,7 @@ def create_item(request):
             item_image = ItemImage.objects.create(item=item, img_url=image_url)
             item.image = item_image
             return redirect("index")
-    return render(request, "items/create_item.html", {'form': forms.ItemForm()})
+    return render(request, "items/create_item.html", {'form': ItemForm()})
 
 
 def delete_item(request, item_id):
