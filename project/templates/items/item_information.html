@@ -28,13 +28,21 @@
                 {% else %}
                     <p>No ratings yet</p>
                 {% endif %}
-
             </div>
-        {% else %}
-            <p class="Seller">Seller information not available.</p>
-        {% endif %}
+                {% else %}
+                    <p class="Seller">Seller information not available.</p>
+                {% endif %}
 
-            {% endif %}
+                {% endif %}
+            <form class="favorites-form" method="post" style="display: inline;">
+                {% csrf_token %}
+                {% if is_favorite %}
+                    <button type="submit" name="remove_favorite">Remove from favorites</button>
+                {% else %}
+                    <button type="submit" name="favorites">Add to favorites</button>
+                {% endif %}
+            </form>
+
         </div>
         <div class="item_bids">
             <form class="view_bid_form" action="{% url 'view_bids' item.id %}" method="post" style="display: inline;">
