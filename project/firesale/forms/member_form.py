@@ -1,5 +1,4 @@
 from django.forms import ModelForm, widgets
-from firesale.models import Member
 from django import forms
 
 
