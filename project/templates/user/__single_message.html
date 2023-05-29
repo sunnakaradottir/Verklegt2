@@ -3,7 +3,11 @@
         <div class="from"> From: {{ message.sender }}</div>
         <div class="message"> Message: {{ message.message }}</div>
         {% if bid.status == 'accepted' %}
-            <div class="bid_status"> Button checkout </div>
+            <form class="form form-horizontal" action="{% url 'contact_info' bid.id %}" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn btn-primary">Checkout</button>
+            </form>
         {% else %}
             <div class="bid_status"> Button Bid Again </div>
         {% endif %}
