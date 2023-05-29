@@ -261,3 +261,13 @@ def order_review(request, bid_id, contact_id, payment_id):
             order.save()
             return redirect('index') #change so the user is redirected to my orders
     return render(request, "items/order_review.html", {'bid': bid, 'contact': contact, 'payment': payment, 'form': OrderReviewForm()})
+
+
+def about_page(request):
+    return render(request, 'pages/about.html')
+def terms_page(request):
+    return render(request, 'pages/terms.html')
+def faq_page(request):
+    return render(request, 'pages/faq.html')
+def contact_page(request):
+    return render(request, 'pages/contact.html')

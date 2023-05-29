@@ -20,4 +20,9 @@ urlpatterns = [
     path('sort/', views.sort_items, name='sort_items'),
     path('checkout/<int:bid_id>/', views.contact_info, name='contact_info'),
     path('checkout/<int:bid_id>/<int:contact_id>/', views.payment_info, name='payment_info'),
-    path('checkout/<int:bid_id>/<int:contact_id>/<int:payment_id>/', views.order_review, name='order_review')]
+    path('checkout/<int:bid_id>/<int:contact_id>/<int:payment_id>/', views.order_review, name='order_review'),
+    path('pages/about/', views.about_page, name='about'),
+    path('pages/terms/', views.terms_page, name='terms'),
+    path('pages/faq/', views.faq_page, name='faq'),
+    path('pages/contact/', views.contact_page, name='contact'),
+]
