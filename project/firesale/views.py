@@ -8,6 +8,7 @@ from .forms.orderreview_form import OrderReviewForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from .models import Item, ItemImage
+from user.models import Profile
 
 
 # Create your views here
