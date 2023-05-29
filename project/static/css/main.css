@@ -26,7 +26,7 @@
     position: absolute;
 }
 
-.single_item .name{
+.name{
     font-size: 1.4em;
     font-weight: bold;
     margin-bottom: 0.5em;
@@ -35,7 +35,7 @@
     text-align: center;
 }
 
-.single_item #single_item_image {
+#single_item_image {
     margin-bottom: 0.5em;
     border: 2px solid darkgrey;
     padding: 2px;
@@ -49,7 +49,7 @@
     text-align: center;
 }
 
-.single_item .item_content{
+.item_content{
     margin-left: auto;
     margin-right: auto;
 }
@@ -272,17 +272,19 @@
     border-color: #784C92 !important;
 }
 
-.similar_items .name {
- font-size: 1.4em;
-    font-weight: bold;
-    margin-bottom: 0.5em;
-    text-transform: uppercase;
-    color: #784C92;
-}
 .similar_items {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 10px;
     margin-left: 15px;
+}
+.similar_item {
+    font-size: 1em;
+    margin-bottom: 0.5em;
+    text-transform: uppercase;
+    color: #784C92;
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit color from parent */
+    text-align: center; /* Center the text */
 }
