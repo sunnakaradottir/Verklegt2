@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from .models import Item, ItemImage
 from user.models import Profile
+from django.urls import reverse
 
 
 # Create your views here
@@ -200,10 +201,10 @@ def contact_info(request, bid_id):
             contact.city = form.cleaned_data['city']
             contact.country = form.cleaned_data['country']
             contact.save()
-            return redirect('payment_info', bid_id=bid_id, contact_id=contact.id)
+            return redirect(reverse('payment_info', args=(bid_id, contact.id)))
         else:
             print("Form errors:", form.errors)
-    return render(request, "items/contact_info.html", {'form': ContactForm(), 'bid': bid, 'contact': contact})
+    return render(request, "items/contact_info.html", {'form': ContactForm(), 'bid': bid})
 
 def payment_info(request, bid_id, contact_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
@@ -223,7 +224,9 @@ def payment_info(request, bid_id, contact_id):
             payment.cvc = form.cleaned_data['cvc']
             payment.save()
             return redirect('order_review', bid_id=bid_id, contact_id=contact_id, payment_id=payment.id)
-    return render(request, "items/payment_info.html", {'form': PaymentForm(), 'bid': bid})
+        else:
+            print("Form errors:", form.errors)
+    return render(request, "items/payment_info.html", {'form': PaymentForm(), 'bid': bid, 'contact': contact})
 
 def order_review(request, bid_id, contact_id, payment_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
