@@ -458,4 +458,20 @@ footer p {
   color: #666666;
 }
 
+nav{
+	background: linear-gradient(-45deg, #f2f2f2, #e3d2ff, #a8e3e3);
+	background-size: 400% 400%;
+	animation: gradient 5s ease infinite;
+}
 
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
