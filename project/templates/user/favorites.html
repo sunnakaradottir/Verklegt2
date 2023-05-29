@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if favorite_items %}
+         <div class="listings_page">
+            <div id="item_display">
+                {% for favorite in favorite_items %}
+                    {% with item=favorite.item %}
+                        {% include "items/__single_item.html" with item=item itemimages=itemimages %}
+                    {% endwith %}
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <p>No items favorited.</p>
+    {% endif %}
+{% endblock %}
+

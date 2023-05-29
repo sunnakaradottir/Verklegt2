@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from .forms.profile_form import ProfileForm
 from .models import Profile
 from django.contrib.auth.models import User
 from firesale.models import Bid
 from firesale.models import Message
-from firesale.models import Item, ItemImage
+from firesale.models import Item, ItemImage, Favorite
 
 # Create your views here.
 def register(request):
@@ -38,8 +38,13 @@ def my_listings(request):
     item_images = ItemImage.objects.all()
     return render(request, "user/listings.html", {"items": items, "itemimages": item_images})
 
+#Þetta er kannski ehv skrítið þarf að skoða betur
 def update_average_rating(self):
     ratings = self.user.seller_ratings.values_list('rating', flat=True)
     if ratings:
         self.average_rating = sum(ratings) / len(ratings)
         self.save()
+def favorites(request):
+    favorite_items = Favorite.objects.filter(member=request.user).select_related('item')
+    item_images = ItemImage.objects.all()
+    return render(request, "user/favorites.html", {"favorite_items": favorite_items, "itemimages": item_images})

@@ -7,7 +7,6 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('firesale', '0019_remove_review_from_member_remove_review_to_member_and_more'),
         ('user', '0002_profile_name'),
     ]
 
