@@ -4,10 +4,13 @@ from . import models
 from .forms.bid_form import BidForm
 from .forms.contact_form import ContactForm
 from .forms.payment_form import PaymentForm
+from .forms.item_form import ItemForm
 from .forms.orderreview_form import OrderReviewForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from .models import Item, ItemImage
+from user.models import Profile
+
 
 # Create your views here
 
@@ -39,32 +42,10 @@ def index(request):
                    'include_item_information': True, })
 
 
-def get_members(request):
-    return render(
-        request, "members/index.html",
-        {"members": models.Member.objects.all(), "memberimages": models.MemberImage.objects.all()}
-    )
-
-
-def create_member(request):
-    if request.method == "POST":
-        # add filled out information to the database
-        form = forms.MemberForm(data=request.POST)
-        if form.is_valid():
-            # create a new member object and save it to the database
-            member = form.save()
-            # create a new image object and save it to the database
-            member_image = models.MemberImage(request.POST['image'], member_id=member)
-            member_image.save()
-            # redirect the user to the members page
-            return redirect("members")
-    return render(request, "members/create.html", {'form': forms.MemberForm()})
-
-
 @login_required
 def create_item(request):
     if request.method == "POST":
-        form = forms.ItemForm(data=request.POST)
+        form = ItemForm(data=request.POST)
         if form.is_valid():
             item = form.save(commit=False)
             item.user = request.user
@@ -77,7 +58,7 @@ def create_item(request):
             item_image = ItemImage.objects.create(item=item, img_url=image_url)
             item.image = item_image
             return redirect("index")
-    return render(request, "items/create_item.html", {'form': forms.ItemForm()})
+    return render(request, "items/create_item.html", {'form': ItemForm()})
 
 
 def delete_item(request, item_id):
@@ -119,7 +100,9 @@ def view_bids(request, item_id):
     item = get_object_or_404(models.Item, id=item_id)
     item_images = models.ItemImage.objects.all()
     bids = models.Bid.objects.filter(item=item_id)
-    return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
+    user_profiles = Profile.objects.filter(user__in=[bid.user for bid in bids])
+    user_profiles_map = {profile.user_id: profile for profile in user_profiles}
+    return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids, 'user_profiles': user_profiles_map})
 
 def accept_bid(request, item_id, bid_id):
     item = get_object_or_404(models.Item, id=item_id)
@@ -220,7 +203,7 @@ def contact_info(request, bid_id):
             return redirect('payment_info', bid_id=bid_id, contact_id=contact.id)
         else:
             print("Form errors:", form.errors)
-    return render(request, "items/contact_info.html", {'form': ContactForm(), 'bid': bid})
+    return render(request, "items/contact_info.html", {'form': ContactForm(), 'bid': bid, 'contact': contact})
 
 def payment_info(request, bid_id, contact_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
