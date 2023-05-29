@@ -2,14 +2,43 @@
 {% block content %}
     <div class="single_item_page">
            <div id="item_display">
-            {% include "items/__single_item.html" with item=item itemimages=itemimages %}
-            <div class="item_description">{{ item.description }}</div>
-        </div>
+            <div class="item_header">
+                <div class="item_name"> {{item.name}} </div>
+                <p class ="highest_bid" >  Highest Offer: ${{ highest_bid }}</p>
+            </div>
+           </div>
+                <div class="item_content" id="item_image">
+                    <div class="item_pic_and_info">
+                    {% for itemimage in itemimages %}
+                        {% if itemimage.item == item %}
+                            <div class="image_container">
+                                <img src="{{ itemimage.img_url }}" width="400px" height="400px" alt="Image of {{ item.name }} " style="border: 1px solid lightgray;"/>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="item_description">{{ item.description }}</div>
+                </div>
+                <div class="item_info_and_buttons">
+                <div class="single_item_information">Category: {{ item.category }}  </div>
+                <div class="single_item_information">Condition: {{ item.condition }}  </div>
+                <div class="single_item_information">Location: {{ item.item_location }}  </div>
+                <div class="single_item_information" id="price">Starting price: $
+                    {% if item.price is None %}
+                        0
+                    {% else %}
+                        {{ item.price }}
+                    {% endif %}
+                </div>
         <div class="offer_buttons">
             <form class="bid_form" action="{% url 'create_bid' item.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit" id="bidButton">Place an Offer</button>
             </form>
+                <form class="view_bid_form" action="{% url 'view_bids' item.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" id="viewBidsButton">View Bids</button>
+                </form>
+
             {% if user.is_authenticated and user.id == item.user_id %}
                 <form class="delete_form" action="{% url 'delete_item' item.id %}" method="post" style="display: inline;">
                     {% csrf_token %}
@@ -18,10 +47,10 @@
             {% else %}
                   {% if item.user %}
              <div class="Seller">
-                <p class="About">The seller</p>
+                <p class="About">About the seller</p>
                 <div class="seller_info">
                     <!--<img src="{{ item.user.member.image.img_url }}" class="profile_image" width="30px" height="30px" alt="Profile Image">-->
-                    <p>{{ item.user }}</p>
+                    <p>{{ item.user.profile.name}}</p>
                 </div>
                  {% if item.user.profile.average_rating %}
                     <p>Average Rating: {{ item.user.profile.average_rating }}</p>
@@ -42,19 +71,12 @@
                     <button type="submit" name="favorites">Add to favorites</button>
                 {% endif %}
             </form>
-
         </div>
-        <div class="item_bids">
-            <form class="view_bid_form" action="{% url 'view_bids' item.id %}" method="post" style="display: inline;">
-                {% csrf_token %}
-                <button type="submit" id="viewBidsButton">View Bids</button>
-            </form>
+    </div>
         </div>
-        <p class ="highest_bid" >Highest Offer: ${{ highest_bid }}</p>
-        <!--<p>Highest Bid: ${{ highest_bid }}</p> -->
 
         <div class="similar_items">
-            <h3>Similar Items</h3>
+            <h3 style="text-decoration: underline; color: #461d5e">Similar Items</h3>
         </div>
 
          <div class="similar_items" >
@@ -73,9 +95,7 @@
                                 {% endif %}
                             {% endfor %}
                          </div>
-
                     </a>
-
                 </div>
             {% endfor %}
         </div>
