@@ -309,6 +309,12 @@
 
 .bid_display {
     display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.bid_info {
+    display: flex;
     flex-direction: column;
     gap: 10px;
 }

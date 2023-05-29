@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from .models import Item, ItemImage
 
+
 # Create your views here
 
 def index(request):
@@ -119,7 +120,9 @@ def view_bids(request, item_id):
     item = get_object_or_404(models.Item, id=item_id)
     item_images = models.ItemImage.objects.all()
     bids = models.Bid.objects.filter(item=item_id)
-    return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
+    user_profiles = Profile.objects.filter(user__in=[bid.user for bid in bids])
+    user_profiles_map = {profile.user_id: profile for profile in user_profiles}
+    return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids, 'user_profiles': user_profiles_map})
 
 def accept_bid(request, item_id, bid_id):
     item = get_object_or_404(models.Item, id=item_id)
