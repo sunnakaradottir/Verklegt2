@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from . import models
-from . import forms
+from .forms.bid_form import BidForm
+from .forms.contact_form import ContactForm
+from .forms.payment_form import PaymentForm
+from .forms.orderreview_form import OrderReviewForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
-from django.contrib.auth.models import User
 from .models import Item, ItemImage
 from user.models import Profile 
-
 
 # Create your views here
 
@@ -99,13 +100,11 @@ def item_information(request, item_id):
                   {'item': item, 'itemimages': item_images, "highest_bid": highest_bid, 'similar_items': similar_items})
 
 
-
-
 @login_required
 def create_bid(request, item_id):
     item = get_object_or_404(models.Item, id=item_id)
     if request.method == "POST":
-        form = forms.BidForm(data=request.POST)
+        form = BidForm(data=request.POST)
         if form.is_valid():
             bid = form.save(commit=False)
             bid.item = item
@@ -114,17 +113,20 @@ def create_bid(request, item_id):
             return redirect("item_information", item_id=item_id)
         else:
             print("Form errors:", form.errors)
-    return render(request, "items/bid.html", {'form': forms.BidForm(), 'item': item})
-
+    return render(request, "items/bid.html", {'form': BidForm(), 'item': item})
 
 @login_required
 def view_bids(request, item_id):
     item = get_object_or_404(models.Item, id=item_id)
     item_images = models.ItemImage.objects.all()
     bids = models.Bid.objects.filter(item=item_id)
+<<<<<<< HEAD
     user_profiles = Profile.objects.filter(user__in=[bid.user for bid in bids])
     user_profiles_map = {profile.user_id: profile for profile in user_profiles}
     return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids, 'user_profiles': user_profiles_map})
+=======
+    return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
+>>>>>>> 3adebbdeb0fd51084a4e0238e2ee1fe727a05537
 
 def accept_bid(request, item_id, bid_id):
     item = get_object_or_404(models.Item, id=item_id)
@@ -140,7 +142,6 @@ def accept_bid(request, item_id, bid_id):
     message_content = f"Your bid of ${bid.bid_amount} on {item.name} has been accepted!"
     message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=bid)
     return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
-
 
 def reject_bid(request, item_id, bid_id):
     item = get_object_or_404(models.Item, id=item_id)
@@ -158,13 +159,11 @@ def reject_bid(request, item_id, bid_id):
     # Delete bid / Only show pending bids?
     render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
 
-
 @login_required()
 def profile(request):
     member = models.Member.objects.get(user=request.user)
     memberimages = models.MemberImage.objects.filter(member=member)
     return render(request, 'user/profile.html', {'profile': profile, 'memberimages': memberimages})
-
 
 def filtered_categories(request, category_id):
     selected_category = int(category_id)
@@ -185,7 +184,6 @@ def filtered_categories(request, category_id):
     }
 
     return render(request, "items/index.html", context)
-
 
 def sort_items(request):
     all_items = Item.objects.all()
@@ -209,5 +207,64 @@ def sort_items(request):
         'sort_option': sort_option,
         # Other context variables
     }
-
     return render(request, "items/index.html", context)
+
+def contact_info(request, bid_id):
+    bid = get_object_or_404(models.Bid, id=bid_id)
+    if request.method == 'POST':
+        form = ContactForm(data=request.POST)
+        if form.is_valid(): # if the form is valid then we save the it
+            contact = form.save(commit=False)
+            contact.user = request.user
+            contact.name = form.cleaned_data['name']
+            contact.email = form.cleaned_data['email']
+            contact.phone = form.cleaned_data['phone']
+            contact.address = form.cleaned_data['address']
+            contact.postal_code = form.cleaned_data['postal_code']
+            contact.city = form.cleaned_data['city']
+            contact.country = form.cleaned_data['country']
+            contact.save()
+            return redirect('payment_info', bid_id=bid_id, contact_id=contact.id)
+        else:
+            print("Form errors:", form.errors)
+    return render(request, "items/contact_info.html", {'form': ContactForm(), 'bid': bid})
+
+def payment_info(request, bid_id, contact_id):
+    bid = get_object_or_404(models.Bid, id=bid_id)
+    contact = get_object_or_404(models.Contact, id=contact_id)
+    if request.method == 'POST':
+        if 'back' in request.POST:
+            contact.delete()
+            return redirect('contact_info', bid_id=bid_id)
+        form = PaymentForm(data=request.POST)
+        if form.is_valid():
+            payment = form.save(commit=False)
+            payment.user = request.user
+            payment.bid = bid
+            payment.cardholder_name = form.cleaned_data['cardholder_name']
+            payment.card_number = form.cleaned_data['card_number']
+            payment.expiration_date = form.cleaned_data['expiration_date']
+            payment.cvc = form.cleaned_data['cvc']
+            payment.save()
+            return redirect('order_review', bid_id=bid_id, contact_id=contact_id, payment_id=payment.id)
+    return render(request, "items/payment_info.html", {'form': PaymentForm(), 'bid': bid})
+
+def order_review(request, bid_id, contact_id, payment_id):
+    bid = get_object_or_404(models.Bid, id=bid_id)
+    contact = get_object_or_404(models.Contact, id=contact_id)
+    payment = get_object_or_404(models.Payment, id=payment_id)
+    if request.method == 'POST':
+        if 'back' in request.POST:
+            payment.delete()
+            return redirect('payment_info', bid_id=bid_id, contact_id=contact_id)
+        form = OrderReviewForm(data=request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.buyer = contact.user
+            order.seller = bid.user
+            order.item = bid.item
+            order.contact = contact
+            order.payment = payment
+            order.save()
+            return redirect('index') #change so the user is redirected to my orders
+    return render(request, "items/order_review.html", {'bid': bid, 'contact': contact, 'payment': payment, 'form': OrderReviewForm()})
