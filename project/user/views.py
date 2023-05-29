@@ -25,7 +25,7 @@ def profile(request):
             profile.user = request.user
             profile.save()
             return redirect("profile")
-    return render(request, "user/profile.html", {'form': ProfileForm(instance=profile)})
+    return render(request, "user/profile.html",{'form': ProfileForm(instance=profile), 'average_rating': profile.average_rating})
 
 def inbox(request):
     recieved_messages = Message.objects.filter(receiver=request.user)
@@ -37,3 +37,9 @@ def my_listings(request):
     items = Item.objects.filter(user=user)
     item_images = ItemImage.objects.all()
     return render(request, "user/listings.html", {"items": items, "itemimages": item_images})
+
+def update_average_rating(self):
+    ratings = self.user.seller_ratings.values_list('rating', flat=True)
+    if ratings:
+        self.average_rating = sum(ratings) / len(ratings)
+        self.save()

@@ -9,3 +9,4 @@ class Profile(models.Model):
     bio = models.CharField(max_length=150, blank=True, null=True)
     favorite_item = models.ForeignKey(Item, on_delete=models.SET_NULL, blank=True, null=True, related_name='favorite_item')
     profile_image = models.CharField(max_length=9999, blank=True, null=True)
+    average_rating = models.DecimalField(decimal_places=1, default=0.0, max_digits=3)
