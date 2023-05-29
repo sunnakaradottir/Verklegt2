@@ -1,9 +1,9 @@
-from django.urls import path
-
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("user/", include("user.urls")),
     path('create_item/', views.create_item, name='create_item'),
     path('item/<slug:item_id>/', views.item_information, name='item_information'),
     path('items/delete/<int:item_id>/', views.delete_item, name='delete_item'),

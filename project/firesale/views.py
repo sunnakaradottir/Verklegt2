@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.http import JsonResponse
 from . import models
 from .forms.bid_form import BidForm
@@ -189,6 +189,8 @@ def sort_items(request):
 def contact_info(request, bid_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
     if request.method == 'POST':
+        if 'back' in request.POST:
+            return redirect('inbox')
         form = ContactForm(data=request.POST)
         if form.is_valid(): # if the form is valid then we save the it
             contact = form.save(commit=False)
