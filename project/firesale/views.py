@@ -76,16 +76,21 @@ def item_information(request, item_id):
 
     similar_items = models.Item.objects.filter(category=item.category).exclude(id=item.id)[:3]
 
-    if request.method == 'POST':
-        if 'favorites' in request.POST:
-            favorite = models.Favorite.objects.create(member=request.user, item=item)
-            favorite.save()
-        elif 'remove_favorite' in request.POST:
-            # Remove item from favorites
-            models.Favorite.objects.filter(member=request.user, item=item).delete()
-        return redirect('item_information', item_id=item_id)
+    is_favorite = False
 
-    is_favorite = models.Favorite.objects.filter(member=request.user, item=item).exists()
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            if 'favorites' in request.POST:
+                favorite = models.Favorite.objects.create(member=request.user, item=item)
+                favorite.save()
+            elif 'remove_favorite' in request.POST:
+                # Remove item from favorites
+                models.Favorite.objects.filter(member=request.user, item=item).delete()
+            return redirect('item_information', item_id=item_id)
+        else:
+            return redirect('login')
+    if request.user.is_authenticated:
+        is_favorite = models.Favorite.objects.filter(member=request.user, item=item).exists()
 
     return render(request, "items/item_information.html", {
         'item': item,
