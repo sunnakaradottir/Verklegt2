@@ -15,23 +15,32 @@
             <a class="nav-link" href="{% url 'index' %}">Home</a>
           </li>
           {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'create_item' %}">New Listing</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="{{ user.profile.profile_image }}" class="profile_image" width="25px" alt="Image of someone"/>{{ user.profile.name }} 
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'profile' %}">My Account</a></li>
-              <li><a class="dropdown-item" href="{% url 'inbox' %}">Inbox</a></li>
-              <li><a class="dropdown-item" href="{% url 'listings' %}">My Listings</a></li>
-              <li><a class="dropdown-item" href="{% url 'favorites' %}">Favorites</a></li>
-            </ul>
-          </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+              <a class="nav-link" href="{% url 'create_item' %}">New Listing</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'listings' %}">My Listings</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">My Orders</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'inbox' %}">Inbox</a>
+            </li>
+            </ul>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="user_dropdown">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {{ user.profile.name }} <img src="{{ user.profile.profile_image }}" class="profile-image" width="25px" alt="Image of someone"/>
+                </a>
+                <ul class="nav-item dropdown-menu">
+                  <li><a class="dropdown-item" href="{% url 'profile' %}">My Account</a></li>
+                  <li><a class="dropdown-item" href="{% url 'favorites' %}">Favorites</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
+                </ul>
+              </li>
+            </ul>
           {% else %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'login' %}">Log In</a>
@@ -39,8 +48,8 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'register' %}">Register</a>
             </li>
-          {% endif %}
-        </ul>
-      </div>
+          </ul>
+        {% endif %}
+        </div>
     </div>
 </nav>

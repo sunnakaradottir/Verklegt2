@@ -18,7 +18,7 @@
         </div>
         <div class="sort-container">
             <form class="sort-form" action="{% url 'sort_items' %}" method="get">
-                <label for="sort-select">Sort by:</label>
+                <label for="sort-select">Order by:</label>
                 <select id="sort-select" name="sort_option">
                     <option value="name_asc" {% if sort_option == 'name_asc' %}selected{% endif %}>Name A->Z </option>
                     <option value="name_desc" {% if sort_option == 'name_desc' %}selected{% endif %}>Name Z->A</option>
@@ -26,7 +26,7 @@
                     <option value="price_desc" {% if sort_option == 'price_desc' %}selected{% endif %}>Price: high->low</option>
                     <!-- Add more sorting options if needed -->
                 </select>
-                <button type="submit" id="sort-btn" class="btn btn-primary">Sort</button>
+                <button type="submit" id="sort-btn" class="btn btn-primary">Order</button>
             </form>
         </div>
     </div>
