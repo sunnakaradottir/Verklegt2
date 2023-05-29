@@ -80,25 +80,31 @@
         </div>
 
          <div class="similar_items" >
-            {% for similar_item in similar_items %}
-                <div class="similar_items" >
+              {% if similar_items %}
 
-                    <!-- Display similar item details (e.g., name, image, etc.) -->
-                    <a class="similar_item" href="{% url 'item_information' similar_item.id %}">
-                        <div class="name"> {{similar_item.name}} </div>
-                         <div class="item_content" id="single_item_image">
-                            {% for similar_itemimage in itemimages %}
-                                  {% if similar_itemimage.item == similar_item %}
-                                    <div class="image_container">
-                                        <img src="{{ similar_itemimage.img_url }}" width="200px" height="200px" alt="Image of {{ similar_item.name }}">
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                         </div>
-                    </a>
-                </div>
-            {% endfor %}
-        </div>
+                {% for similar_item in similar_items %}
+                    <div class="similar_items" >
+
+                        <!-- Display similar item details (e.g., name, image, etc.) -->
+                        <a class="similar_item" href="{% url 'item_information' similar_item.id %}">
+                            <div class="name"> {{similar_item.name}} </div>
+                             <div class="item_content" id="single_item_image">
+                                {% for similar_itemimage in itemimages %}
+                                      {% if similar_itemimage.item == similar_item %}
+                                        <div class="image_container">
+                                            <img src="{{ similar_itemimage.img_url }}" width="200px" height="200px" alt="Image of {{ similar_item.name }}">
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                             </div>
+                        </a>
+                    </div>
+                {% endfor %}
+             {% else %}
+                <p>No similar items, this is so unique</p>
+            {% endif %}
+
+         </div>
     </div>
 {% endblock %}
 
