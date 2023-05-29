@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>My Profile</h1>
+<div class="profile">
+    <h1 style="color: #784C92;">My Profile</h1>
     <form class="form form-horizontal" method="post">
         {% csrf_token %}
         {{ form }}
-        <input type="submit" class="btn btn-primary" value="Update"/>
+        <input type="submit" class="btn btn-primary" value="Update" style="margin-top: 15px;background-color: #784C92; border-color: #784C92;"/>
+    </div>
 {% endblock %}

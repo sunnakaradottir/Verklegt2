@@ -437,6 +437,28 @@ img.profile-image {
     margin: 30px 50px;
 }
 
+.profile{
+    margin: 30px 50px;
+}
+
+.inbox{
+    display: flex;
+    flex-direction: column;
+    margin: 30px 50px;
+    gap: 15px;
+
+}
+
+.received_message {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #784C92;
+    border-radius: 10px;
+}
+
+
+
 footer {
   background-color: #f5f5f5;
   padding: 10px;
