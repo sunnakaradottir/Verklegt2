@@ -61,7 +61,6 @@ def create_item(request):
             return redirect("index")
     return render(request, "items/create_item.html", {'form': ItemForm()})
 
-
 def delete_item(request, item_id):
     item = get_object_or_404(models.Item, id=item_id)
     if request.method == 'POST':
@@ -73,32 +72,26 @@ def item_information(request, item_id):
     item = models.Item.objects.filter(id=item_id).first()
     item_images = models.ItemImage.objects.all()
     highest_bid = models.Bid.objects.filter(item=item).aggregate(Max('bid_amount'))['bid_amount__max']
-
     similar_items = models.Item.objects.filter(category=item.category).exclude(id=item.id)[:3]
-
     is_favorite = False
-
     if request.method == 'POST':
         if request.user.is_authenticated:
             if 'favorites' in request.POST:
                 favorite = models.Favorite.objects.create(member=request.user, item=item)
                 favorite.save()
             elif 'remove_favorite' in request.POST:
-                # Remove item from favorites
                 models.Favorite.objects.filter(member=request.user, item=item).delete()
             return redirect('item_information', item_id=item_id)
         else:
             return redirect('login')
     if request.user.is_authenticated:
         is_favorite = models.Favorite.objects.filter(member=request.user, item=item).exists()
-
     return render(request, "items/item_information.html", {
         'item': item,
         'itemimages': item_images,
         'highest_bid': highest_bid,
         'similar_items': similar_items,
-        'is_favorite': is_favorite,
-    })
+        'is_favorite': is_favorite})
 
 @login_required
 def create_bid(request, item_id):
