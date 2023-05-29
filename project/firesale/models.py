@@ -66,7 +66,7 @@ class Contact(models.Model):
 class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     cardholder_name = models.CharField(max_length=100)
-    card_number = models.IntegerField()
+    card_number = models.CharField(max_length=16)
     expiration_date = models.DateField()
     cvc = models.IntegerField()
     bid = models.ForeignKey('Bid', on_delete=models.CASCADE)
@@ -81,8 +81,8 @@ class Order(models.Model):
 
 class Review(models.Model):
     order = models.ForeignKey('Order', on_delete=models.CASCADE)
-    from_member = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_sent')
-    to_member = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_recieved')
+    from_member = models.ForeignKey(User, on_delete=models.CASCADE, default=1, related_name='reviews_sent')
+    to_member = models.ForeignKey(User, on_delete=models.CASCADE, default=2, related_name='reviews_recieved')
     rating = models.IntegerField()
     comment = models.CharField(max_length=1000, blank=True, null=True)
     creation_time = models.DateTimeField(auto_now_add=True)

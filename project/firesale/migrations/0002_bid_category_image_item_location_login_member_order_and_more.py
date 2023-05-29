@@ -165,31 +165,10 @@ class Migration(migrations.Migration):
             name="Review",
             fields=[
                 ("id", models.IntegerField(primary_key=True, serialize=False)),
+                ("order_id", models.IntegerField()),
                 ("rating", models.IntegerField()),
                 ("comment", models.CharField(max_length=1000)),
                 ("creation_time", models.DateTimeField(auto_now_add=True)),
-                (
-                    "from_member",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name="reviews_sent",
-                        to="firesale.member",
-                    ),
-                ),
-                (
-                    "order_id",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="firesale.order"
-                    ),
-                ),
-                (
-                    "to_member",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name="reviews_recieved",
-                        to="firesale.member",
-                    ),
-                ),
             ],
         ),
         migrations.CreateModel(
