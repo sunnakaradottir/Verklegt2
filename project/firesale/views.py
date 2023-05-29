@@ -1,12 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from . import models
-from .forms.member_form import MemberForm
-from .forms.item_form import ItemForm
-from .forms.bid_form import BidForm
+from . import forms
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
-
 from django.contrib.auth.models import User
 from .models import Item, ItemImage
 
@@ -51,7 +48,7 @@ def get_members(request):
 def create_member(request):
     if request.method == "POST":
         # add filled out information to the database
-        form = MemberForm(data=request.POST)
+        form = forms.MemberForm(data=request.POST)
         if form.is_valid():
             # create a new member object and save it to the database
             member = form.save()
@@ -60,16 +57,13 @@ def create_member(request):
             member_image.save()
             # redirect the user to the members page
             return redirect("members")
-    else:
-        # if user has not submitted the form yet, show them a blank form
-        form = MemberForm()
-    return render(request, "members/create.html", {'form': form})
+    return render(request, "members/create.html", {'form': forms.MemberForm()})
 
 
 @login_required
 def create_item(request):
     if request.method == "POST":
-        form = ItemForm(data=request.POST)
+        form = forms.ItemForm(data=request.POST)
         if form.is_valid():
             item = form.save(commit=False)
             item.user = request.user
@@ -82,9 +76,7 @@ def create_item(request):
             item_image = ItemImage.objects.create(item=item, img_url=image_url)
             item.image = item_image
             return redirect("index")
-    else:
-        form = ItemForm()
-    return render(request, "items/create_item.html", {'form': form})
+    return render(request, "items/create_item.html", {'form': forms.ItemForm()})
 
 
 def delete_item(request, item_id):
@@ -100,7 +92,7 @@ def item_information(request, item_id):
     item_images = models.ItemImage.objects.all()
     highest_bid = models.Bid.objects.filter(item=item).aggregate(Max('bid_amount'))['bid_amount__max']
 
-    similar_items = models.Item.objects.filter(category=item.category).exclude(id=item.id)[:5]
+    similar_items = models.Item.objects.filter(category=item.category).exclude(id=item.id)[:3]
 
     return render(request, "items/item_information.html",
                   {'item': item, 'itemimages': item_images, "highest_bid": highest_bid, 'similar_items': similar_items})
@@ -112,7 +104,7 @@ def item_information(request, item_id):
 def create_bid(request, item_id):
     item = get_object_or_404(models.Item, id=item_id)
     if request.method == "POST":
-        form = BidForm(data=request.POST)
+        form = forms.BidForm(data=request.POST)
         if form.is_valid():
             bid = form.save(commit=False)
             bid.item = item
@@ -121,7 +113,7 @@ def create_bid(request, item_id):
             return redirect("item_information", item_id=item_id)
         else:
             print("Form errors:", form.errors)
-    return render(request, "items/bid.html", {'form': BidForm(), 'item': item})
+    return render(request, "items/bid.html", {'form': forms.BidForm(), 'item': item})
 
 
 @login_required

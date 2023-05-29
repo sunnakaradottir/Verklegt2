@@ -15,10 +15,12 @@ $(document).ready(function(){
                     return `<a class="single_item" href="/item/${d.id}">
                         <div class="name">${d.name}</div>
                         <div class="item_content">
+                            <div class="item_content" id="single_item_image">
                             
-                            <div class="image_container">
-                                <img src="${d.image}" width="200px" height="200px" alt="Image of ${d.name}" />
-                            </div>
+                                <div class="image_container">
+                                    <img src="${d.image}" width="200px" height="200px" alt="Image of ${d.name}" />
+                                </div>
+                           </div>
                            
                         </div>
                         <div class="item_information"> Category: ${d.category}</div>
