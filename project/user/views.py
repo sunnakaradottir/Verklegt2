@@ -25,7 +25,7 @@ def profile(request):
             profile.user = request.user
             profile.save()
             return redirect("profile")
-    return render(request, "user/profile.html",{'form': ProfileForm(instance=profile), 'average_rating': profile.average_rating})
+    return render(request, "user/profile.html",{'form': ProfileForm(instance=profile)})
 
 def inbox(request):
     recieved_messages = Message.objects.filter(receiver=request.user)

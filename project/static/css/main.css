@@ -296,6 +296,8 @@ img.profile-image {
 }
 
 .input_group {
+    margin-left:5px;
+    margin-right:auto;
     display: flex;
     flex-direction: row;
     gap: 15px;
@@ -318,8 +320,9 @@ img.profile-image {
     display: flex;
     flex-direction: row;
     gap: 5px;
-    margin-left: 122px;
     align-items: center;
+    margin-left: auto;
+    margin-right:15px;
 }
 
 .sort-form button {
@@ -481,4 +484,9 @@ nav{
 	100% {
 		background-position: 0% 50%;
 	}
+}
+ul.navbar-nav.me-auto.mb-2.mb-lg-0#user_dropdown{
+    margin-left: auto;
+    margin-right: 15px!important;
+    padding: 0px;
 }
