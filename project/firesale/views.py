@@ -4,8 +4,8 @@ from . import models
 from .forms.bid_form import BidForm
 from .forms.contact_form import ContactForm
 from .forms.payment_form import PaymentForm
+from .forms.item_form import ItemForm
 from .forms.orderreview_form import OrderReviewForm
-from .forms import MemberForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from .models import Item, ItemImage
@@ -40,28 +40,6 @@ def index(request):
                   {"items": items,
                    "itemimages": itemimages,
                    'include_item_information': True, })
-
-
-def get_members(request):
-    return render(
-        request, "members/index.html",
-        {"members": models.Member.objects.all(), "memberimages": models.MemberImage.objects.all()}
-    )
-
-
-def create_member(request):
-    if request.method == "POST":
-        # add filled out information to the database
-        form = MemberForm(data=request.POST)
-        if form.is_valid():
-            # create a new member object and save it to the database
-            member = form.save()
-            # create a new image object and save it to the database
-            member_image = models.MemberImage(request.POST['image'], member_id=member)
-            member_image.save()
-            # redirect the user to the members page
-            return redirect("members")
-    return render(request, "members/create.html", {'form': MemberForm()})
 
 
 @login_required
