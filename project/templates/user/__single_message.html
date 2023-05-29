@@ -1,10 +1,10 @@
 {% block content %}
-    <div class="received_message" style="display: flex; flex-direction: column; padding: 10px; border: 1px solid black;">
+    <div class="received_message">
         <div class="from"> From: {{ message.sender }}</div>
         <div class="message"> Message: {{ message.message }}</div>
         {% if bid.status == 'accepted' %}
             <a class="checkout_cont" href="{% url 'contact_info' bid.id %}">
-                <button type="submit" class="btn btn-primary">Checkout</button>
+                <button type="submit" class="btn btn-primary" style="margin: 10px 0px; background-color: #784C92; border-color: #784C92;">Checkout</button>
             </a>
         {% else %}
             <div class="bid_status"> Button Bid Again </div>
