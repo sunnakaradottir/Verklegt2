@@ -23,6 +23,12 @@
                     <!--<img src="{{ item.user.member.image.img_url }}" class="profile_image" width="30px" height="30px" alt="Profile Image">-->
                     <p>{{ item.user }}</p>
                 </div>
+                 {% if item.user.profile.average_rating %}
+                    <p>Average Rating: {{ item.user.profile.average_rating }}</p>
+                {% else %}
+                    <p>No ratings yet</p>
+                {% endif %}
+
             </div>
         {% else %}
             <p class="Seller">Seller information not available.</p>
