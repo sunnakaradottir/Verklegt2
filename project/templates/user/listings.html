@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
+    <div class="name">My listings</div>
     {% if items %}
          <div class="listings_page">
             <div id="item_display">
-                {% for item in items %}
-                    {% include "items/__single_item.html" with item=item itemimages=itemimages %}
-                {% endfor %}
+                {% if items %}
+                    {% for item in items %}
+                        {% include "items/__single_item.html" with item=item itemimages=itemimages %}
+                    {% endfor %}
+                {% else %}
+                    <p>No items listed.</p>
+                {% endif %}
             </div>
         </div>
 
