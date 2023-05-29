@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="item_info_bids" style="display: flex; flex-direction: column; gap: 10px; margin-left:15px;">
+    <div class="item_info_bids">
         <div id="item_display">
             {% include "items/__single_item.html" with item=item itemimages=itemimages %}
         </div>
         <h2 id="bids_header" style="text-align: center;"> All pending offers placed on {{ item.name }}:</h2>
-        <div class="item_bids" style="display: flex; flex-wrap: wrap; gap:10px; margin-left: auto; margin-right: auto; margin-bottom: 30px;">
+        <div class="item_bids" >
             
             {% for bid in bids %}
                 {% if bid.status == 'pending' %}

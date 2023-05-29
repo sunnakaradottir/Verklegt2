@@ -1,10 +1,10 @@
 {% block content %}
-    <div class="single_bid_display" style="display: flex; gap:5px; padding: 10px;border: 1px solid black;">
-        <div class="bid_display" style="display: flex; flex-direction: column; gap:10px;">
-            <div class="bidder">Bidder: {{ bid.user }}</div>
+    <div class="single_bid_display">
+        <div class="bid_display">
+            <div class="bidder">Bidder: {{ bid.user}}</div>
             <div class="bid_amount">Bid Amount: ${{ bid.bid_amount }}</div>
         </div>
-        <div class="accept_reject" style="display: flex; flex-direction: column; gap:5px;">
+        <div class="accept_reject" >
             {% if user.is_authenticated and user.id == item.user_id %}
             <form class="accept_bid" action="{% url 'accept_bid' item.id bid.id %}" method="post" style="display: inline;">
                 {% csrf_token %}
