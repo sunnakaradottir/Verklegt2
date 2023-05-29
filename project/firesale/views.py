@@ -224,7 +224,7 @@ def contact_info(request, bid_id):
             return redirect('payment_info', bid_id=bid_id, contact_id=contact.id)
         else:
             print("Form errors:", form.errors)
-    return render(request, "items/contact_info.html", {'form': ContactForm(), 'bid': bid})
+    return render(request, "items/contact_info.html", {'form': ContactForm(), 'bid': bid, 'contact': contact})
 
 def payment_info(request, bid_id, contact_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
