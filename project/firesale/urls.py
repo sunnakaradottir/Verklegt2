@@ -17,5 +17,7 @@ urlpatterns = [
     path('filter/<slug:category_id>/', views.filtered_categories, name='filtered_categories'),
     path('filter/<>/', views.filtered_categories, name='filtered_categories'),
     path('index/', views.index, name='index_search'),
-    path('sort/', views.sort_items, name='sort_items')
-]
+    path('sort/', views.sort_items, name='sort_items'),
+    path('checkout/<int:bid_id>/', views.contact_info, name='contact_info'),
+    path('checkout/<int:bid_id>/<int:contact_id>/', views.payment_info, name='payment_info'),
+    path('checkout/<int:bid_id>/<int:contact_id>/<int:payment_id>/', views.order_review, name='order_review')]
