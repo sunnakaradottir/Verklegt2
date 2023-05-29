@@ -8,7 +8,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       </div>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" style="display: flex; justify-content: space-between;">
         <br></br>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -20,7 +20,7 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="{{ user.profile.profile_image }}" class="profile_image" width="25px" alt="Image of someone"/>{{ user.profile.name }} 
+              {{ user.profile.name }} 
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{% url 'profile' %}">My Account</a></li>
@@ -32,6 +32,18 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
             </li>
+          </ul>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ user.profile.name }} <img src="{{ user.profile.profile_image }}" class="profile-image" width="25px" alt="Image of someone"/>
+              </a>
+              <ul class="nav-item dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'profile' %}">My Account</a></li>
+                <li><a class="dropdown-item" href="{% url 'favorites' %}">Favorites</a></li>
+              </ul>
+            </li>
+          </ul>
           {% else %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'login' %}">Log In</a>
@@ -39,8 +51,8 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'register' %}">Register</a>
             </li>
-          {% endif %}
-        </ul>
-      </div>
+          </ul>
+        {% endif %}
+        </div>
     </div>
 </nav>

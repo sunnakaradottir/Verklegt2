@@ -257,11 +257,18 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
-    background-color: #f3e1fa;
+    background-color: #eae2ff;
     padding: 10px;
     border-radius: 10px;
     align-items: center;
     height: 565px;
+}
+img.profile-image {
+    width: 40px; /* Adjust the width as per your preference */
+    height: 40px; /* Adjust the height as per your preference */
+    border: 2px solid #ccc; /* Add a border and adjust the styling as desired */
+    border-radius: 35%; /* Create a circular frame */
+    overflow: hidden; /* Ensure the image fits within the container */
 }
 
 .category-button {
