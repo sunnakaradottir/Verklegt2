@@ -1,8 +1,15 @@
 {% block content %}
     <div class="single_bid_display">
         <div class="bid_display">
-            <div class="bidder">Bidder: {{ bid.user}}</div>
+            {% if bid.user.profile.profile_image %}
+            <img src="{{ bid.user.profile.profile_image }}" alt="Profile Image" width="80">
+            {% endif %}
+        <div class="bid_info">
+            <div class="bidder">
+                Bidder: {{ bid.user.profile.name }}
+            </div>
             <div class="bid_amount">Bid Amount: ${{ bid.bid_amount }}</div>
+        </div>
         </div>
         <div class="accept_reject" >
             {% if user.is_authenticated and user.id == item.user_id %}
