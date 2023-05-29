@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from . import models
-from . import forms
+from .forms.bid_form import BidForm
+from .forms.contact_form import ContactForm
+from .forms.payment_form import PaymentForm
+from .forms.orderreview_form import OrderReviewForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from .models import Item, ItemImage
@@ -100,7 +103,7 @@ def item_information(request, item_id):
 def create_bid(request, item_id):
     item = get_object_or_404(models.Item, id=item_id)
     if request.method == "POST":
-        form = forms.BidForm(data=request.POST)
+        form = BidForm(data=request.POST)
         if form.is_valid():
             bid = form.save(commit=False)
             bid.item = item
@@ -109,7 +112,7 @@ def create_bid(request, item_id):
             return redirect("item_information", item_id=item_id)
         else:
             print("Form errors:", form.errors)
-    return render(request, "items/bid.html", {'form': forms.BidForm(), 'item': item})
+    return render(request, "items/bid.html", {'form': BidForm(), 'item': item})
 
 @login_required
 def view_bids(request, item_id):
@@ -172,7 +175,7 @@ def filtered_categories(request, category_id):
         "selected_category": selected_category,
         "is_category_empty": is_category_empty
     }
-    
+
     return render(request, "items/index.html", context)
 
 def sort_items(request):
@@ -202,7 +205,7 @@ def sort_items(request):
 def contact_info(request, bid_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
     if request.method == 'POST':
-        form = forms.ContactForm(data=request.POST)
+        form = ContactForm(data=request.POST)
         if form.is_valid(): # if the form is valid then we save the it
             contact = form.save(commit=False)
             contact.user = request.user
@@ -217,7 +220,7 @@ def contact_info(request, bid_id):
             return redirect('payment_info', bid_id=bid_id, contact_id=contact.id)
         else:
             print("Form errors:", form.errors)
-    return render(request, "items/contact_info.html", {'form': forms.ContactForm(), 'bid': bid})
+    return render(request, "items/contact_info.html", {'form': ContactForm(), 'bid': bid})
 
 def payment_info(request, bid_id, contact_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
@@ -226,7 +229,7 @@ def payment_info(request, bid_id, contact_id):
         if 'back' in request.POST:
             contact.delete()
             return redirect('contact_info', bid_id=bid_id)
-        form = forms.PaymentForm(data=request.POST)
+        form = PaymentForm(data=request.POST)
         if form.is_valid():
             payment = form.save(commit=False)
             payment.user = request.user
@@ -237,7 +240,7 @@ def payment_info(request, bid_id, contact_id):
             payment.cvc = form.cleaned_data['cvc']
             payment.save()
             return redirect('order_review', bid_id=bid_id, contact_id=contact_id, payment_id=payment.id)
-    return render(request, "items/payment_info.html", {'form': forms.PaymentForm(), 'bid': bid})
+    return render(request, "items/payment_info.html", {'form': PaymentForm(), 'bid': bid})
 
 def order_review(request, bid_id, contact_id, payment_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
@@ -247,7 +250,7 @@ def order_review(request, bid_id, contact_id, payment_id):
         if 'back' in request.POST:
             payment.delete()
             return redirect('payment_info', bid_id=bid_id, contact_id=contact_id)
-        form = forms.OrderReviewForm(data=request.POST)
+        form = OrderReviewForm(data=request.POST)
         if form.is_valid():
             order = form.save(commit=False)
             order.buyer = contact.user
@@ -257,4 +260,4 @@ def order_review(request, bid_id, contact_id, payment_id):
             order.payment = payment
             order.save()
             return redirect('index') #change so the user is redirected to my orders
-    return render(request, "items/order_review.html", {'bid': bid, 'contact': contact, 'payment': payment, 'form': forms.OrderReviewForm()})
+    return render(request, "items/order_review.html", {'bid': bid, 'contact': contact, 'payment': payment, 'form': OrderReviewForm()})
