@@ -25,24 +25,6 @@ class Migration(migrations.Migration):
                 to=settings.AUTH_USER_MODEL,
             ),
         ),
-        migrations.AlterField(
-            model_name="review",
-            name="from_member",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="reviews_sent",
-                to=settings.AUTH_USER_MODEL,
-            ),
-        ),
-        migrations.AlterField(
-            model_name="review",
-            name="to_member",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="reviews_recieved",
-                to=settings.AUTH_USER_MODEL,
-            ),
-        ),
         migrations.DeleteModel(
             name="Member",
         ),

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Please review your order</h1>
+    <h3>If you need to make changes, press the back button</h3>
+    <div class="order" style="display: flex; gap:20px;">
+        <div class="item_order" style="padding:10px;">
+            <p>Information on item</p>
+            <p>Name: {{ bid.item.name }}</p>
+            <p>Description: {{ bid.item.description }}</p>
+            <p>Condition: {{ bid.item.condition }}</p>
+            <p>Category: {{ bid.item.category }}</p>
+            <p>Location: {{ bid.item.location }}</p>
+            <p>Starting price: {{ bid.item.price }}</p>
+            <p>Your bid (This amount will be charged): {{ bid.bid_amount }}</p>
+        </div>
+        <div class="contact_payment_order" style="display: flex; gap:5px;">
+            <div class="contact_order" style="padding: 10px; border: 1px solid black;">
+                <p>Your contact information</p>
+                <p>Name: {{ contact.name }}</p>
+                <p>Address: {{ contact.address }}</p>
+                <p>City: {{ contact.city }}</p>
+                <p>Postal code: {{ contact.postal_code }}</p>
+                <p>Phone: {{ contact.phone }}</p>
+                <p>Email: {{ contact.email }}</p>
+            </div>
+            <div class="payment_order" style="padding: 10px; border: 1px solid black;">
+                <p>Your payment information</p>
+                <p>Card Number: {{ payment.card_number }}</p>
+                <p>Expiration Date: {{ payment.expiration_date }}</p>
+                <p>CVC: {{ payment.cvc }}</p>
+            </div>
+        </div>
+    </div>
+
+    <form class="form form-horizontal" action="{% url 'order_review' bid.id contact.id payment.id %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" name="back" value="Back">
+        <input type="submit" value="Confirm Checkout" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+    </form>
+{% endblock %}

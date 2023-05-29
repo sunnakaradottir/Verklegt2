@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.http import JsonResponse
 from . import models
 from .forms.bid_form import BidForm
@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from .models import Item, ItemImage
 from user.models import Profile
+from django.urls import reverse
 
 
 # Create your views here
@@ -60,7 +61,6 @@ def create_item(request):
             return redirect("index")
     return render(request, "items/create_item.html", {'form': ItemForm()})
 
-
 def delete_item(request, item_id):
     item = get_object_or_404(models.Item, id=item_id)
     if request.method == 'POST':
@@ -68,17 +68,30 @@ def delete_item(request, item_id):
         return redirect('index')
     return redirect('item_information', item_id=item_id)
 
-
 def item_information(request, item_id):
     item = models.Item.objects.filter(id=item_id).first()
     item_images = models.ItemImage.objects.all()
     highest_bid = models.Bid.objects.filter(item=item).aggregate(Max('bid_amount'))['bid_amount__max']
-
     similar_items = models.Item.objects.filter(category=item.category).exclude(id=item.id)[:3]
-
-    return render(request, "items/item_information.html",
-                  {'item': item, 'itemimages': item_images, "highest_bid": highest_bid, 'similar_items': similar_items})
-
+    is_favorite = False
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            if 'favorites' in request.POST:
+                favorite = models.Favorite.objects.create(member=request.user, item=item)
+                favorite.save()
+            elif 'remove_favorite' in request.POST:
+                models.Favorite.objects.filter(member=request.user, item=item).delete()
+            return redirect('item_information', item_id=item_id)
+        else:
+            return redirect('login')
+    if request.user.is_authenticated:
+        is_favorite = models.Favorite.objects.filter(member=request.user, item=item).exists()
+    return render(request, "items/item_information.html", {
+        'item': item,
+        'itemimages': item_images,
+        'highest_bid': highest_bid,
+        'similar_items': similar_items,
+        'is_favorite': is_favorite})
 
 @login_required
 def create_bid(request, item_id):
@@ -188,6 +201,8 @@ def sort_items(request):
 def contact_info(request, bid_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
     if request.method == 'POST':
+        if 'back' in request.POST:
+            return redirect('inbox')
         form = ContactForm(data=request.POST)
         if form.is_valid(): # if the form is valid then we save the it
             contact = form.save(commit=False)
@@ -200,10 +215,10 @@ def contact_info(request, bid_id):
             contact.city = form.cleaned_data['city']
             contact.country = form.cleaned_data['country']
             contact.save()
-            return redirect('payment_info', bid_id=bid_id, contact_id=contact.id)
+            return redirect(reverse('payment_info', args=(bid_id, contact.id)))
         else:
             print("Form errors:", form.errors)
-    return render(request, "items/contact_info.html", {'form': ContactForm(), 'bid': bid, 'contact': contact})
+    return render(request, "items/contact_info.html", {'form': ContactForm(), 'bid': bid})
 
 def payment_info(request, bid_id, contact_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
@@ -223,7 +238,9 @@ def payment_info(request, bid_id, contact_id):
             payment.cvc = form.cleaned_data['cvc']
             payment.save()
             return redirect('order_review', bid_id=bid_id, contact_id=contact_id, payment_id=payment.id)
-    return render(request, "items/payment_info.html", {'form': PaymentForm(), 'bid': bid})
+        else:
+            print("Form errors:", form.errors)
+    return render(request, "items/payment_info.html", {'form': PaymentForm(), 'bid': bid, 'contact': contact})
 
 def order_review(request, bid_id, contact_id, payment_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
@@ -244,3 +261,13 @@ def order_review(request, bid_id, contact_id, payment_id):
             order.save()
             return redirect('index') #change so the user is redirected to my orders
     return render(request, "items/order_review.html", {'bid': bid, 'contact': contact, 'payment': payment, 'form': OrderReviewForm()})
+
+
+def about_page(request):
+    return render(request, 'pages/about.html')
+def terms_page(request):
+    return render(request, 'pages/terms.html')
+def faq_page(request):
+    return render(request, 'pages/faq.html')
+def contact_page(request):
+    return render(request, 'pages/contact.html')

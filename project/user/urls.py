@@ -9,4 +9,5 @@ urlpatterns = [
     path("profile", views.profile, name="profile"),
     path("inbox", views.inbox, name="inbox"),
     path("listings", views.my_listings, name="listings"),
+    path("favorites", views.favorites, name="favorites"),
 ]
