@@ -8,15 +8,12 @@
                 <div class="image_container">
                     <img src="{{ itemimage.img_url }}" width="200px" height="200px" alt="Image of {{ item.name }} "/>
                 </div>
-
             {% endif %}
         {% endfor %}
     </div>
 
     <div class="item_information">Category: {{ item.category }}</div>
     <div class="item_information">Condition: {{ item.condition }}</div>
-    <div class="item_information">Location: {{ item.item_location }}</div>
-
     <div class="item_content" id="price">Starting price: $
         {% if item.price is None %}
             0

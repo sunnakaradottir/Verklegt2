@@ -8,12 +8,9 @@ from .forms.item_form import ItemForm
 from .forms.orderreview_form import OrderReviewForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
-from .models import Item, ItemImage
 from user.models import Profile
 from django.urls import reverse
 
-
-# Create your views here
 
 def index(request):
     if 'search_filter' in request.GET:
@@ -143,7 +140,7 @@ def reject_bid(request, item_id, bid_id):
     # Delete bid / Only show pending bids?
     render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
 
-@login_required()
+@login_required
 def profile(request):
     member = models.Member.objects.get(user=request.user)
     memberimages = models.MemberImage.objects.filter(member=member)
@@ -257,13 +254,15 @@ def order_review(request, bid_id, contact_id, payment_id):
             return redirect('rating_seller', bid_id=bid_id, contact_id=contact_id, payment_id=payment_id, order_id=order.id)
     return render(request, "items/order_review.html", {'bid': bid, 'contact': contact, 'payment': payment, 'form': OrderReviewForm()})
 
-
 def about_page(request):
     return render(request, 'pages/about.html')
+
 def terms_page(request):
     return render(request, 'pages/terms.html')
+
 def faq_page(request):
     return render(request, 'pages/faq.html')
+
 def contact_page(request):
     return render(request, 'pages/contact.html')
 
