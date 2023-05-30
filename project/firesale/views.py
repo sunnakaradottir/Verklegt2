@@ -10,14 +10,12 @@ from .forms.review_form import ReviewForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from user.models import Profile
-from django.urls import reverse
 
 
 def index(request):
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
         items = []
-
         for item_found in models.Item.objects.filter(name__icontains=search_filter):
             for itemimage in models.ItemImage.objects.filter(item=item_found):
                 items.append({'id': item_found.id, 'name': item_found.name, 'image': itemimage.img_url,
@@ -29,7 +27,6 @@ def index(request):
     items = models.Item.objects.all()
     itemimages = models.ItemImage.objects.all()
     return render(request, "items/index.html", {"items": items, "itemimages": itemimages, 'include_item_information': True})
-
 
 @login_required
 def create_item(request):
@@ -45,7 +42,7 @@ def create_item(request):
 
             selected_image_urls = form.cleaned_data['image_urls'].split('\n')
             for image_url in selected_image_urls:
-                item_image, _ = models.ItemImage.objects.get_or_create(img_url=image_url)
+                item_image, _ = models.ItemImage.objects.get_or_create(img_url=image_url, item=item)
                 item.image_urls.add(item_image)
             return redirect("index")
     return render(request, "items/create_item.html", {'form': ItemForm()})
@@ -109,17 +106,24 @@ def view_bids(request, item_id):
 def accept_bid(request, item_id, bid_id):
     item = get_object_or_404(models.Item, id=item_id)
     bids = models.Bid.objects.filter(item=item_id)
-    item_images = models.ItemImage.objects.all()
     bid = get_object_or_404(models.Bid, id=bid_id)
     # Bid is accepted
     bid.status = 'accepted'
     bid.save()
+    # Reject all other bids
+    for otherbid in bids:
+        if otherbid != bid:
+            otherbid.status = 'rejected'
+            otherbid.save()
     # Create a message from the sender to the reciever
     sender = request.user
     receiver = bid.user
     message_content = f"Your bid of ${bid.bid_amount} on {item.name} has been accepted!"
     message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=bid)
-    return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
+    # Mark the item as sold so it cannot be bid on again
+    item.status = 'sold'
+    item.save()
+    return redirect('index')
 
 def reject_bid(request, item_id, bid_id):
     item = get_object_or_404(models.Item, id=item_id)
@@ -134,7 +138,7 @@ def reject_bid(request, item_id, bid_id):
     receiver = bid.user
     message_content = f"Your bid of ${bid.bid_amount} on {item.name} has been rejected."
     message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=bid)
-    # Delete bid / Only show pending bids?
+    #TODO: Only show pending bids to the seller
     render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
 
 @login_required
@@ -201,7 +205,7 @@ def contact_info(request, bid_id):
             contact.city = form.cleaned_data['city']
             contact.country = form.cleaned_data['country']
             contact.save()
-            return redirect(reverse('payment_info', args=(bid_id, contact.id)))
+            return redirect('payment_info', bid_id=bid.id, contact_id=contact.id)
         else:
             print("Form errors:", form.errors)
     return render(request, "items/contact_info.html", {'form': ContactForm(), 'bid': bid})
