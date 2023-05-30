@@ -259,7 +259,7 @@ def order_review(request, bid_id, contact_id, payment_id):
             order.contact = contact
             order.payment = payment
             order.save()
-            return redirect('index') #change so the user is redirected to my orders
+            return redirect('rating_seller', bid_id=bid_id, contact_id=contact_id, payment_id=payment_id, order_id=order.id)
     return render(request, "items/order_review.html", {'bid': bid, 'contact': contact, 'payment': payment, 'form': OrderReviewForm()})
 
 
@@ -271,6 +271,10 @@ def faq_page(request):
     return render(request, 'pages/faq.html')
 def contact_page(request):
     return render(request, 'pages/contact.html')
-def rating_seller(request,order_id):
+
+def rating_seller(request, bid_id, contact_id, payment_id, order_id):
+    bid = get_object_or_404(models.Bid, id=bid_id)
+    contact = get_object_or_404(models.Contact, id=contact_id)
+    payment = get_object_or_404(models.Payment, id=payment_id)
     order = get_object_or_404(models.Order, id=order_id)
-    return render(request, 'items/rating_seller.html', {'order': order})
+    return render(request, 'items/rating_seller.html', {'order': order, 'bid': bid, 'contact': contact, 'payment': payment})
