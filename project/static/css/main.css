@@ -283,11 +283,11 @@ div.item_information {
     height: 565px;
 }
 img.profile-image {
-    width: 45px; /* Adjust the width as per your preference */
-    height: 45px; /* Adjust the height as per your preference */
-    border: 2px solid #ccc; /* Add a border and adjust the styling as desired */
-    border-radius: 35%; /* Create a circular frame */
-    overflow: hidden; /* Ensure the image fits within the container */
+    width: 45px;
+    height: 45px;
+    border: 2px solid #ccc;
+    border-radius: 35%;
+    overflow: hidden;
 }
 
 .category-button {
@@ -570,7 +570,7 @@ ul.navbar-nav.me-auto.mb-2.mb-lg-0#user_dropdown{
     border: 1px solid lightgrey;
 }
 
-/* Slideshow CSS */
+
 .slideshow-container {
     position: relative;
     margin: auto;
