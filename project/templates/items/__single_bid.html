@@ -24,32 +24,6 @@
       {% csrf_token %}
       <button type="submit" id="acceptBidButton">Accept</button>
     </form>
-    <form
-      class="reject_bid"
-      action="{% url 'reject_bid' item.id bid.id %}"
-      method="post"
-      style="display: inline"
-    >
-      {% csrf_token %}
-      <button type="submit" id="rejectBidButton">Reject</button>
-    </form>
-    {% else %}
-    <form
-      class="accept_bid"
-      action="{% url 'accept_bid' item.id bid.id %}"
-      method="post"
-      style="display: inline"
-    >
-      {% csrf_token %}
-    </form>
-    <form
-      class="reject_bid"
-      action="{% url 'reject_bid' item.id bid.id %}"
-      method="post"
-      style="display: inline"
-    >
-      {% csrf_token %}
-    </form>
     {% endif %}
   </div>
 </div>
