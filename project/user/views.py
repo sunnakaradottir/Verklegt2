@@ -37,13 +37,6 @@ def my_listings(request):
     items = Item.objects.filter(user=user)
     item_images = ItemImage.objects.all()
     return render(request, "user/listings.html", {"items": items, "itemimages": item_images})
-
-#Þetta er kannski ehv skrítið þarf að skoða betur
-def update_average_rating(self):
-    ratings = self.user.seller_ratings.values_list('rating', flat=True)
-    if ratings:
-        self.average_rating = sum(ratings) / len(ratings)
-        self.save()
         
 def favorites(request):
     favorite_items = Favorite.objects.filter(member=request.user).select_related('item')

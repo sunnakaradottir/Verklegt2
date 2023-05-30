@@ -263,6 +263,13 @@ def faq_page(request):
 def contact_page(request):
     return render(request, 'pages/contact.html')
 
+def calc_avg_rating(user):
+    '''Calculates the average rating of a user based on the reviews they have received'''
+    reviews = models.Review.objects.filter(to_user=user)
+    ratings_list = [review.rating for review in reviews]
+    average_rating = sum(ratings_list) / len(ratings_list)
+    return average_rating
+
 def rating_seller(request, bid_id, contact_id, payment_id, order_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
     contact = get_object_or_404(models.Contact, id=contact_id)
@@ -284,9 +291,9 @@ def rating_seller(request, bid_id, contact_id, payment_id, order_id):
             review.comment = form.cleaned_data['comment']
             review.rating = form.cleaned_data['rating']
             review.save()
+            avg_rating = calc_avg_rating(bid.item.user)
+            bid.item.user.profile.avg_rating = avg_rating
             return render(request, 'user/orders.html', {"ordered_items": ordered_items, "itemimages": item_images})
         else:
             print("Form errors:", form.errors)
-
-    return render(request, 'items/rating_seller.html', {'form': ReviewForm(), 'order': order, 'bid': bid,
-                                                        'contact': contact, 'payment': payment})
+    return render(request, 'items/rating_seller.html', {'form': ReviewForm(), 'order': order, 'bid': bid, 'contact': contact, 'payment': payment})
