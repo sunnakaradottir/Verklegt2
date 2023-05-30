@@ -48,9 +48,10 @@ def create_item(request):
                 item.category = category.first()
             item.save()
 
-            image_url = form.cleaned_data['image']
-            item_image = models.ItemImage.objects.create(item=item, img_url=image_url)
-            item.image = item_image
+            selected_image_urls = form.cleaned_data['image_urls'].split('\n')
+            for image_url in selected_image_urls:
+                item_image, _ = models.ItemImage.objects.get_or_create(img_url=image_url)
+                item.image_urls.add(item_image)
             return redirect("index")
     return render(request, "items/create_item.html", {'form': ItemForm()})
 
@@ -63,7 +64,7 @@ def delete_item(request, item_id):
 
 def item_information(request, item_id):
     item = models.Item.objects.filter(id=item_id).first()
-    item_images = models.ItemImage.objects.all()
+    item_images = models.ItemImage.objects.filter(item=item)
     highest_bid = models.Bid.objects.filter(item=item).aggregate(Max('bid_amount'))['bid_amount__max']
     similar_items = models.Item.objects.filter(category=item.category).exclude(id=item.id)[:3]
     is_favorite = False
