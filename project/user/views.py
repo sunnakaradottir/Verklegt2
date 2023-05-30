@@ -44,6 +44,7 @@ def update_average_rating(self):
     if ratings:
         self.average_rating = sum(ratings) / len(ratings)
         self.save()
+        
 def favorites(request):
     favorite_items = Favorite.objects.filter(member=request.user).select_related('item')
     item_images = ItemImage.objects.all()
