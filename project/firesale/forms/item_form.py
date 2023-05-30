@@ -19,7 +19,6 @@ class ItemForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ItemForm, self).__init__(*args, **kwargs)
-        # Set the number of image URL input boxes
         self.fields['image_urls'].widget.attrs['size'] = '4'
     
     class Meta:
