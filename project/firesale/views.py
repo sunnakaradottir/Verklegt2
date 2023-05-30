@@ -6,6 +6,7 @@ from .forms.contact_form import ContactForm
 from .forms.payment_form import PaymentForm
 from .forms.item_form import ItemForm
 from .forms.orderreview_form import OrderReviewForm
+from .forms.review_form import ReviewForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from .models import Item, ItemImage
@@ -272,9 +273,25 @@ def rating_seller(request, bid_id, contact_id, payment_id, order_id):
     contact = get_object_or_404(models.Contact, id=contact_id)
     payment = get_object_or_404(models.Payment, id=payment_id)
     order = get_object_or_404(models.Order, id=order_id)
+
     if request.method == 'POST':
+        ordered_items = models.Order.objects.filter(buyer=request.user).select_related('item')
+        item_images = models.ItemImage.objects.all()
         if 'norating' in request.POST:
-            ordered_items = models.Order.objects.filter(buyer=request.user).select_related('item')
-            item_images = models.ItemImage.objects.all()
             return render(request, 'user/orders.html', {"ordered_items": ordered_items, "itemimages": item_images})
-    return render(request, 'items/rating_seller.html', {'order': order, 'bid': bid, 'contact': contact, 'payment': payment})
+        form = ReviewForm(data=request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.order = order
+            review.to_user = bid.item.user
+            review.from_user = request.user
+            print('user that is logged in:', request.user)
+            review.comment = form.cleaned_data['comment']
+            review.rating = form.cleaned_data['rating']
+            review.save()
+            return render(request, 'user/orders.html', {"ordered_items": ordered_items, "itemimages": item_images})
+        else:
+            print("Form errors:", form.errors)
+
+    return render(request, 'items/rating_seller.html', {'form': ReviewForm(), 'order': order, 'bid': bid,
+                                                        'contact': contact, 'payment': payment})
