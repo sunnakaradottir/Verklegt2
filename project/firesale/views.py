@@ -271,3 +271,6 @@ def faq_page(request):
     return render(request, 'pages/faq.html')
 def contact_page(request):
     return render(request, 'pages/contact.html')
+def rating_seller(request,order_id):
+    order = get_object_or_404(models.Order, id=order_id)
+    return render(request, 'items/rating_seller.html', {'order': order})

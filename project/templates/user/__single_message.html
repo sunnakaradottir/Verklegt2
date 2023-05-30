@@ -9,6 +9,8 @@
         {% else %}
             <div class="bid_status"> Button Bid Again </div>
         {% endif %}
-        <div class="bid_status"> Button Delete Message </div>
-    </div>
+         <form class="delete_form" action="{% url 'delete_offer' bid.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" id="rejectBidButton">Cancel offer</button>
+                </form>
 {% endblock %}

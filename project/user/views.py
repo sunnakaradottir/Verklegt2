@@ -54,3 +54,10 @@ def orders(request):
     item_images = ItemImage.objects.all()
     return render(request, "user/orders.html", {"ordered_items": ordered_items, "itemimages": item_images})
 
+def delete_offer(request, bid_id):
+    bid = get_object_or_404(Bid, id=bid_id)
+    if request.method == 'POST':
+        # Logic to delete the offer
+        bid.delete()
+        return redirect('inbox')
+    return render(request, 'user/delete_offer.html', {'bid': bid})

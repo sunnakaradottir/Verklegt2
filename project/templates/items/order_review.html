@@ -36,6 +36,11 @@
         {% csrf_token %}
         {{ form }}
         <input type="submit" name="back" value="Back">
-        <input type="submit" value="Confirm Checkout" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+     </form>
+    <form class="form form-horizontal" action="{% url 'rating_seller' %}" method="post">
+      {% csrf_token %}
+      {{ form }}
+      <input type="submit" value="Confirm Checkout" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
     </form>
+
 {% endblock %}

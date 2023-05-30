@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="rating_seller">
+    <h1 style="color: #784C92;">Thank you for your order!</h1>
+    <h2>Feel free to review the seller :) </h2>
+      <p>Seller Information:</p>
+        <p>Seller: {{ order.seller.username }}</p>
+
+      <form method="post" action="{% url 'rating_seller' %}">
+      {% csrf_token %}
+          <label for="rating">Rate the Seller:</label>
+          <select name="rating" id="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <br>
+          <button type="submit">Submit Review</button>
+     </form>
+</div>
+{% endblock %}
