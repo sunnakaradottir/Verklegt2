@@ -5,7 +5,7 @@ from .models import Profile
 from django.contrib.auth.models import User
 from firesale.models import Bid
 from firesale.models import Message
-from firesale.models import Item, ItemImage, Favorite
+from firesale.models import Item, ItemImage, Favorite, Order
 
 # Create your views here.
 def register(request):
@@ -48,3 +48,9 @@ def favorites(request):
     favorite_items = Favorite.objects.filter(member=request.user).select_related('item')
     item_images = ItemImage.objects.all()
     return render(request, "user/favorites.html", {"favorite_items": favorite_items, "itemimages": item_images})
+
+def orders(request):
+    ordered_items = Order.objects.filter(buyer=request.user).select_related('item')
+    item_images = ItemImage.objects.all()
+    return render(request, "user/orders.html", {"ordered_items": ordered_items, "itemimages": item_images})
+

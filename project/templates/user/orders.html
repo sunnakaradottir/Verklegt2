@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="name">My Orders</div>
+    <div class="orders_page">
+        <div id="item_display">
+            {% if ordered_items %}
+                {% for order in ordered_items %}
+                    {% with item=order.item %}
+                        {% include "items/__single_item.html" with item=item itemimages=itemimages %}
+                    {% endwith %}
+                {% endfor %}
+            {% else %}
+                <p>No orders yet.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

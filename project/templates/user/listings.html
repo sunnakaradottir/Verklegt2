@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="name">My listings</div>
-    {% if items %}
          <div class="listings_page">
             <div id="item_display">
                 {% if items %}
@@ -13,9 +12,5 @@
                 {% endif %}
             </div>
         </div>
-
-    {% else %}
-        <p>No items listed.</p>
-    {% endif %}
 
 {% endblock %}
