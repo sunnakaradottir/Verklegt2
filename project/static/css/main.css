@@ -550,8 +550,56 @@ ul.navbar-nav.me-auto.mb-2.mb-lg-0#user_dropdown{
     height: 200px;
     border: 1px solid lightgrey;
 }
+
 .image_container_big{
     width:400px;
     height:400px;
     border: 1px solid lightgrey;
+}
+
+/* Slideshow CSS */
+.slideshow-container {
+    position: relative;
+    margin: auto;
+    width: 80%;
+    height: 400px;
+}
+  
+.mySlides {
+    display: none;
+}
+  
+.thumbnail-image {
+    width: 752px;
+    height: 400px;
+    object-fit: cover;
+}
+  
+.prev,
+.next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    font-weight: bold;
+    padding: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+  
+.prev:hover,
+.next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+  
+.prev {
+    left: 0;
+    border-radius: 0 5px 5px 0;
+}
+  
+.next {
+    right: 0;
+    border-radius: 5px 0 0 5px;
 }

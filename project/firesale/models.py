@@ -4,12 +4,12 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class ItemImage(models.Model):
-    item = models.ForeignKey('Item', on_delete=models.CASCADE, related_name='item', null=True)
+    item = models.ForeignKey('Item', on_delete=models.CASCADE, related_name='images')
     img_url = models.CharField(max_length=1000)
 
 class Item(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE, blank=True, null=True)
-    image = models.ForeignKey('ItemImage', on_delete=models.CASCADE, blank=True, null=True, related_name='item_image')
+    image_urls = models.ManyToManyField('ItemImage', related_name='images')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item_location = models.CharField(max_length=100)
     description = models.CharField(max_length=1000, blank=True, null=True)
@@ -17,7 +17,11 @@ class Item(models.Model):
     name = models.CharField(max_length=100)
     condition = models.CharField(max_length=100, blank=True, null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
-
+    STATUS_CHOICES = (
+        ('available', 'Available'),
+        ('sold', 'Sold'),
+    )
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='available')
     def __str__(self):
         return f"Item name: {self.name}, id: {self.id}"
 

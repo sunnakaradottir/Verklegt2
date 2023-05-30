@@ -3,13 +3,11 @@
 
     <!-- TODO: Add location to item form -->
     <div class="item_content" id="single_item_image">
-        {% for itemimage in itemimages %}
-            {% if itemimage.item == item %}
-                <div class="image_container">
-                    <img src="{{ itemimage.img_url }}" width="200px" height="200px" alt="Image of {{ item.name }} "/>
-                </div>
-            {% endif %}
-        {% endfor %}
+        {% if item.image_urls.all %}
+            <div class="image_container">
+                <img src="{{ item.image_urls.first.img_url }}" width="200px" height="200px" alt="Image of {{ item.name }}"/>
+            </div>
+        {% endif %}
     </div>
 
     <div class="item_information">Category: {{ item.category }}</div>
@@ -21,7 +19,4 @@
             {{ item.price }}
         {% endif %}
     </div>
-
-    
-
 </a>
