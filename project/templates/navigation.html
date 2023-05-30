@@ -31,6 +31,11 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="user_dropdown">
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {% if user.average_rating %}
+                    {{ user.average_rating }}
+                  {% else %}
+                    No ratings
+                  {% endif %}
                   {% if user.profile.name %}
                     {{ user.profile.name }}
                   {% else %}
