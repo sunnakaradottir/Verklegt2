@@ -5,9 +5,8 @@
     <h2>Feel free to review the seller :) </h2>
       <p>Seller Information:</p>
         <p>Seller: {{ order.seller.username }}</p>
-
-      <form method="post" action="{% url 'rating_seller' %}">
-      {% csrf_token %}
+        <form class="form form-horizontal" action="{% url 'rating_seller' bid.id contact.id payment.id order.id %}" method="post">
+          {% csrf_token %}
           <label for="rating">Rate the Seller:</label>
           <select name="rating" id="rating">
             <option value="1">1</option>
@@ -17,7 +16,7 @@
             <option value="5">5</option>
           </select>
           <br>
-          <button type="submit">Submit Review</button>
-     </form>
+          <input type="submit" value="Rate Seller" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+        </form>
 </div>
 {% endblock %}

@@ -22,5 +22,5 @@ urlpatterns = [
     path('pages/terms/', views.terms_page, name='terms'),
     path('pages/faq/', views.faq_page, name='faq'),
     path('pages/contact/', views.contact_page, name='contact'),
-    path('rating_seller/', views.rating_seller, name='rating_seller'),
+    path('checkout/<int:bid_id>/<int:contact_id>/<int:payment_id>/<int:order_id>/', views.rating_seller, name='rating_seller'),
 ]
