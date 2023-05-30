@@ -3,13 +3,12 @@
 
   <!-- TODO: Add location to item form -->
   <div class="item_content" id="single_item_image">
-    {% if item.image_urls.all %}
+    {% if item.image_urls.all %} 
     <div class="image_container">
       <img
         src="{{ item.image_urls.first.img_url }}"
-        width="200px"
-        height="200px"
         alt="Image of {{ item.name }}"
+        
       />
     </div>
     {% endif %}
