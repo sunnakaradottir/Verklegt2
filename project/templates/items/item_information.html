@@ -4,14 +4,18 @@
            <div id="item_display">
             <div class="item_header">
                 <div class="item_name"> {{item.name}} </div>
-                <p class ="highest_bid" >  Highest Offer: ${{ highest_bid }}</p>
+                {% if highest_bid != None %}
+                    <p class ="highest_bid" >  Highest Offer: $ {{ highest_bid }}</p>
+                {% else %}
+                    <p class = "highest_bid">Highest Offer: No offer yet </p>
+                {% endif %}
             </div>
            </div>
                 <div class="item_content" id="item_image">
                     <div class="item_pic_and_info">
                     {% for itemimage in itemimages %}
                         {% if itemimage.item == item %}
-                            <div class="image_container">
+                            <div class="image_container_big">
                                 <img src="{{ itemimage.img_url }}" width="400px" height="400px" alt="Image of {{ item.name }} " style="border: 1px solid lightgray;"/>
                             </div>
                         {% endif %}
