@@ -1,6 +1,6 @@
 {% block content %}
     <div class="received_message">
-        <div class="from"> From: {{ message.sender }}</div>
+        <div class="from"> From: {{ message.sender.username }}</div>
         <div class="message"> Message: {{ message.message }}</div>
         {% if bid.status == 'accepted' %}
             <a class="checkout_cont" href="{% url 'contact_info' bid.id %}">
