@@ -254,7 +254,7 @@ def order_review(request, bid_id, contact_id, payment_id):
         if form.is_valid():
             order = form.save(commit=False)
             order.buyer = contact.user
-            order.seller = bid.user
+            order.seller = bid.item.user
             order.item = bid.item
             order.contact = contact
             order.payment = payment
