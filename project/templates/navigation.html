@@ -31,11 +31,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="user_dropdown">
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  {% if user.profile.name %}
-                    {{ user.profile.name }}
-                  {% else %}
-                    {{ user.username }}
-                  {% endif %}
+                  {{ user.average_rating|default:"No ratings" }} {{ user.profile.name|default:user.username }}
                   {% if user.profile.profile_image %}
                     <img src="{{ user.profile.profile_image }}" class="profile-image" width="25px" alt="{{ user.profile.name }}'s profile image"/>
                   {% else %}
