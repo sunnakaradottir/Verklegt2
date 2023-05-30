@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="name">My Orders</div>
+<div class="inbox">
+    <h1 style="color: #784C92;">My Orders</h1>
     <div class="orders_page">
         <div id="item_display">
             {% if ordered_items %}
@@ -15,4 +16,5 @@
             {% endif %}
         </div>
     </div>
+</div>
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="create_item">
-    <div class="name">Create a new listing</div>
+<div class="inbox">
+    <h1 style="color: #784C92;">Create a New Listing</h1>
     <form class="form form-horizontal" action="{% url 'create_item' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
@@ -9,6 +9,7 @@
         <input type="submit" value="Create Item" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color: #784C92; border-color: #784C92; "/>
     </form>
 </div>
+
 {% endblock %}
 
 
