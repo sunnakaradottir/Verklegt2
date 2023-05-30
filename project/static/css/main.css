@@ -14,7 +14,6 @@
     background-color: #F5F5F5;
     margin: 5px;
     position: relative;
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     text-decoration: none;
@@ -39,7 +38,6 @@
 
 #single_item_image {
     margin-bottom: 0.5em;
-    border: 2px solid darkgrey;
     padding: 2px;
 }
 
@@ -558,17 +556,35 @@ ul.navbar-nav.me-auto.mb-2.mb-lg-0#user_dropdown{
     text-decoration: underline;
     text-decoration-color: #fff;
 }
-.image_container{
+
+
+  
+.image_container {
+    display: flex;
     width: 200px;
     height: 200px;
-    border: 1px solid lightgrey;
-}
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image_container img {
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    max-width: 200px;
+    max-height: 200px;
+    border: none !important;
+    object-fit: contain;
+  }
 
 .image_container_big{
     width:400px;
     height:400px;
     border: 1px solid lightgrey;
 }
+
+
 
 
 .slideshow-container {
