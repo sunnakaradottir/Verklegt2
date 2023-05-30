@@ -19,9 +19,9 @@ def index(request):
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
         items = []
-        itemimages = ItemImage.objects.all()
+        itemimages = models.ItemImage.objects.all()
 
-        for item_found in Item.objects.filter(name__icontains=search_filter):
+        for item_found in models.Item.objects.filter(name__icontains=search_filter):
             for itemimage in itemimages:
                 if itemimage.item == item_found:
                     items.append({'id': item_found.id, 'name': item_found.name, 'image': itemimage.img_url,
@@ -29,14 +29,9 @@ def index(request):
                                   'condition': item_found.condition,
                                   'item_location': item_found.item_location,
                                   'price': item_found.price})
-
-
-
-
         return JsonResponse({'data': items})
-    items = Item.objects.all()
-    itemimages = ItemImage.objects.all()
-
+    items = models.Item.objects.all()
+    itemimages = models.ItemImage.objects.all()
     return render(request, "items/index.html",
                   {"items": items,
                    "itemimages": itemimages,
@@ -56,7 +51,7 @@ def create_item(request):
             item.save()
 
             image_url = form.cleaned_data['image']
-            item_image = ItemImage.objects.create(item=item, img_url=image_url)
+            item_image = models.ItemImage.objects.create(item=item, img_url=image_url)
             item.image = item_image
             return redirect("index")
     return render(request, "items/create_item.html", {'form': ItemForm()})
@@ -175,7 +170,7 @@ def filtered_categories(request, category_id):
     return render(request, "items/index.html", context)
 
 def sort_items(request):
-    all_items = Item.objects.all()
+    all_items = models.Item.objects.all()
     item_images = models.ItemImage.objects.all()
     sort_option = request.GET.get('sort_option', 'name')  # Default to sorting by name if no option is selected
 
@@ -277,4 +272,9 @@ def rating_seller(request, bid_id, contact_id, payment_id, order_id):
     contact = get_object_or_404(models.Contact, id=contact_id)
     payment = get_object_or_404(models.Payment, id=payment_id)
     order = get_object_or_404(models.Order, id=order_id)
+    if request.method == 'POST':
+        if 'norating' in request.POST:
+            ordered_items = models.Order.objects.filter(buyer=request.user).select_related('item')
+            item_images = models.ItemImage.objects.all()
+            return render(request, 'user/orders.html', {"ordered_items": ordered_items, "itemimages": item_images})
     return render(request, 'items/rating_seller.html', {'order': order, 'bid': bid, 'contact': contact, 'payment': payment})
