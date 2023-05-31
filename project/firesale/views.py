@@ -195,7 +195,7 @@ def contact_info(request, bid_id):
         if 'back' in request.POST:
             return redirect('inbox')
         form = ContactForm(data=request.POST)
-        if form.is_valid(): # if the form is valid then we save the it
+        if form.is_valid():
             contact = form.save(commit=False)
             contact.user = request.user
             contact.name = form.cleaned_data['name']
