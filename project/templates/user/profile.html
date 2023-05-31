@@ -2,6 +2,13 @@
 {% block content %}
 <div class="profile">
     <h1 style="color: #784C92;">My Profile</h1>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <form class="form form-horizontal" method="post">
         {% csrf_token %}
         {{ form }}
