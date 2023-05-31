@@ -103,7 +103,7 @@
             {% for similar_item in similar_items %}
                 {% if similar_item.status == 'available' %}
                     <div class="similar_item">
-                        <div href="{% url 'item_information' similar_item.id %}">
+                        <a href="{% url 'item_information' similar_item.id %}">
                             <div class="name">{{ similar_item.name }}</div>
                                 {% if similar_item.image_urls.all %}
                                 <div class="image_container">
@@ -115,7 +115,7 @@
                                 </div>
                                 {% endif %}
                             </div>
-                        </div>
+                        </a>
                 {% endif %}
             {% endfor %}
         {% else %}
