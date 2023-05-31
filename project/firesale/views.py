@@ -72,7 +72,7 @@ def item_information(request, item_id):
     item_images = models.ItemImage.objects.filter(item=item)
     highest_bid = models.Bid.objects.filter(item=item).aggregate(Max('bid_amount'))['bid_amount__max']
 
-    similar_items = models.Item.objects.filter(category=item.category).exclude(id=item.id)[:3]
+    similar_items = models.Item.objects.filter(category=item.category, status= "available").exclude(id=item.id)[:3]
     is_favorite = False
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -166,7 +166,7 @@ def filtered_categories(request, category_id):
     items = models.Item.objects.all()
     item_images = models.ItemImage.objects.all()
     if selected_category:
-        items = items.filter(category_id=selected_category)
+        items = items.filter(category_id=selected_category, status="available")
     categories = models.Category.objects.all()
 
     is_category_empty = not items.exists()
