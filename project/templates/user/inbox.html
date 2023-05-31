@@ -8,11 +8,10 @@
                 {% if bid == message.bid %}
                     {% include "user/__single_message.html" with message=message bid=bid %}
                 {% endif %}
-                {% if bid %}
-                {% else %}
-                    {% include "user/__single_message.html" with message=message %}
-                {% endif %}
             {% endfor %}
+            {% if message.sender == 'admin' %}
+                {% include "user/__single_message.html" with message=message %}
+            {% endif %}
         {% endfor %}
     {% else %}
         <p>You have no messages yet.</p>
