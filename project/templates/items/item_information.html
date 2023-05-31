@@ -12,6 +12,11 @@
             </div>
         </div>
             <div class="image_gallery">
+                 {% if itemimages.count == 1 %}
+                <div class="single_image">
+                    <img src="{{ itemimages.0.img_url }}" alt="Image of {{ item.name }}" class="thumbnail-image">
+                </div>
+            {% else %}
                 <div class="slideshow-container">
                     {% for itemimage in itemimages %}
                         <div class="mySlides">
@@ -21,10 +26,11 @@
                     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                     <a class="next" onclick="plusSlides(1)">&#10095;</a>
                 </div>
+            {% endif %}
             </div>
         <div class="description">
             <div class="item_info">
-                <div class="item_description">{{ item.description }}</div> 
+                <div class="item_description">{{ item.description }}</div>
             <div class="item_info_basic">
                 <div class="single_item_information">Category: {{ item.category }}  </div>
                 <div class="single_item_information">Condition: {{ item.condition }}  </div>
@@ -60,7 +66,7 @@
                 {% else %}
                <p>No ratings yet</p>
                 {% endif %}
-            </div>   
+            </div>
            </div>
        </div>
             {% else %}
