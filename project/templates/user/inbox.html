@@ -6,11 +6,11 @@
             {% for message in messages %}
                 {% for bid in bids %}
                     {% if bid == message.bid %}
-                        {% include "user/__single_message.html" with message=message bid=bid %}
+                        {% include "user/__single_message.html" with message=message bid=bid users=users %}
                     {% endif %}
                 {% endfor %}
                 {% if message.sender.username == 'administrator' %}
-                    {% include "user/__single_message.html" with message=message %}
+                    {% include "user/__single_message.html" with message=message users=users %}
                 {% endif %}
             {% endfor %}
         {% else %}
