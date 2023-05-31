@@ -1,5 +1,6 @@
 {% block content %}
     <div class="received_message">
+        <div class="message_date">{{ message.creation_time }}</div>
         <div class="from"> From: {{ message.sender.username }}</div>
         <div class="message"> Message: {{ message.message }}</div>
         {% if bid.status == 'accepted' %}
