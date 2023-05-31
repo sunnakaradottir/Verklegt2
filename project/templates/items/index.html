@@ -53,7 +53,9 @@
                 <h6>Sorry! There are no items available in this category.</h6>
             {% else %}
             {% for item in items %}
-                {% include "items/__single_item.html" with item=item itemimages=itemimages %}
+                {% if item.status == 'available' %}
+                    {% include "items/__single_item.html" with item=item itemimages=itemimages %}
+                {% endif %}
             {% endfor %}
             {% endif %}
         </div>

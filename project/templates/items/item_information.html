@@ -101,21 +101,23 @@
    <div class="similar_items">
         {% if similar_items %}
             {% for similar_item in similar_items %}
-                <div class="similar_item">
-                    <!-- Display similar item details (e.g., name, image, etc.) -->
-                    <a href="{% url 'item_information' similar_item.id %}">
-                        <div class="name">{{ similar_item.name }}</div>
-                          {% if similar_item.image_urls.all %}
-                                <div class="image_container">
-                                  <img
-                                    src="{{ similar_item.image_urls.first.img_url }}"
-                                    alt="Image of {{ item.name }}"
+                {% if similar_item.status == 'available' %}
+                    <div class="similar_item">
+                        <!-- Display similar item details (e.g., name, image, etc.) -->
+                        <a href="{% url 'item_information' similar_item.id %}">
+                            <div class="name">{{ similar_item.name }}</div>
+                              {% if similar_item.image_urls.all %}
+                                    <div class="image_container">
+                                      <img
+                                        src="{{ similar_item.image_urls.first.img_url }}"
+                                        alt="Image of {{ item.name }}"
 
-                                  />
-                                </div>
-                                {% endif %}
-                    </a>
+                                      />
+                                    </div>
+                                    {% endif %}
+                        </a>
                 </div>
+                {% endif %}
             {% endfor %}
         {% else %}
             <p>No similar items, this is so unique</p>
