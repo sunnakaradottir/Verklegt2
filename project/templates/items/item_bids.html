@@ -4,13 +4,17 @@
         <div id="item_display">
             {% include "items/__single_item.html" with item=item itemimages=itemimages %}
         </div>
-        <h2 id="bids_header" style="text-align: center;"> All pending offers placed on {{ item.name }}:</h2>
-        <div class="item_bids" >
-            {% for bid in bids %}
-                {% if bid.status == 'pending' %}
-                    {% include "items/__single_bid.html" with item=item bid=bid %}
-                {% endif %}
-            {% endfor %}
-        </div>
+        {% if bids|length > 0 %}
+            <h2 id="bids_header" style="text-align: center;"> All pending offers placed on {{ item.name }}:</h2>
+            <div class="item_bids" >
+                {% for bid in bids %}
+                    {% if bid.status == 'pending' %}
+                        {% include "items/__single_bid.html" with item=item bid=bid %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <h2 id="bids_header" style="text-align: center;"> There are no pending offers on {{ item.name }}</h2>
+        {% endif %}
     </div>
 {% endblock %}

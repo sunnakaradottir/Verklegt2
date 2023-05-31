@@ -5,7 +5,7 @@ from django import forms
 class ItemForm(ModelForm):
     price = forms.DecimalField(
         required=False,
-        widget=forms.NumberInput(attrs={"class": "form-control", "placeholder": "Set starting price of the item (Optional)"})
+        widget=forms.NumberInput(attrs={"class": "form-control", "min": 0, "placeholder": "Set starting price of the item (Optional)"})
     )
     category = forms.ModelChoiceField(
         queryset=Category.objects.all(),
