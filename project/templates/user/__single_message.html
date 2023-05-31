@@ -1,7 +1,9 @@
 {% block content %}
     <div class="received_message">
         <div class="message_date">{{ message.creation_time }}</div>
-        <div class="from"> From: {{ message.sender.username }}</div>
+        <div class="from"> From: 
+            <img src="{{ message.sender.profile.profile_image }}" class="profile-image" width="25px" alt="Profile image"/>
+            {{ message.sender.username }}</div>
         <div class="message"> Message: {{ message.message }}</div>
         {% if bid.status == 'accepted' %}
             <a class="checkout_cont" href="{% url 'contact_info' bid.id %}">
