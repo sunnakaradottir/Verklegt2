@@ -4,11 +4,16 @@
     <h1 style="color: #784C92;">Inbox</h1>
     {% if messages %}
         {% for message in messages %}
-            {% for bid in bids %}
-                {% if bid == message.bid %}
-                    {% include "user/__single_message.html" with message=message bid=bid %}
-                {% endif %}
-            {% endfor %}
+            {% if message.receiver == user %}
+                {% for bid in bids %}
+                    {% if bid == message.bid %}
+                        {% include "user/__single_message.html" with message=message bid=bid %}
+                    {% endif %}
+                    {% if not bid %}
+                        {% include "user/__single_message.html" with message=message %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         {% endfor %}
     {% else %}
         <p>You have no messages yet.</p>
