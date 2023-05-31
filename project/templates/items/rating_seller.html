@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="rating_seller">
-    <h1 style="color: #784C92;">Thank you for your order!</h1>
-    <h2>Feel free to review the seller :) </h2>
+    <h1 style="color: #784C92;">Rate the seller (Optional)</h1>
       <p>Seller Information:</p>
-        <p>Seller: {{ order.seller.username }}</p>
-        <form class="form form-horizontal" action="{% url 'rating_seller' bid.id contact.id payment.id order.id %}" method="post">
+        <p>Seller: {{ bid.item.user.username }}</p>
+        <form class="form form-horizontal" action="{% url 'rating_seller' message.id bid.id contact.id payment.id %}" method="post">
           {% csrf_token %}
           {{ form }}
           <br>
-          <input type="submit" name="norating" value="norating">
+          <input type="submit" value="Back" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color:rgb(175, 175, 175); border-color: gray; color:white;"/>
+          <input type="submit" name="Skip" value="Skip">
           <input type="submit" value="Rate Seller" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
         </form>
 </div>

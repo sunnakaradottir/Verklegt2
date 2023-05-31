@@ -2,10 +2,10 @@
 {% block content %}
 <div class="payment_info">
     <h1 style="color: #784C92;">Please fill out your payment info</h1>
-    <form class="form form-horizontal" action="{% url 'payment_info' bid.id contact.id %}" method="post">
+    <form class="form form-horizontal" action="{% url 'payment_info' message.id bid.id contact.id %}" method="post">
         {% csrf_token %}
         {{ form }}
-        <a href="{% url 'contact_info' bid.id %}" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color:rgb(175, 175, 175); border-color: gray; color:white;">Back</a>
+        <input type="submit" value="Back" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color:rgb(175, 175, 175); border-color: gray; color:white;"/>
         <input type="submit" value="Next" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color:  #784C92; border-color: #784C92 ; color:white;"/>
     </form>
 </div>

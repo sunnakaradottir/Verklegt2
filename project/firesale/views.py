@@ -202,13 +202,17 @@ def sort_items(request):
     }
     return render(request, "items/index.html", context)
 
-def contact_info(request, bid_id):
+def contact_info(request, message_id, bid_id):
+    # access the message and bid information
     bid = get_object_or_404(models.Bid, id=bid_id)
+    message = get_object_or_404(models.Message, id=message_id)
+
     if request.method == 'POST':
         if 'back' in request.POST:
             return redirect('inbox')
         form = ContactForm(data=request.POST)
         if form.is_valid():
+            # save contact information
             contact = form.save(commit=False)
             contact.user = request.user
             contact.name = form.cleaned_data['name']
@@ -219,20 +223,26 @@ def contact_info(request, bid_id):
             contact.city = form.cleaned_data['city']
             contact.country = form.cleaned_data['country']
             contact.save()
-            return redirect('payment_info', bid_id=bid.id, contact_id=contact.id)
+            # redirect user to the next step of the checkout process
+            return redirect('payment_info', message_id=message_id, bid_id=bid_id, contact_id=contact.id)
         else:
             print("Form errors:", form.errors)
-    return render(request, "items/contact_info.html", {'form': ContactForm(), 'bid': bid})
+    return render(request, "items/contact_info.html", {'form': ContactForm(), 'bid': bid, 'message': message})
 
-def payment_info(request, bid_id, contact_id):
+def payment_info(request, message_id, bid_id, contact_id):
+    # access the message, bid and contact information
     bid = get_object_or_404(models.Bid, id=bid_id)
     contact = get_object_or_404(models.Contact, id=contact_id)
+    message = get_object_or_404(models.Message, id=message_id)
+
     if request.method == 'POST':
         if 'back' in request.POST:
+            # delete the contact information, so the user can enter it again
             contact.delete()
-            return redirect('contact_info', bid_id=bid_id)
+            return redirect('contact_info', message_id=message_id, bid_id=bid_id)
         form = PaymentForm(data=request.POST)
         if form.is_valid():
+            # save payment information
             payment = form.save(commit=False)
             payment.user = request.user
             payment.bid = bid
@@ -241,30 +251,84 @@ def payment_info(request, bid_id, contact_id):
             payment.expiration_date = form.cleaned_data['expiration_date']
             payment.cvc = form.cleaned_data['cvc']
             payment.save()
-            return redirect('order_review', bid_id=bid_id, contact_id=contact_id, payment_id=payment.id)
+            # redirect user to the next step of the checkout process
+            return redirect('rating_seller', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id)
         else:
             print("Form errors:", form.errors)
-    return render(request, "items/payment_info.html", {'form': PaymentForm(), 'bid': bid, 'contact': contact})
+    return render(request, "items/payment_info.html", {'form': PaymentForm(), 'message': message, 'bid': bid, 'contact': contact})
 
-def order_review(request, bid_id, contact_id, payment_id):
+def calc_avg_rating(user):
+    '''Calculates the average rating of a user based on the reviews they have received'''
+    reviews = models.Review.objects.filter(to_user=user)
+    ratings_list = [review.rating for review in reviews if review.rating is not None]
+    if len(ratings_list) > 0:
+        average_rating = sum(ratings_list) / len(ratings_list)
+    else:
+        average_rating = 0.0
+    return average_rating
+
+def rating_seller(request, message_id, bid_id, contact_id, payment_id):
+    # access the message, bid, contact and payment information
+    message = get_object_or_404(models.Message, id=message_id)
     bid = get_object_or_404(models.Bid, id=bid_id)
     contact = get_object_or_404(models.Contact, id=contact_id)
     payment = get_object_or_404(models.Payment, id=payment_id)
+
+    if request.method == 'POST':
+        # save the order
+        order = models.Order.objects.create(buyer=contact.user, seller=bid.item.user, item=bid.item, contact=contact, payment=payment)
+        order.save()
+        if 'back' in request.POST:
+            # delete the payment and contact information, so the user can enter it again
+            payment.delete()
+            order.delete()
+            return redirect('payment_info', message_id=message_id, bid_id=bid_id, contact_id=contact_id)
+        if 'skip' in request.POST:
+            # create an order without a review
+            return redirect('order_review', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id, order_id=order.id, review_id=None)
+        form = ReviewForm(data=request.POST)
+        if form.is_valid():
+            # save the review
+            review = form.save(commit=False)
+            review.order = order
+            review.to_user = bid.item.user
+            review.from_user = request.user
+            review.comment = form.cleaned_data['comment']
+            review.rating = form.cleaned_data['rating']
+            review.save()
+            # update the average rating of the seller
+            bid.item.user.average_rating = calc_avg_rating(bid.item.user)
+            bid.item.user.save()
+            # redirect to the order review page
+            return redirect('order_review', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id, order_id=order.id, review_id=review.id)
+        else:
+            print("Form errors:", form.errors)
+    return render(request, 'items/rating_seller.html', {'form': ReviewForm(), 'message': message, 'bid': bid, 'contact': contact, 'payment': payment})
+
+def order_review(request, message_id, bid_id, contact_id, payment_id, order_id, review_id=None):
+    # access the message, bid, contact, payment, order and review information
+    message = get_object_or_404(models.Message, id=message_id)
+    bid = get_object_or_404(models.Bid, id=bid_id)
+    contact = get_object_or_404(models.Contact, id=contact_id)
+    payment = get_object_or_404(models.Payment, id=payment_id)
+    order = get_object_or_404(models.Order, id=order_id)
+    review = get_object_or_404(models.Review, id=review_id)
+
     if request.method == 'POST':
         if 'back' in request.POST:
-            payment.delete()
-            return redirect('payment_info', bid_id=bid_id, contact_id=contact_id)
+            # delete the review, so the user can enter it again
+            order.delete()
+            review.delete()
+            return redirect('payment_info', message_id=message_id, bid_id=bid_id, contact_id=contact_id)
         form = OrderReviewForm(data=request.POST)
         if form.is_valid():
-            order = form.save(commit=False)
-            order.buyer = contact.user
-            order.seller = bid.item.user
-            order.item = bid.item
-            order.contact = contact
-            order.payment = payment
-            order.save()
-            return redirect('rating_seller', bid_id=bid_id, contact_id=contact_id, payment_id=payment_id, order_id=order.id)
-    return render(request, "items/order_review.html", {'bid': bid, 'contact': contact, 'payment': payment, 'form': OrderReviewForm()})
+            # if the user confirms the order, redirect to the orders page
+            ordered_items = models.Order.objects.filter(buyer=request.user).select_related('item')
+            item_images = models.ItemImage.objects.all()
+            # delete the message, so the user can't access it again
+            message.delete()
+            return render(request, 'user/orders.html', {"ordered_items": ordered_items, "itemimages": item_images})
+    return render(request, "items/order_review.html", {'message': message, 'bid': bid, 'contact': contact, 'payment': payment, 'review': review, 'order':order, 'form': OrderReviewForm()})
 
 def about_page(request):
     return render(request, 'pages/about.html')
@@ -277,41 +341,3 @@ def faq_page(request):
 
 def contact_page(request):
     return render(request, 'pages/contact.html')
-
-def calc_avg_rating(user):
-    '''Calculates the average rating of a user based on the reviews they have received'''
-    reviews = models.Review.objects.filter(to_user=user)
-    ratings_list = [review.rating for review in reviews if review.rating is not None]
-    if len(ratings_list) > 0:
-        average_rating = sum(ratings_list) / len(ratings_list)
-    else:
-        average_rating = 0.0
-    return average_rating
-
-def rating_seller(request, bid_id, contact_id, payment_id, order_id):
-    bid = get_object_or_404(models.Bid, id=bid_id)
-    contact = get_object_or_404(models.Contact, id=contact_id)
-    payment = get_object_or_404(models.Payment, id=payment_id)
-    order = get_object_or_404(models.Order, id=order_id)
-
-    if request.method == 'POST':
-        ordered_items = models.Order.objects.filter(buyer=request.user).select_related('item')
-        item_images = models.ItemImage.objects.all()
-        if 'norating' in request.POST:
-            return render(request, 'user/orders.html', {"ordered_items": ordered_items, "itemimages": item_images})
-        form = ReviewForm(data=request.POST)
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.order = order
-            review.to_user = bid.item.user
-            review.from_user = request.user
-            review.comment = form.cleaned_data['comment']
-            review.rating = form.cleaned_data['rating']
-            review.save()
-            average_rating = calc_avg_rating(bid.item.user)
-            bid.item.user.profile.average_rating = average_rating
-            bid.item.user.profile.save()
-            return render(request, 'user/orders.html', {"ordered_items": ordered_items, "itemimages": item_images})
-        else:
-            print("Form errors:", form.errors)
-    return render(request, 'items/rating_seller.html', {'form': ReviewForm(), 'order': order, 'bid': bid, 'contact': contact, 'payment': payment})
