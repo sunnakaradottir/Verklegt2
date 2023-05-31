@@ -31,7 +31,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="user_dropdown">
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Average rating: {{ user.average_rating|default:"N/A" }} -  {{ user.profile.name|default:user.username }}
+                  {{ user.profile.name|default:user.username }}
                   {% if user.profile.profile_image %}
                     <img src="{{ user.profile.profile_image }}" class="profile-image" width="25px" alt="{{ user.profile.name }}'s profile image"/>
                   {% else %}
@@ -39,6 +39,7 @@
                   {% endif %}
                 </a>
                 <ul class="nav-item dropdown-menu">
+                  <li><div class="dropdown-item">Average rating: {{ user.average_rating|default:"N/A" }}</div></li>
                   <li><a class="dropdown-item" href="{% url 'profile' %}">My Account</a></li>
                   <li><a class="dropdown-item" href="{% url 'favorites' %}">Favorites</a></li>
                   <li><hr class="dropdown-divider"></li>
