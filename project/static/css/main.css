@@ -36,6 +36,11 @@ footer {
     max-width: 400px;
 }
 
+.single_image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .single_item .content{
     position: absolute;
@@ -48,6 +53,7 @@ footer {
     text-transform: uppercase;
     color: #784C92;
     text-align: center;
+    border: none;
 }
 .item_name{
     text-transform: uppercase;
@@ -573,7 +579,6 @@ ul.navbar-nav.me-auto.mb-2.mb-lg-0#user_dropdown{
     text-decoration-color: #fff;
 }
 
-
   
 .image_container {
     display: flex;
@@ -601,22 +606,41 @@ ul.navbar-nav.me-auto.mb-2.mb-lg-0#user_dropdown{
 }
 
 
-
-
 .slideshow-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
     margin: auto;
-    width: 80%;
-    height: 400px;
+    max-width: 80%;
+    max-height: 400px;
+    width: fit-content;
+    height: fit-content;
 }
-  
+
+.image_gallery {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .mySlides {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mySlides div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
   
 .thumbnail-image {
-    width: 752px;
-    height: 400px;
+    max-width: 80%;
+    max-height: 400px;
+    width: fit-content;
+    height: fit-content;
     object-fit: cover;
 }
   
