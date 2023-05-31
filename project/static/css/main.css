@@ -49,7 +49,9 @@ footer {
     color: #784C92;
     text-align: center;
 }
-
+.item_name{
+    text-transform: uppercase;
+}
 #single_item_image {
     margin-bottom: 0.5em;
     padding: 2px;

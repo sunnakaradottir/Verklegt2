@@ -58,6 +58,7 @@ def item_information(request, item_id):
     item = models.Item.objects.filter(id=item_id).first()
     item_images = models.ItemImage.objects.filter(item=item)
     highest_bid = models.Bid.objects.filter(item=item).aggregate(Max('bid_amount'))['bid_amount__max']
+
     similar_items = models.Item.objects.filter(category=item.category).exclude(id=item.id)[:3]
     is_favorite = False
     if request.method == 'POST':
