@@ -218,7 +218,7 @@ def contact_info(request, message_id, bid_id):
             contact.name = form.cleaned_data['name']
             contact.email = form.cleaned_data['email']
             contact.phone = form.cleaned_data['phone']
-            contact.address = form.cleaned_data['address']
+            contact.address = form.cleaned_data['street_name']
             contact.postal_code = form.cleaned_data['postal_code']
             contact.city = form.cleaned_data['city']
             contact.country = form.cleaned_data['country']
