@@ -50,8 +50,15 @@ def orders(request):
 
 def delete_offer(request, bid_id):
     bid = get_object_or_404(Bid, id=bid_id)
+    item = bid.item
     if request.method == 'POST':
-        # Logic to delete the offer
         bid.delete()
+        bids = Bid.objects.filter(item=item)
+        item.status = 'available'
+        for bid in bids:
+            bid.status = 'pending'
+            bid.save()
+        message_content = f"{bid.user} cancelled their offer, so your {item.name} is now available for bidding again."
+        message = Message(sender='FireSale', receiver=item.user, message=message_content)
         return redirect('inbox')
     return render(request, 'user/delete_offer.html', {'bid': bid})
