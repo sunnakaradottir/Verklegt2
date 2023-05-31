@@ -466,12 +466,39 @@ img.profile-image {
     color: inherit; 
     text-align: center;
 }
+
+.listings_page {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 30px;
+}
+
 .listings_page #item_display{
     display:flex;
+    flex-direction: row;
     flex-wrap: wrap;
-     justify-content: flex-start;
-    margin: 0 auto;
+    justify-content: flex-start;
+    align-items: flex-start;
     gap: 20px;
+}
+
+.available_items {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.previous_items {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 15px;
 }
 
 .create_item{
