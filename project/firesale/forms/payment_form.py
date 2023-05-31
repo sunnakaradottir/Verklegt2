@@ -20,11 +20,6 @@ class PaymentForm(ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Expiration date (MM/YY)'}),
     )
 
-    def clean_expiration_date(self):
-        expiration_date = self.cleaned_data['expiration_date']
-        if expiration_date < timezone.now().date():
-            raise ValidationError("Expiration date is in the past.")
-        return expiration_date
 
     class Meta:
         model = models.Payment
@@ -34,3 +29,21 @@ class PaymentForm(ModelForm):
                                                         'placeholder': 'Enter name of cardholder as seen on card (max 100 char)'})
         }
         fields = ['cardholder_name', 'card_number', 'expiration_date', 'cvc']
+
+    def clean_card_number(self):
+        card_number = self.cleaned_data.get('card_number')
+        if len(card_number) < 16:
+            raise ValidationError("Card number is too short.")
+        return card_number
+
+    def clean_cvc(self):
+        cvc = self.cleaned_data.get('cvc')
+        if len(cvc) < 3:
+            raise ValidationError("CVC is too short.")
+        return cvc
+
+    def clean_expiration_date(self):
+        expiration_date = self.cleaned_data['expiration_date']
+        if expiration_date < timezone.now().date():
+            raise ValidationError("Expiration date should be in the future ")
+        return expiration_date

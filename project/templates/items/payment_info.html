@@ -1,12 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="payment_info">
-    <h1 style="color: #784C92;">Please fill out your payment info</h1>
-    <form class="form form-horizontal" action="{% url 'payment_info' message.id bid.id contact.id %}" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Back" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color:rgb(175, 175, 175); border-color: gray; color:white;"/>
-        <input type="submit" value="Next" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color:  #784C92; border-color: #784C92 ; color:white;"/>
-    </form>
-</div>
+        <div class="payment_info">
+            <h1 style="color: #784C92;">Please fill out your payment info</h1>
+            <form class="form form-horizontal" action="{% url 'payment_info' message.id bid.id contact.id %}" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group {% if field.errors %}has-error{% endif %}">
+                        <label class="control-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <ul class="errorlist">
+                                {% for error in field.errors %}
+                                    <li class="error-msg">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                
+                    </div>
+                {% endfor %}
+                <input type="submit" value="Back" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color:rgb(175, 175, 175); border-color: gray; color:white;"/>
+                <input type="submit" value="Next" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color:  #784C92; border-color: #784C92 ; color:white;"/>
+            </form>
+        </div>
 {% endblock %}

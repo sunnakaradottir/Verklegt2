@@ -234,6 +234,8 @@ def payment_info(request, message_id, bid_id, contact_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
     contact = get_object_or_404(models.Contact, id=contact_id)
     message = get_object_or_404(models.Message, id=message_id)
+    
+    form = PaymentForm()  # Move this line outside the 'else' block
 
     if request.method == 'POST':
         if 'back' in request.POST:
@@ -253,9 +255,7 @@ def payment_info(request, message_id, bid_id, contact_id):
             payment.save()
             # redirect user to the next step of the checkout process
             return redirect('rating_seller', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id)
-        else:
-            print("Form errors:", form.errors)
-    return render(request, "items/payment_info.html", {'form': PaymentForm(), 'message': message, 'bid': bid, 'contact': contact})
+    return render(request, "items/payment_info.html", {'form': form, 'message': message, 'bid': bid, 'contact': contact})
 
 def calc_avg_rating(user):
     '''Calculates the average rating of a user based on the reviews they have received'''
