@@ -9,7 +9,7 @@
                     {% include "user/__single_message.html" with message=message bid=bid %}
                 {% endif %}
             {% endfor %}
-            {% if message.sender == 'admin' %}
+            {% if message.sender.username == 'admin' %}
                 {% include "user/__single_message.html" with message=message %}
             {% endif %}
         {% endfor %}
