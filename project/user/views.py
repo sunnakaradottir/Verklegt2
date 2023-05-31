@@ -4,6 +4,7 @@ from .forms.profile_form import ProfileForm
 from .models import Profile
 from django.contrib.auth.models import User
 from firesale.models import Item, ItemImage, Favorite, Order, Message, Bid
+from django.contrib import messages
 
 # Create your views here.
 def register(request):
@@ -22,6 +23,7 @@ def profile(request):
             profile = form.save(commit=False)
             profile.user = request.user
             profile.save()
+            messages.success(request, 'Your information has been updated successfully.')
             return redirect("profile")
     return render(request, "user/profile.html", {'form': ProfileForm(instance=profile)})
 

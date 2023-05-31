@@ -11,22 +11,35 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from user.models import Profile
 
+from django.http import JsonResponse
+
 
 def index(request):
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
         items = []
-        for item_found in models.Item.objects.filter(name__icontains=search_filter):
-            for itemimage in models.ItemImage.objects.filter(item=item_found):
-                items.append({'id': item_found.id, 'name': item_found.name, 'image': itemimage.img_url,
-                            'category': item_found.category.name,
-                            'condition': item_found.condition,
-                            'item_location': item_found.item_location,
-                            'price': item_found.price})
-                return JsonResponse({'data': items})
+        for item_found in models.Item.objects.filter(name__icontains=search_filter, status='available'):
+            first_itemimage = models.ItemImage.objects.filter(item=item_found).first()
+            if first_itemimage:
+                items.append({
+                    'id': item_found.id,
+                    'name': item_found.name,
+                    'image': first_itemimage.img_url,
+                    'category': item_found.category.name,
+                    'condition': item_found.condition,
+                    'item_location': item_found.item_location,
+                    'price': item_found.price
+                })
+        if len(items) > 0:
+            return JsonResponse({'data': items})
+        else:
+            return JsonResponse({'message': 'Sorry, no items found for this search.'})
+
     items = models.Item.objects.all()
     itemimages = models.ItemImage.objects.all()
-    return render(request, "items/index.html", {"items": items, "itemimages": itemimages, 'include_item_information': True})
+    return render(request, "items/index.html",
+                  {"items": items, "itemimages": itemimages, 'include_item_information': True})
+
 
 @login_required
 def create_item(request):
