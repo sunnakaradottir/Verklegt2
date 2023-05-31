@@ -31,19 +31,11 @@
   </div>
 </div>
 
-<form
-  class="form form-horizontal"
-  action="{% url 'order_review' bid.id contact.id payment.id %}"
-  method="post"
->
-  {% csrf_token %} {{ form }}
+<form class="form form-horizontal" action="{% url 'order_review' message.id bid.id contact.id payment.id order.id review.id %}" method="post">
+  {% csrf_token %} 
+  {{ form }}
   <input type="submit" name="back" value="Back" />
-  <input
-    type="submit"
-    value="Confirm Checkout"
-    class="btn btn-primary pull-right"
-    style="clear: both; margin: 10px 0"
-  />
+  <input type="submit" value="Confirm Checkout" class="btn btn-primary pull-right" style="clear: both; margin: 10px 0" />
 </form>
 
 {% endblock %}
