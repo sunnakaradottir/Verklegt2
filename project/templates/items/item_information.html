@@ -49,6 +49,10 @@
                     {% csrf_token %}
                     <button type="submit" id="deleteButton">Delete item</button>
                 </form>
+                <form class="view_bid_form" action="{% url 'view_bids' item.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" id="viewBidsButton">View Bids</button>
+                </form>
                 {% endif %}
             </div>
         <div class="seller_buttons">
@@ -77,10 +81,6 @@
                 {% csrf_token %}
                 <button type="submit" id="bidButton">Place an Offer</button>
             </form>
-                <form class="view_bid_form" action="{% url 'view_bids' item.id %}" method="post" style="display: inline;">
-                    {% csrf_token %}
-                    <button type="submit" id="viewBidsButton">View Bids</button>
-                </form>
             <form class="favorites-form" method="post" style="display: inline;">
                 {% csrf_token %}
                 {% if is_favorite %}
@@ -109,17 +109,15 @@
                                 <div class="image_container">
                                     <img
                                     src="{{ similar_item.image_urls.first.img_url }}"
-                                    alt="Image of {{ item.name }}"
-
-                                    />
+                                    alt="Image of {{ item.name }}"/>
                                 </div>
                                 {% endif %}
-                            </div>
                         </a>
+                    </div>
                 {% endif %}
             {% endfor %}
         {% else %}
-        <p>No similar items, this is so unique</p>
+            <p>No similar items, this is so unique</p>
         {% endif %}
     </div>
 </div>
