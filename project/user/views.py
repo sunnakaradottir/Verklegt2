@@ -3,9 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms.profile_form import ProfileForm
 from .models import Profile
 from django.contrib.auth.models import User
-from firesale.models import Bid
-from firesale.models import Message
-from firesale.models import Item, ItemImage, Favorite, Order
+from firesale.models import Item, ItemImage, Favorite, Order, Message, Bid
 
 # Create your views here.
 def register(request):
@@ -52,13 +50,20 @@ def delete_offer(request, bid_id):
     bid = get_object_or_404(Bid, id=bid_id)
     item = bid.item
     if request.method == 'POST':
+        # Find the administator user
+        for user in User.objects.all():
+            if user.username == 'administrator':
+                admin = user
+        message_content = f"{bid.user} cancelled their offer, so your item {item.name} is now available for bidding again."
+        message = Message.objects.create(sender=admin, receiver=item.user, message=message_content)
+        message.save()
         bid.delete()
         bids = Bid.objects.filter(item=item)
+        # Make the item available again
         item.status = 'available'
+        # Set past bids to pending
         for bid in bids:
             bid.status = 'pending'
             bid.save()
-        message_content = f"{bid.user} cancelled their offer, so your {item.name} is now available for bidding again."
-        message = Message(sender='FireSale', receiver=item.user, message=message_content)
         return redirect('inbox')
     return render(request, 'user/delete_offer.html', {'bid': bid})
