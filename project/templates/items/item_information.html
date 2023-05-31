@@ -19,7 +19,7 @@
             {% else %}
                 <div class="slideshow-container">
                     {% for itemimage in itemimages %}
-                        <div class="mySlides">
+                        <div class="mySlides" style="display: flex;">
                             <img src="{{ itemimage.img_url }}" alt="Image of {{ item.name }}" class="thumbnail-image">
                         </div>
                     {% endfor %}
@@ -95,7 +95,7 @@
 
 
     <div class="similar_items">
-        <h3 style="text-decoration: underline; color: #461d5e">Similar Items</h3>
+        <h3 style="color: #461d5e">Similar Items</h3>
     </div>
 
    <div class="similar_items">
@@ -103,8 +103,7 @@
             {% for similar_item in similar_items %}
                 {% if similar_item.status == 'available' %}
                     <div class="similar_item">
-                        <!-- Display similar item details (e.g., name, image, etc.) -->
-                        <a href="{% url 'item_information' similar_item.id %}">
+                        <div href="{% url 'item_information' similar_item.id %}">
                             <div class="name">{{ similar_item.name }}</div>
                               {% if similar_item.image_urls.all %}
                                     <div class="image_container">
@@ -115,7 +114,7 @@
                                       />
                                     </div>
                                     {% endif %}
-                        </a>
+                                </div>
                 </div>
                 {% endif %}
             {% endfor %}
