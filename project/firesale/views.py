@@ -16,7 +16,7 @@ def index(request):
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
         items = []
-        for item_found in models.Item.objects.filter(name__icontains=search_filter):
+        for item_found in models.Item.objects.filter(name__icontains=search_filter, status='available'):
             for itemimage in models.ItemImage.objects.filter(item=item_found):
                 items.append({'id': item_found.id, 'name': item_found.name, 'image': itemimage.img_url,
                             'category': item_found.category.name,
