@@ -61,6 +61,7 @@ def delete_offer(request, bid_id):
         bids = Bid.objects.filter(item=item)
         # Make the item available again
         item.status = 'available'
+        item.save()
         # Set past bids to pending
         for bid in bids:
             bid.status = 'pending'
