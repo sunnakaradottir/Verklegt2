@@ -29,6 +29,16 @@
       <p>CVC: {{ payment.cvc }}</p>
     </div>
   </div>
+  <div class="rating_order">
+    {% if review %}
+      <p>Your rating of {{ bid.item.user }}: {{ review.rating }}</p>
+      {% if review.comment %}
+        <p>Your comment: {{ review.comment }}</p>
+      {% endif %}
+    {% else %}
+      <p>You did not rate {{ bid.item.user }}</p>
+    {% endif %}
+  </div>
 </div>
 
 <form class="form form-horizontal" action="{% url 'order_review' message.id bid.id contact.id payment.id order.id review.id %}" method="post">
