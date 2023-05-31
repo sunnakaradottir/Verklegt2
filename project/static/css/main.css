@@ -622,6 +622,7 @@ ul.navbar-nav.me-auto.mb-2.mb-lg-0#user_dropdown{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 20px;
 }
 
 .mySlides {

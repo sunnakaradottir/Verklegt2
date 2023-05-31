@@ -95,7 +95,7 @@
 
 
     <div class="similar_items">
-        <h3 style="color: #461d5e">Similar Items</h3>
+        <h3 style="text-decoration: underline; color: #461d5e">Similar Items</h3>
     </div>
 
    <div class="similar_items">
@@ -105,21 +105,21 @@
                     <div class="similar_item">
                         <div href="{% url 'item_information' similar_item.id %}">
                             <div class="name">{{ similar_item.name }}</div>
-                              {% if similar_item.image_urls.all %}
-                                    <div class="image_container">
-                                      <img
-                                        src="{{ similar_item.image_urls.first.img_url }}"
-                                        alt="Image of {{ item.name }}"
+                                {% if similar_item.image_urls.all %}
+                                <div class="image_container">
+                                    <img
+                                    src="{{ similar_item.image_urls.first.img_url }}"
+                                    alt="Image of {{ item.name }}"
 
-                                      />
-                                    </div>
-                                    {% endif %}
+                                    />
                                 </div>
-                </div>
+                                {% endif %}
+                            </div>
+                        </div>
                 {% endif %}
             {% endfor %}
         {% else %}
-            <p>No similar items, this is so unique</p>
+        <p>No similar items, this is so unique</p>
         {% endif %}
     </div>
 </div>
