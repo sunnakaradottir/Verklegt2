@@ -63,6 +63,7 @@ class Contact(models.Model):
     email = models.CharField(max_length=100)
     phone = models.CharField(max_length=7)
     address = models.CharField(max_length=100)
+    house_number = models.IntegerField(null=True)
     postal_code = models.IntegerField()
     city = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
