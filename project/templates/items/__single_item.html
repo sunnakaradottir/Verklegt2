@@ -1,23 +1,49 @@
-<a class="single_item" href="{% url 'item_information' item.id %}">
-  <div class="name">{{item.name}}</div>
+{% if item.status == 'sold' %}
+    <a class="single_item" disabled>
+        <div class="name">{{item.name}}</div>
 
-  <!-- TODO: Add location to item form -->
-  <div class="item_content" id="single_item_image">
-    {% if item.image_urls.all %} 
-    <div class="image_container">
-      <img
-        src="{{ item.image_urls.first.img_url }}"
-        alt="Image of {{ item.name }}"
-        
-      />
-    </div>
-    {% endif %}
-  </div>
+        <!-- TODO: Add location to item form -->
+        <div class="item_content" id="single_item_image">
+            {% if item.image_urls.all %}
+            <div class="image_container">
+                <img src="{{ item.image_urls.first.img_url }}" alt="Image of {{ item.name }}">
+            </div>
+            {% endif %}
+        </div>
 
-  <div class="item_information">Category: {{ item.category }}</div>
-  <div class="item_information">Condition: {{ item.condition }}</div>
-  <div class="item_content" id="price">
-    Starting price: $ {% if item.price is None %} 0 {% else %} {{ item.price }}
-    {% endif %}
-  </div>
-</a>
+        <div class="item_information">Category: {{ item.category }}</div>
+        <div class="item_information">Condition: {{ item.condition }}</div>
+        <div class="item_content" id="price">
+            Starting price: $
+            {% if item.price is None %}
+            0
+            {% else %}
+            {{ item.price }}
+            {% endif %}
+        </div>
+    </a>
+{% else %}
+    <a class="single_item" href="{% url 'item_information' item.id %}">
+        <div class="name">{{item.name}}</div>
+
+        <!-- TODO: Add location to item form -->
+        <div class="item_content" id="single_item_image">
+            {% if item.image_urls.all %}
+            <div class="image_container">
+                <img src="{{ item.image_urls.first.img_url }}" alt="Image of {{ item.name }}">
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="item_information">Category: {{ item.category }}</div>
+        <div class="item_information">Condition: {{ item.condition }}</div>
+        <div class="item_content" id="price">
+            Starting price: $
+            {% if item.price is None %}
+             0
+            {% else %}
+            {{ item.price }}
+            {% endif %}
+        </div>
+    </a>
+{% endif %}
