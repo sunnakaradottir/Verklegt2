@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms.profile_form import ProfileForm
 from .models import Profile
 from django.contrib.auth.models import User
-from firesale.models import Item, ItemImage, Favorite, Order, Message, Bid
+from firesale.models import Item, ItemImage, Favorite, Order, Message, Bid, Review
 from django.contrib import messages
 
 # Create your views here.
@@ -48,6 +48,11 @@ def orders(request):
     ordered_items = Order.objects.filter(buyer=request.user).select_related('item')
     item_images = ItemImage.objects.all()
     return render(request, "user/orders.html", {"ordered_items": ordered_items, "itemimages": item_images})
+
+def my_reviews(request):
+    user = request.user
+    reviews = Review.objects.filter(to_user=user)
+    return render(request, "user/reviews.html", {"reviews": reviews})
 
 def delete_offer(request, bid_id):
     bid = get_object_or_404(Bid, id=bid_id)

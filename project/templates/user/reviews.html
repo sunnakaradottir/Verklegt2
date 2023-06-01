@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Reviews</h1>
+    {% if reviews %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Review</th>
+                    <th>From</th>
+                    <th>Item bought</th>
+                    <th>Rating</th>
+                    <th>Comment</th>
+                    <th>Submitted</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for review in reviews %}
+                    {% include "__single_review.html" with review=review %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No reviews yet.</p>
+    {% endif %}
+{% endblock %}
