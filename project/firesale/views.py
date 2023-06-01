@@ -298,7 +298,9 @@ def rating_seller(request, message_id, bid_id, contact_id, payment_id):
                 review.comment = form.cleaned_data['comment'].capitalize()
             review.save()
             # update the average rating of the seller
-            bid.item.user.average_rating = calc_avg_rating(bid.item.user)
+            for user in models.User.objects.all():
+                if user == bid.item.user:
+                    bid.item.user.average_rating = calc_avg_rating(user)
             bid.item.user.save()
             # redirect to the order review page
             return redirect('order_review', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id, order_id=order.id, review_id=review.id)
