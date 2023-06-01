@@ -39,7 +39,7 @@
                   {% endif %}
                 </a>
                 <ul class="nav-item dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'reviews' %}">Average rating: {{ user.AverageRating.average_rating|default:"N/A" }}</a></li>
+                  <li><a class="dropdown-item" href="{% url 'reviews' %}">Average rating: {{ user.averagerating.average_rating|default:"N/A" }}</a></li>
                   <li><a class="dropdown-item" href="{% url 'profile' %}">My Account</a></li>
                   <li><a class="dropdown-item" href="{% url 'favorites' %}">Favorites</a></li>
                   <li><hr class="dropdown-divider"></li>
