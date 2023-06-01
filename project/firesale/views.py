@@ -120,7 +120,7 @@ def view_bids(request, item_id):
 def send_email(email_address, message_content):
     subject = "FireSale Notification!"
     message = message_content
-    from_email = "cpi_analyzer@outlook.com"
+    from_email = "cpianalyzer@outlook.com"
     recipient_list = [email_address]
 
     try:
@@ -328,7 +328,7 @@ def rating_seller(request, message_id, bid_id, contact_id, payment_id):
             rated_user = bid.item.user
             avgrating = AverageRating.objects.filter(user=rated_user).first()
             if avgrating:
-                avgrating.rated_user.average_rating = calc_avg_rating(rated_user)
+                avgrating.average_rating = calc_avg_rating(rated_user)
             else:
                 avgrating = AverageRating.objects.create(user=rated_user, average_rating=review.rating)
             avgrating.save()
