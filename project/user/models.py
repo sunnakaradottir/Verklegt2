@@ -20,3 +20,4 @@ class AverageRating(models.Model):
 class NotificationSettings(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     email_notifications = models.BooleanField(default=False)
+    email_address = models.CharField(max_length=100, blank=True, null=True)

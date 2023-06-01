@@ -6,5 +6,5 @@ class NotificationSettingsForm(ModelForm):
     class Meta:
         model = NotificationSettings
         exclude = ['user']
-        fields = ['email_notifications']
-        widgets = {'email_notifications': widgets.CheckboxInput(attrs={'class': 'form-check-input'})}
+        fields = ['email_notifications', 'email_address']
+        widgets = {'email_notifications': widgets.CheckboxInput(attrs={'class': 'form-check-input'}), 'email_address': widgets.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email address'})}
