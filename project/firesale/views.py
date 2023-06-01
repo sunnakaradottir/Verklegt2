@@ -10,7 +10,7 @@ from .forms.review_form import ReviewForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from user.models import Profile, AverageRating
-
+from django.core.mail import send_mail
 from django.http import JsonResponse
 
 
@@ -117,6 +117,19 @@ def view_bids(request, item_id):
     user_profiles_map = {profile.user_id: profile for profile in user_profiles}
     return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids, 'user_profiles': user_profiles_map})
 
+def send_email(email_address, message_content):
+    subject = "FireSale Notification!"
+    message = message_content
+    from_email = "cpi_analyzer@outlook.com"
+    recipient_list = [email_address]
+
+    try:
+        send_mail(subject, message, from_email, recipient_list)
+        return True
+    except Exception as e:
+        print(str(e))
+        return False
+
 def accept_bid(request, item_id, bid_id):
     item = get_object_or_404(models.Item, id=item_id)
     bids = models.Bid.objects.filter(item=item_id)
@@ -134,6 +147,8 @@ def accept_bid(request, item_id, bid_id):
             sender = request.user
             receiver = otherbid.user
             message_content = f"Your bid of ${otherbid.bid_amount} on {item.name} has been rejected since another offer on the item was accepted."
+            if otherbid.user.notification_settings.email_notifications:
+                send_email(otherbid.user.notification_settings.email_address, message_content)
             message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=otherbid)
             message.save()
 
@@ -141,6 +156,8 @@ def accept_bid(request, item_id, bid_id):
     sender2 = request.user
     receiver2 = bid.user
     message_content2 = f"Your bid of ${bid.bid_amount} on {item.name} has been accepted!"
+    if bid.user.notification_settings.email_notifications:
+        send_email(bid.user.notification_settings.email_address, message_content2)
     message2 = models.Message.objects.create(sender=sender2, receiver=receiver2, message=message_content2, bid=bid)
     message2.save()
 
