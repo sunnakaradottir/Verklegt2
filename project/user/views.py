@@ -82,8 +82,8 @@ def delete_offer(request, bid_id):
                 admin = user
         # If the user has email notifications on
         message_content = f"{bid.user} cancelled their offer, so your item {item.name} is now available for bidding again."
-        if item.user.notification_settings.email_notifications:
-            send_email(item.user.notification_settings.email_address, message_content)
+        if item.user.notificationsettings.email_notifications:
+            send_email(item.user.notificationsettings.email_address, message_content)
         message = Message.objects.create(sender=admin, receiver=item.user, message=message_content)
         message.save()
         bid.delete()
@@ -96,8 +96,8 @@ def delete_offer(request, bid_id):
             bid.status = 'pending'
             bid.save()
             message_content2 = f"Your offer for of {bid.bid_amount} on {item.name} has been set to pending, since the accepted bidder cancelled the offer."
-            if bid.user.notification_settings.email_notifications:
-                send_email(bid.user.notification_settings.email_address, message_content2)
+            if bid.user.notificationsettings.email_notifications:
+                send_email(bid.user.notificationsettings.email_address, message_content2)
             receiver = bid.user
             message2 = Message.objects.create(sender=admin, receiver=receiver, message=message_content2)
             message2.save()
