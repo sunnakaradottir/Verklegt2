@@ -2,6 +2,9 @@ let slideIndex = 1;
 
 function showSlides(n) {
     const slides = document.getElementsByClassName("mySlides");
+    if (slides.length === 0) {
+        return; // if no slides are found, exit the function to avoid errors
+    }
 
     if (n > slides.length) {
         slideIndex = 1;

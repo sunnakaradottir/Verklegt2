@@ -11,6 +11,6 @@ urlpatterns = [
     path("listings", views.my_listings, name="listings"),
     path("favorites", views.favorites, name="favorites"),
     path("orders", views.orders, name="orders"),
-    path('user/inbox/delete/<int:bid_id>/', views.delete_offer, name='delete_offer'),
-    path('reviews', views.my_reviews, name='reviews'),
+    path("user/inbox/delete/<int:bid_id>/", views.delete_offer, name="delete_offer"),
+    path("reviews", views.my_reviews, name="reviews"),
 ]
