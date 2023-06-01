@@ -5,7 +5,6 @@ let btn = document.getElementById('button_enter');
 
 if(btn) {
   btn.addEventListener('click', (ev)=>{
-    console.log("Btn clicked");
   });
    
   document.addEventListener('keypress', (event)=>{
