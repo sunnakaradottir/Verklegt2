@@ -92,6 +92,10 @@ class Review(models.Model):
     comment = models.CharField(max_length=1000, blank=True, null=True)
     creation_time = models.DateTimeField(auto_now_add=True)
 
+class AverageRating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    average_rating = models.DecimalField(decimal_places=1, default=0.0, max_digits=3)
+
 class Favorite(models.Model):
     item = models.ForeignKey('Item', on_delete=models.CASCADE)
     member = models.ForeignKey(User, on_delete=models.CASCADE, related_name='my_favorites')
