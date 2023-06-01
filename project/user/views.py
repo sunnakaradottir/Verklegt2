@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from .forms.profile_form import ProfileForm
-from .forms.register_form import CustomUserCreationForm
+from .forms.notification_settings_form import NotificationSettingsForm
 from .models import Profile
 from django.contrib.auth.models import User
 from firesale.models import Item, ItemImage, Favorite, Order, Message, Bid, Review
@@ -10,12 +10,12 @@ from django.contrib import messages
 # Create your views here.
 def register(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(data=request.POST)
+        form = UserCreationForm(data=request.POST)
         if form.is_valid():
             form.save()
             return redirect("login")
     else: 
-        form = CustomUserCreationForm()
+        form = UserCreationForm()
     return render(request, "user/register.html", {'form':form})
 
 def profile(request):
@@ -84,3 +84,15 @@ def delete_offer(request, bid_id):
             message2.save()
         return redirect('inbox')
     return render(request, 'user/delete_offer.html', {'bid': bid})
+
+def notification_settings(request):
+    if request.method=='POST':
+        form = NotificationSettingsForm(request.POST)
+        if form.is_valid():
+            notification_settings = form.save(commit=False)
+            notification_settings.user = request.user
+            notification_settings.save()
+            items = Item.objects.all()
+            itemimages = ItemImage.objects.all()
+            return render(request, "items/index.html", {"items": items, "itemimages": itemimages})
+    return render(request, 'user/notification_settings.html', {'form':form})

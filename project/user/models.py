@@ -16,3 +16,7 @@ class Profile(models.Model):
 class AverageRating(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     average_rating = models.DecimalField(decimal_places=1, default=0.0, max_digits=3)
+
+class NotificationSettings(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email_notifications = models.BooleanField(default=False)
