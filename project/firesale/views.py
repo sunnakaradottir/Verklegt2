@@ -33,7 +33,7 @@ def index(request):
         if len(items) > 0:
             return JsonResponse({'data': items})
         else:
-            return JsonResponse({'message': 'Sorry, no items found for this search.'})
+            return JsonResponse({'message': '<strong>Sorry, no items found for this search.</strong>'})
 
     items = models.Item.objects.all()
     itemimages = models.ItemImage.objects.all()

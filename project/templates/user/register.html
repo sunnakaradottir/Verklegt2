@@ -4,6 +4,14 @@
     <form class="form form-horizontal" method="post">
         {% csrf_token %}
         {{ form }}
+        {% if form.password2.errors %}
+            <div class="errors">
+                {% for error in form.password2.errors %}
+                    <p class="error-msg">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <input type="submit" class="btn btn-primary" style="clear:both; margin: 10px 0; background-color: #784C92; border-color: #784C92;" value="Sign up"/>
     </form>
 {% endblock %}
