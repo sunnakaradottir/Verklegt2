@@ -6,7 +6,9 @@
             <div id="item_display">
                 {% for favorite in favorite_items %}
                     {% with item=favorite.item %}
-                        {% include "items/__single_item.html" with item=item itemimages=itemimages %}
+                        {% if item.status == 'available' %}
+                            {% include "items/__single_item.html" with item=item itemimages=itemimages %}
+                        {% endif %}
                     {% endwith %}
                 {% endfor %}
             </div>

@@ -12,3 +12,12 @@ class Profile(models.Model):
     favorite_item = models.ForeignKey(Item, on_delete=models.SET_NULL, blank=True, null=True, related_name='favorite_item')
     profile_image = models.CharField(max_length=9999, blank=True, null=True)
     average_rating = models.DecimalField(decimal_places=1, default=0.0, max_digits=3)
+
+class AverageRating(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    average_rating = models.DecimalField(decimal_places=1, default=0.0, max_digits=3)
+
+class NotificationSettings(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email_notifications = models.BooleanField(default=False)
+    email_address = models.CharField(max_length=100, blank=True, null=True)

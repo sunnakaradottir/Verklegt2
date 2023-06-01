@@ -10,11 +10,9 @@ from .forms.review_form import ReviewForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import PermissionDenied
 from django.db.models import Max
-from user.models import Profile
-from django.http import HttpResponseForbidden
-
-
-from django.http import JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse
+from user.models import Profile, AverageRating
+from django.core.mail import send_mail
 
 
 def index(request):
@@ -41,7 +39,7 @@ def index(request):
     items = models.Item.objects.all()
     itemimages = models.ItemImage.objects.all()
     return render(request, "items/index.html",
-                  {"items": items, "itemimages": itemimages, 'include_item_information': True})
+                  {"items": items, "itemimages": itemimages})
 
 
 @login_required
@@ -122,6 +120,19 @@ def view_bids(request, item_id):
         return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids, 'user_profiles': user_profiles_map})
     return HttpResponseForbidden("You do not have a premission to access this page. ")
 
+def send_email(email_address, message_content):
+    subject = "FireSale Notification!"
+    message = message_content
+    from_email = "cpianalyzer@outlook.com"
+    recipient_list = [email_address]
+
+    try:
+        send_mail(subject, message, from_email, recipient_list)
+        return True
+    except Exception as e:
+        print(str(e))
+        return False
+
 def accept_bid(request, item_id, bid_id):
     item = get_object_or_404(models.Item, id=item_id)
     bids = models.Bid.objects.filter(item=item_id)
@@ -129,21 +140,30 @@ def accept_bid(request, item_id, bid_id):
     # Bid is accepted
     bid.status = 'accepted'
     bid.save()
-    # Reject all other bids
+    # Reject all other bids and send a message to the bidders
     for otherbid in bids:
         if otherbid != bid:
             otherbid.status = 'rejected'
             otherbid.save()
+
+            # Create a message from the owner of the item to the user that has been rejected
             sender = request.user
-            decline_receiver = otherbid.user
-            decline_message = f"Your bid of ${otherbid.bid_amount} on {item.name} has declined."
-            message = models.Message.objects.create(sender=sender, receiver=decline_receiver, message=decline_message, bid=otherbid)
-        
-    # Create a message from the sender to the reciever
-    sender = request.user
-    receiver = bid.user
-    message_content = f"Your bid of ${bid.bid_amount} on {item.name} has been accepted!"
-    message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=bid)
+            receiver = otherbid.user
+            message_content = f"Your bid of ${otherbid.bid_amount} on {item.name} has been rejected since another offer on the item was accepted."
+            if otherbid.user.notificationsettings.email_notifications:
+                send_email(otherbid.user.notificationsettings.email_address, message_content)
+            message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=otherbid)
+            message.save()
+
+    # Create a message from the owner of the item to the user that has accepted bid
+    sender2 = request.user
+    receiver2 = bid.user
+    message_content2 = f"Your bid of ${bid.bid_amount} on {item.name} has been accepted!"
+    if bid.user.notificationsettings.email_notifications:
+        send_email(bid.user.notificationsettings.email_address, message_content2)
+    message2 = models.Message.objects.create(sender=sender2, receiver=receiver2, message=message_content2, bid=bid)
+    message2.save()
+
     # Mark the item as sold so it cannot be bid on again
     item.status = 'sold'
     item.save()
@@ -323,10 +343,13 @@ def rating_seller(request, message_id, bid_id, contact_id, payment_id):
                 review.comment = form.cleaned_data['comment'].capitalize()
             review.save()
             # update the average rating of the seller
-            for user in models.User.objects.all():
-                if user == bid.item.user:
-                    bid.item.user.average_rating = calc_avg_rating(user)
-            bid.item.user.save()
+            rated_user = bid.item.user
+            avgrating = AverageRating.objects.filter(user=rated_user).first()
+            if avgrating:
+                avgrating.average_rating = calc_avg_rating(rated_user)
+            else:
+                avgrating = AverageRating.objects.create(user=rated_user, average_rating=review.rating)
+            avgrating.save()
             # redirect to the order review page
             return redirect('order_review', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id, order_id=order.id, review_id=review.id)
         else:
