@@ -7,9 +7,12 @@ from .forms.payment_form import PaymentForm
 from .forms.item_form import ItemForm
 from .forms.orderreview_form import OrderReviewForm
 from .forms.review_form import ReviewForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.exceptions import PermissionDenied
 from django.db.models import Max
 from user.models import Profile
+from django.http import HttpResponseForbidden
+
 
 from django.http import JsonResponse
 
@@ -115,7 +118,9 @@ def view_bids(request, item_id):
     bids = models.Bid.objects.filter(item=item_id)
     user_profiles = Profile.objects.filter(user__in=[bid.user for bid in bids])
     user_profiles_map = {profile.user_id: profile for profile in user_profiles}
-    return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids, 'user_profiles': user_profiles_map})
+    if request.user ==  item.user:
+        return render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids, 'user_profiles': user_profiles_map})
+    return HttpResponseForbidden("You do not have a premission to access this page. ")
 
 def accept_bid(request, item_id, bid_id):
     item = get_object_or_404(models.Item, id=item_id)
@@ -207,11 +212,18 @@ def sort_items(request):
     }
     return render(request, "items/index.html", context)
 
+
+
+@login_required
 def contact_info(request, message_id, bid_id):
+    
     # access the message and bid information
     bid = get_object_or_404(models.Bid, id=bid_id)
     message = get_object_or_404(models.Message, id=message_id)
 
+    if request.user != bid.user:
+        return HttpResponseForbidden("You do not have a premission to access this page. ")
+    
     if request.method == 'POST':
         if 'back' in request.POST:
             return redirect('inbox')
@@ -234,11 +246,15 @@ def contact_info(request, message_id, bid_id):
             print("Form errors:", form.errors)
     return render(request, "items/contact_info.html", {'form': ContactForm(), 'bid': bid, 'message': message})
 
+
+@login_required
 def payment_info(request, message_id, bid_id, contact_id):
     # access the message, bid and contact information
     bid = get_object_or_404(models.Bid, id=bid_id)
     contact = get_object_or_404(models.Contact, id=contact_id)
     message = get_object_or_404(models.Message, id=message_id)
+    if request.user != bid.user:
+        return HttpResponseForbidden("You do not have a premission to access this page. ")
     
     form = PaymentForm()  # Move this line outside the 'else' block
 
@@ -272,12 +288,16 @@ def calc_avg_rating(user):
         average_rating = 0.0
     return average_rating
 
+@login_required
 def rating_seller(request, message_id, bid_id, contact_id, payment_id):
     # access the message, bid, contact and payment information
     message = get_object_or_404(models.Message, id=message_id)
     bid = get_object_or_404(models.Bid, id=bid_id)
     contact = get_object_or_404(models.Contact, id=contact_id)
     payment = get_object_or_404(models.Payment, id=payment_id)
+
+    if request.user != bid.user:
+        return HttpResponseForbidden("You do not have a premission to access this page. ")
 
     if request.method == 'POST':
         # save the order
@@ -313,6 +333,7 @@ def rating_seller(request, message_id, bid_id, contact_id, payment_id):
             print("Form errors:", form.errors)
     return render(request, 'items/rating_seller.html', {'form': ReviewForm(), 'message': message, 'bid': bid, 'contact': contact, 'payment': payment})
 
+@login_required
 def order_review(request, message_id, bid_id, contact_id, payment_id, order_id, review_id=None):
     # access the message, bid, contact, payment, order and review information
     message = get_object_or_404(models.Message, id=message_id)
@@ -321,6 +342,8 @@ def order_review(request, message_id, bid_id, contact_id, payment_id, order_id, 
     payment = get_object_or_404(models.Payment, id=payment_id)
     order = get_object_or_404(models.Order, id=order_id)
     review = get_object_or_404(models.Review, id=review_id)
+    if request.user != bid.user:
+        return HttpResponseForbidden("You do not have a premission to access this page. ")
 
     if request.method == 'POST':
         if 'back' in request.POST:
