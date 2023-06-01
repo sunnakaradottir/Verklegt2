@@ -79,7 +79,11 @@
         <div class="offer_buttons">
             <form class="bid_form" action="{% url 'create_bid' item.id %}" method="post">
                 {% csrf_token %}
+                {% if user.is_authenticated and user.id == item.user_id %}
+                <button type="submit" id="bidButton" disabled style="background-color: lightgray;">Place an Offer</button>
+                {% else %}
                 <button type="submit" id="bidButton">Place an Offer</button>
+                {% endif %}
             </form>
             <form class="favorites-form" method="post" style="display: inline;">
                 {% csrf_token %}
