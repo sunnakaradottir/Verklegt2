@@ -517,11 +517,38 @@ img.profile-image {
 
 }
 
+.order {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.item_order {
+    border: 1px solid #784C92;
+    border-radius: 10px;
+    width: 300px;
+    padding: 10px;
+}
+
+.contact_order {
+    border: 1px solid #784C92;
+    border-radius: 10px;
+    width: 300px;
+    padding: 10px;
+}
+
+.payment_order {
+    border: 1px solid #784C92;
+    border-radius: 10px;
+    width: 300px;
+    padding: 10px;
+}
+
+
 .received_message {
     display: flex;
     flex-direction: column;
     padding: 10px;
-    border: 1px solid #784C92;
     border-radius: 10px;
 }
 

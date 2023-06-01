@@ -4,6 +4,6 @@
     <form class="form form-horizontal" action="{% url 'create_bid' item.id %}" method="post">
         {% csrf_token %}
         {{ form }}
-        <button type="submit" class="btn btn-primary">Submit Offer</button>
+        <button id="button_enter" type="submit" class="btn btn-primary">Submit Offer</button>
     </form>
 {% endblock %}

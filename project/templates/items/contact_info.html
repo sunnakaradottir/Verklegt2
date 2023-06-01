@@ -6,7 +6,7 @@
         {% csrf_token %}
         {{ form }}
         <a href="{% url 'inbox' %}" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color:rgb(175, 175, 175); border-color: gray; color:white;">Back</a>
-        <input type="submit" value="Next" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color:#784C92; border-color: #784C92;"/>
+        <input id="button_enter" type="submit" value="Next" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color:#784C92; border-color: #784C92;"/>
     </form>
 </div>
 {% endblock %}
