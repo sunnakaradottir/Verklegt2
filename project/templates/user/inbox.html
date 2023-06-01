@@ -7,18 +7,13 @@
             {% for message in messages %}
                 {% for bid in bids %}
                     {% if bid == message.bid %}
-                    <div class="received_message">
                         {% include "user/__single_message.html" with message=message bid=bid users=users %}
-                    </div>
                     {% endif %}
                 {% endfor %}
                 {% if message.sender.username == 'administrator' %}
-                <div class="received_message">
                     {% include "user/__single_message.html" with message=message users=users %}
-                    <div class="received_message">
                 {% endif %}
-            {% endfor %}
-            </div>
+            {% endfor %}   
         {% else %}
             <p>You have no messages yet.</p>
         {% endif %}

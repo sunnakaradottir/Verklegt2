@@ -1,5 +1,5 @@
 {% block content %}
-    <div>
+    <div class="received_message">
         <div class="message_date">{{ message.creation_time }}</div>
         <div class="from">
             <img src="{{ message.sender.profile.profile_image }}" class="profile-image" width="25px" alt="Profile image"/>
@@ -15,4 +15,5 @@
                 <button type="submit" id="rejectBidButton">Cancel offer</button>
             </form>
         {% endif %}
+    </div>
 {% endblock %}

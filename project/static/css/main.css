@@ -548,6 +548,7 @@ img.profile-image {
 .received_message {
     display: flex;
     flex-direction: column;
+    border: 1px solid #784C92;
     padding: 10px;
     border-radius: 10px;
 }
