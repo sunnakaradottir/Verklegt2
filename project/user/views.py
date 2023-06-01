@@ -78,5 +78,9 @@ def delete_offer(request, bid_id):
         for bid in bids:
             bid.status = 'pending'
             bid.save()
+            message_content2 = f"Your offer for of {bid.bid_amount} on {item.name} has been set to pending, since the accepted bidder cancelled the offer."
+            receiver = bid.user
+            message2 = Message.objects.create(sender=admin, receiver=receiver, message=message_content2)
+            message2.save()
         return redirect('inbox')
     return render(request, 'user/delete_offer.html', {'bid': bid})
