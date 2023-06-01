@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-    <h3>Place Your Bid</h3>
+<div class="pages">
+    <h3 style="color: #784C92 ;">Place Your Bid</h3>
     <form class="form form-horizontal" action="{% url 'create_bid' item.id %}" method="post">
         {% csrf_token %}
         {{ form }}
         <button id="button_enter" type="submit" class="btn btn-primary">Submit Offer</button>
     </form>
+</div>
 {% endblock %}
