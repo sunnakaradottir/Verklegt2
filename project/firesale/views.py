@@ -124,16 +124,23 @@ def accept_bid(request, item_id, bid_id):
     # Bid is accepted
     bid.status = 'accepted'
     bid.save()
-    # Reject all other bids
+    # Reject all other bids and send a message to the bidders
     for otherbid in bids:
         if otherbid != bid:
             otherbid.status = 'rejected'
             otherbid.save()
-    # Create a message from the sender to the reciever
-    sender = request.user
-    receiver = bid.user
-    message_content = f"Your bid of ${bid.bid_amount} on {item.name} has been accepted!"
-    message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=bid)
+            # Create a message from the owner of the item to the user that has been rejected
+            sender = request.user
+            receiver = otherbid.user
+            message_content = f"Your bid of ${otherbid.bid_amount} on {item.name} has been rejected since another offer on the item was accepted."
+            message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=otherbid)
+            message.save()
+    # Create a message from the owner of the item to the user that has accepted bid
+    sender2 = request.user
+    receiver2 = bid.user
+    message_content2 = f"Your bid of ${bid.bid_amount} on {item.name} has been accepted!"
+    message2 = models.Message.objects.create(sender=sender2, receiver=receiver2, message=message_content2, bid=bid)
+    message2.save()
     # Mark the item as sold so it cannot be bid on again
     item.status = 'sold'
     item.save()
