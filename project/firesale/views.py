@@ -129,6 +129,11 @@ def accept_bid(request, item_id, bid_id):
         if otherbid != bid:
             otherbid.status = 'rejected'
             otherbid.save()
+            sender = request.user
+            decline_receiver = otherbid.user
+            decline_message = f"Your bid of ${otherbid.bid_amount} on {item.name} has declined."
+            message = models.Message.objects.create(sender=sender, receiver=decline_receiver, message=decline_message, bid=otherbid)
+        
     # Create a message from the sender to the reciever
     sender = request.user
     receiver = bid.user
