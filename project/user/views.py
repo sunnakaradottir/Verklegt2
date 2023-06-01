@@ -37,10 +37,11 @@ def inbox(request):
 
 def my_listings(request):
     user = request.user
+    items = Item.objects.filter(user=user)
     available_items = Item.objects.filter(user=user, status='available')
     sold_items = Item.objects.filter(user=user, status='sold')
     item_images = ItemImage.objects.all()
-    return render(request, "user/listings.html", {"available_items": available_items, 'sold_items' : sold_items, "itemimages": item_images})
+    return render(request, "user/listings.html", { "items": items,"available_items": available_items, 'sold_items' : sold_items, "itemimages": item_images})
         
 def favorites(request):
     favorite_items = Favorite.objects.filter(member=request.user).select_related('item')
