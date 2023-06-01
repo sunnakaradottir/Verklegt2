@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from .forms.profile_form import ProfileForm
 from .forms.notification_settings_form import NotificationSettingsForm
-from .models import Profile
+from .models import Profile, NotificationSettings
 from django.contrib.auth.models import User
 from firesale.models import Item, ItemImage, Favorite, Order, Message, Bid, Review
 from django.contrib import messages
@@ -86,8 +86,9 @@ def delete_offer(request, bid_id):
     return render(request, 'user/delete_offer.html', {'bid': bid})
 
 def notification_settings(request):
+    notification_settings = NotificationSettings.objects.filter(user=request.user).first()
     if request.method=='POST':
-        form = NotificationSettingsForm(request.POST)
+        form = NotificationSettingsForm(request.POST, instance=notification_settings)
         if form.is_valid():
             notification_settings = form.save(commit=False)
             notification_settings.user = request.user
@@ -95,4 +96,4 @@ def notification_settings(request):
             items = Item.objects.all()
             itemimages = ItemImage.objects.all()
             return render(request, "items/index.html", {"items": items, "itemimages": itemimages})
-    return render(request, 'user/notification_settings.html', {'form':form})
+    return render(request, 'user/notification_settings.html', {'form':NotificationSettingsForm(instance=notification_settings)})
