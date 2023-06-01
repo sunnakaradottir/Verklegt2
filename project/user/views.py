@@ -62,7 +62,7 @@ def my_reviews(request):
 def send_email(email_address, message_content):
     subject = "FireSale Notification!"
     message = message_content
-    from_email = "cpi_analyzer@outlook.com"
+    from_email = "cpianalyzer@outlook.com"
     recipient_list = [email_address]
 
     try:
