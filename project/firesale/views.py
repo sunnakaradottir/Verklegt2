@@ -38,7 +38,7 @@ def index(request):
     items = models.Item.objects.all()
     itemimages = models.ItemImage.objects.all()
     return render(request, "items/index.html",
-                  {"items": items, "itemimages": itemimages, 'include_item_information': True})
+                  {"items": items, "itemimages": itemimages})
 
 
 @login_required
