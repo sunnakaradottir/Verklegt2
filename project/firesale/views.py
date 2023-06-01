@@ -9,7 +9,7 @@ from .forms.orderreview_form import OrderReviewForm
 from .forms.review_form import ReviewForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max
-from user.models import Profile
+from user.models import Profile, AverageRating
 
 from django.http import JsonResponse
 
@@ -298,12 +298,13 @@ def rating_seller(request, message_id, bid_id, contact_id, payment_id):
                 review.comment = form.cleaned_data['comment'].capitalize()
             review.save()
             # update the average rating of the seller
-            average_rating = models.AverageRating.objects.filter(user=bid.item.user).first()
-            if average_rating:
-                average_rating.bid.item.user.average_rating = calc_avg_rating(user)
+            rated_user = bid.item.user
+            avgrating = AverageRating.objects.filter(user=rated_user).first()
+            if avgrating:
+                avgrating.rated_user.average_rating = calc_avg_rating(rated_user)
             else:
-                average_rating = models.AverageRating.objects.create(user=bid.item.user, average_rating=0.0)
-            average_rating.save()
+                avgrating = AverageRating.objects.create(user=rated_user, average_rating=review.rating)
+            avgrating.save()
             # redirect to the order review page
             return redirect('order_review', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id, order_id=order.id, review_id=review.id)
         else:
