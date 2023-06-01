@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from .forms.profile_form import ProfileForm
+from .forms.register_form import CustomUserCreationForm
 from .models import Profile
 from django.contrib.auth.models import User
 from firesale.models import Item, ItemImage, Favorite, Order, Message, Bid
@@ -9,11 +10,13 @@ from django.contrib import messages
 # Create your views here.
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(data=request.POST)
+        form = CustomUserCreationForm(data=request.POST)
         if form.is_valid():
             form.save()
             return redirect("login")
-    return render(request, "user/register.html", {'form':UserCreationForm()})
+    else: 
+        form = CustomUserCreationForm()
+    return render(request, "user/register.html", {'form':form})
 
 def profile(request):
     profile = Profile.objects.filter(user=request.user).first()
