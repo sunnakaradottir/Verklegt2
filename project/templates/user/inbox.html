@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block content %}
     <div class="inbox">
         <h1 style="color: #784C92;">Inbox</h1>
@@ -6,15 +7,21 @@
             {% for message in messages %}
                 {% for bid in bids %}
                     {% if bid == message.bid %}
+                    <div class="received_message">
                         {% include "user/__single_message.html" with message=message bid=bid users=users %}
+                    </div>
                     {% endif %}
                 {% endfor %}
                 {% if message.sender.username == 'administrator' %}
+                <div class="received_message">
                     {% include "user/__single_message.html" with message=message users=users %}
+                    <div class="received_message">
                 {% endif %}
             {% endfor %}
+            </div>
         {% else %}
             <p>You have no messages yet.</p>
         {% endif %}
     </div>
+
 {% endblock %}

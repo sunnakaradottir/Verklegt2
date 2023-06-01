@@ -6,10 +6,8 @@
         {% csrf_token %}
         {{ form.as_p }}
         <input type="hidden" name="member" value="{{ request.user.id }}">
-        <input type="submit" value="Create Item" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color: #784C92; border-color: #784C92; "/>
+        <input id="button_enter" type="submit" value="Create Item" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color: #784C92; border-color: #784C92; "/>
     </form>
 </div>
 
 {% endblock %}
-
-

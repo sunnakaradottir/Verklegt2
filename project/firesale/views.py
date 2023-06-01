@@ -215,12 +215,12 @@ def contact_info(request, message_id, bid_id):
             # save contact information
             contact = form.save(commit=False)
             contact.user = request.user
-            contact.name = form.cleaned_data['name']
+            contact.name = form.cleaned_data['name'].lower().title()
             contact.email = form.cleaned_data['email']
             contact.phone = form.cleaned_data['phone']
-            contact.address = form.cleaned_data['street_name']
+            contact.address = form.cleaned_data['street_name'].lower().title()
             contact.postal_code = form.cleaned_data['postal_code']
-            contact.city = form.cleaned_data['city']
+            contact.city = form.cleaned_data['city'].lower().title()
             contact.country = form.cleaned_data['country']
             contact.save()
             # redirect user to the next step of the checkout process
@@ -248,7 +248,7 @@ def payment_info(request, message_id, bid_id, contact_id):
             payment = form.save(commit=False)
             payment.user = request.user
             payment.bid = bid
-            payment.cardholder_name = form.cleaned_data['cardholder_name']
+            payment.cardholder_name = form.cleaned_data['cardholder_name'].lower().title()
             payment.card_number = form.cleaned_data['card_number']
             payment.expiration_date = form.cleaned_data['expiration_date']
             payment.cvc = form.cleaned_data['cvc']
@@ -293,8 +293,9 @@ def rating_seller(request, message_id, bid_id, contact_id, payment_id):
             review.order = order
             review.to_user = bid.item.user
             review.from_user = request.user
-            review.comment = form.cleaned_data['comment']
             review.rating = form.cleaned_data['rating']
+            if form.cleaned_data['comment']:
+                review.comment = form.cleaned_data['comment'].capitalize()
             review.save()
             # update the average rating of the seller
             bid.item.user.average_rating = calc_avg_rating(bid.item.user)
