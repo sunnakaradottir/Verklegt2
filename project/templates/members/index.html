@@ -1,8 +1,0 @@
-{% extends "base.html" %}
-
-{% block content %}
-    <div>Members</div>
-    {% for member in members %}
-        {% include "members/__single_member.html" with member=member memberimages=memberimages %}
-    {% endfor %}
-{% endblock %}
