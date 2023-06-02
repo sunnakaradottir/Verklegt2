@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="inbox">
+<div class="pages">
     <h1 style="color: #784C92;">Create a New Listing</h1>
     <form class="form form-horizontal" action="{% url 'create_item' %}" method="post">
         {% csrf_token %}
