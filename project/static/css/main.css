@@ -467,6 +467,12 @@ img.profile-image {
     text-align: center;
 }
 
+.orders_page {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 .listings_page {
     display: flex;
     flex-direction: column;
