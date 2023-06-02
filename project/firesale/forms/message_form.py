@@ -1,6 +1,5 @@
 from django.forms import ModelForm, widgets
 from firesale.models import Message
-from django import forms
 
 class MessageForm(ModelForm):
     class Meta:

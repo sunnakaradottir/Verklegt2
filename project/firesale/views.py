@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404, reverse
-from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from .forms.bid_form import BidForm
 from .forms.contact_form import ContactForm
@@ -7,8 +6,7 @@ from .forms.payment_form import PaymentForm
 from .forms.item_form import ItemForm
 from .forms.orderreview_form import OrderReviewForm
 from .forms.review_form import ReviewForm
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from django.http import HttpResponseForbidden, JsonResponse
 from user.models import Profile, AverageRating

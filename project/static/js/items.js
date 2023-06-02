@@ -33,7 +33,6 @@ $(document).ready(function(){
                 $('#search-box').val('');
             },
             error: function(xhr, status, error){
-                // TODO: SHOW toastr
                 console.error(error);
             }
         })
