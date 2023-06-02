@@ -1,8 +1,7 @@
 {% block content %}
     <tr>
-        <td>{{ review.id }}</td>
         <td>{{ review.from_user }}</td>
-        <td>{{ review.order.bid.item.name }}</td>
+        <td>{{ review.order.item.name }}</td>
         <td>{{ review.rating }}</td>
         <td>{{ review.comment }}</td>
         <td>{{ review.creation_time }}</td>
