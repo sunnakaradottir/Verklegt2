@@ -17,10 +17,10 @@ footer {
 .home_page {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-start;
     gap: 120px;
     margin-left: 25px;
-    margin-top: 25px;
+    margin-top: 15px;
 
 }
 
@@ -82,7 +82,7 @@ img.profile-image {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    margin: 0px auto;
+    margin: 0px 0px;
     gap: 10px;
 }
 
