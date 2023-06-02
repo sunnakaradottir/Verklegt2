@@ -517,7 +517,7 @@ img.profile-image {
 
 .inbox{
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     margin: 30px 50px;
     gap: 15px;
 
