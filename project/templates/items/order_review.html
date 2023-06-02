@@ -1,53 +1,70 @@
-{% extends "base.html" %} {% block content %}
-
-<div class="pages">
-<h1 style="color: #784C92;">Please review your order</h1>
-<h3 style="color: #784C92;">If you need to make changes, press the back button</h3>
-<div class="rating_order" style="font-weight: bold;">
-  {% if review %}
-    <p>Your rating of {{ bid.item.user }}: {{ review.rating }}</p>
-    {% if review.comment %}
-      <p>Your comment: {{ review.comment }}</p>
-    {% endif %}
-  {% else %}
-    <p>You did not rate {{ bid.item.user }}</p>
-  {% endif %}
-</div>
-<div class="order">
-  <div class="item_order">
-    <p>Information on item</p>
-    <p>Name: {{ bid.item.name }}</p>
-    <p>Description: {{ bid.item.description }}</p>
-    <p>Condition: {{ bid.item.condition }}</p>
-    <p>Category: {{ bid.item.category }}</p>
-    <p>Location: {{ bid.item.location }}</p>
-    <p>Starting price: $ {{ bid.item.price }}</p>
-    <p>Your bid (This amount will be charged): $ {{ bid.bid_amount }}</p>
-  </div>
-    <div class="contact_order">
-      <p>Your contact information</p>
-      <p>Name: {{ contact.name }}</p>
-      <p>Street name: {{ contact.address }}</p>
-      <p>House number: {{ contact.house_number }}</p>
-      <p>City: {{ contact.city }}</p>
-      <p>Postal code: {{ contact.postal_code }}</p>
-      <p>Country: {{ contact.country }}</p>
-      <p>Phone: {{ contact.phone }}</p>
-      <p>Email: {{ contact.email }}</p>
+{% extends "base.html" %} 
+{% block content %}
+  <div class="pages">
+    <h1 style="color: #784C92;">Please review your order</h1>
+    <div class="step-indicator">
+      <div class="step-item active">
+        <div class="step-number">1</div>
+        <div class="step-label">Contact</div>
+      </div>
+      <div class="step-item active">
+        <div class="step-number">2</div>
+        <div class="step-label">Payment</div>
+      </div>
+      <div class="step-item active">
+        <div class="step-number">3</div>
+        <div class="step-label">Rating</div>
+      </div>
+      <div class="step-item active">
+        <div class="step-number">4</div>
+        <div class="step-label">Review</div>
+      </div>
     </div>
-    <div class="payment_order">
-      <p>Your payment information</p>
-      <p>Card Number: {{ payment.card_number }}</p>
-      <p>Expiration Date: {{ payment.expiration_date }}</p>
-      <p>CVC: {{ payment.cvc }}</p>
+    <h3 style="color: #784C92;">If you need to make changes, press the back button</h3>
+    <div class="rating_order" style="font-weight: bold;">
+      {% if review %}
+        <p>Your rating of {{ bid.item.user }}: {{ review.rating }}</p>
+        {% if review.comment %}
+          <p>Your comment: {{ review.comment }}</p>
+        {% endif %}
+      {% else %}
+        <p>You did not rate {{ bid.item.user }}</p>
+      {% endif %}
     </div>
+    <div class="order">
+      <div class="item_order">
+        <p>Information on item</p>
+        <p>Name: {{ bid.item.name }}</p>
+        <p>Description: {{ bid.item.description }}</p>
+        <p>Condition: {{ bid.item.condition }}</p>
+        <p>Category: {{ bid.item.category }}</p>
+        <p>Location: {{ bid.item.location }}</p>
+        <p>Starting price: $ {{ bid.item.price }}</p>
+        <p>Your bid (This amount will be charged): $ {{ bid.bid_amount }}</p>
+      </div>
+      <div class="contact_order">
+        <p>Your contact information</p>
+        <p>Name: {{ contact.name }}</p>
+        <p>Street name: {{ contact.address }}</p>
+        <p>House number: {{ contact.house_number }}</p>
+        <p>City: {{ contact.city }}</p>
+        <p>Postal code: {{ contact.postal_code }}</p>
+        <p>Country: {{ contact.country }}</p>
+        <p>Phone: {{ contact.phone }}</p>
+        <p>Email: {{ contact.email }}</p>
+      </div>
+      <div class="payment_order">
+        <p>Your payment information</p>
+        <p>Card Number: {{ payment.card_number }}</p>
+        <p>Expiration Date: {{ payment.expiration_date }}</p>
+        <p>CVC: {{ payment.cvc }}</p>
+      </div>
+    </div>
+    <form class="form form-horizontal" action="{% url 'order_review' message.id bid.id contact.id payment.id order.id review.id %}" method="post">
+      {% csrf_token %} 
+      {{ form }}
+      <input type="submit" name="back" value="Back" />
+      <input id="button_enter" type="submit" value="Confirm Checkout" class="btn btn-primary pull-right" style="clear: both; margin: 10px 0; background-color: #784C92; border-color: #784C92;" />
+    </form>
   </div>
-<form class="form form-horizontal" action="{% url 'order_review' message.id bid.id contact.id payment.id order.id review.id %}" method="post">
-  {% csrf_token %} 
-  {{ form }}
-  <input type="submit" name="back" value="Back" />
-  <input id="button_enter" type="submit" value="Confirm Checkout" class="btn btn-primary pull-right" style="clear: both; margin: 10px 0; background-color: #784C92; border-color: #784C92;" />
-</form>
-</div>
-
 {% endblock %}

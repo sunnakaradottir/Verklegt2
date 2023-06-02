@@ -1,9 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="pages">
-<div class="rating_seller">
-    <h1 style="color: #784C92;">Rate the seller (Optional)</h1>
-      <p>Seller Information:</p>
+  <div class="pages">
+    <div class="rating_seller">
+        <h1 style="color: #784C92;">Rate the seller (Optional)</h1>
+        <div class="step-indicator">
+          <div class="step-item active">
+            <div class="step-number">1</div>
+            <div class="step-label">Contact</div>
+          </div>
+          <div class="step-item active">
+            <div class="step-number">2</div>
+            <div class="step-label">Payment</div>
+          </div>
+          <div class="step-item active">
+            <div class="step-number">3</div>
+            <div class="step-label">Rating</div>
+          </div>
+          <div class="step-item">
+            <div class="step-number">4</div>
+            <div class="step-label">Review</div>
+          </div>
+        </div>
+        <p>Seller Information:</p>
         <p>Seller: {{ bid.item.user.username }}</p>
         <form class="form form-horizontal" action="{% url 'rating_seller' message.id bid.id contact.id payment.id %}" method="post">
           {% csrf_token %}
@@ -13,6 +31,6 @@
           <input type="submit" name="Skip" value="Skip">
           <input id="button_enter" type="submit" value="Rate Seller" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0; background-color: #784C92; border-color: #784C92;"/>
         </form>
-</div>
-</div>
+    </div>
+  </div>
 {% endblock %}

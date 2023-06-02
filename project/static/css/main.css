@@ -87,7 +87,7 @@ img.profile-image {
 
 .single_item {
     padding: 15px;
-    min-width: 350px;
+    min-width: 300px;
     background-color: #F5F5F5;
     margin: 5px;
     position: relative;
@@ -131,9 +131,9 @@ img.profile-image {
 .single_item #price{
     font-size: 1.1em;
     font-weight: bold;
-    color: green;
+    color: rgb(19, 100, 19);
     margin-top:auto;
-    text-align: center;
+    margin-left: 35px;
 }
 
 .item_content{
@@ -280,7 +280,8 @@ img.profile-image {
 }
 
 div.item_information {
-    margin-left:55px;
+    margin-left:35px;
+    width:210px;
 }
 
 .item_container {
@@ -736,6 +737,100 @@ ul.navbar-nav.me-auto.mb-2.mb-lg-0#user_dropdown{
     text-decoration: underline;
     text-decoration-color: #fff;
 }
+  
+.image_container {
+    display: flex;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image_container img {
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    max-width: 215px;
+    max-height: 200px;
+    border: none !important;
+    object-fit: contain;
+  }
+
+.image_container_big{
+    width:400px;
+    height:400px;
+    border: 1px solid lightgrey;
+}
+
+
+.slideshow-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: auto;
+    max-width: 80%;
+    max-height: 400px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.image_gallery {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.mySlides {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mySlides div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+  
+.thumbnail-image {
+    max-width: 80%;
+    max-height: 400px;
+    width: fit-content;
+    height: fit-content;
+    object-fit: cover;
+}
+  
+.prev,
+.next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    font-weight: bold;
+    padding: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+  
+.prev:hover,
+.next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+  
+.prev {
+    left: 0;
+    border-radius: 0 5px 5px 0;
+}
+  
+.next {
+    right: 0;
+    border-radius: 5px 0 0 5px;
+}
 
 .has-error {
     color: red;
@@ -743,4 +838,47 @@ ul.navbar-nav.me-auto.mb-2.mb-lg-0#user_dropdown{
 .error-msg {
     color: red;
     margin-top: 5px;
+}
+
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-left: 15px;
+}
+  
+.step-item {
+    position: relative;
+    flex: 1;
+    text-align: center;
+}
+
+.step-item.active .step-number {
+    background-color: #784C92;
+    color: white;
+}
+
+
+.step-number {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #784C92;
+    border-radius: 50%;
+    color: #612b9b;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.step-label {
+    width: 30px;
+    height: 30px;
+    margin-top: 5px;
+    color: #784C92;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
 }
