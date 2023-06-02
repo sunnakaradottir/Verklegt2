@@ -1,4 +1,7 @@
 # Verklegt2
+## superuser
+### username: sunna
+### password: Verklegt2
 
 ## Pip installations
 - django

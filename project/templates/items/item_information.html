@@ -57,7 +57,11 @@
            <p class="About">About the seller</p>
            <div class="seller_rating">
             <div class="seller_image">
-                <img src="{{ item.user.profile.profile_image}} " class="profile_image" width="50px" height="50px" alt="Profile Image">
+                {% if item.user.profile.profile_image %}
+                    <img src="{{ item.user.profile.profile_image}} " class="profile_image" width="50px" height="50px" alt="Profile Image">
+                {% else %}
+                    <img src="{% static 'images/user.png' %}" class="profile-image" width="25px" alt="Profile image"/>
+                {% endif %}
             </div>
             <div class="seller_info">
                <p>{{ item.user.profile.name|default:item.user.username }}</p>
