@@ -7,7 +7,7 @@
         </div>
         <div class="message"> {{ message.message }}</div>
         {% if bid.status == 'accepted' %}
-            <a class="checkout_cont" href="{% url 'contact_info' message.id bid.id %}">
+            <a class="checkout_cont" href="{% url 'contact_info' message.id bid.id back %}">
                 <button type="submit" class="btn btn-primary" style="clear:both; margin: 10px 0; background-color: #784C92; border-color: #784C92; ">Continue to Checkout</button>
             </a>
             <form class="delete_form" action="{% url 'delete_offer' bid.id %}" method="post" style="display: inline;">

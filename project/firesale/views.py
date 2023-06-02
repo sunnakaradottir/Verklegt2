@@ -15,6 +15,7 @@ from user.models import Profile, AverageRating
 from django.core.mail import send_mail
 
 
+
 def index(request):
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
@@ -218,9 +219,8 @@ def sort_items(request):
     return render(request, "items/index.html", context)
 
 
-
 @login_required
-def contact_info(request, message_id, bid_id):
+def contact_info(request, message_id, bid_id, back=None):
     
     # access the message and bid information
     bid = get_object_or_404(models.Bid, id=bid_id)
@@ -228,11 +228,12 @@ def contact_info(request, message_id, bid_id):
 
     if request.user != bid.user:
         return HttpResponseForbidden("You do not have a premission to access this page. ")
-    
+    if back:
+        return redirect('inbox')
     if request.method == 'POST':
+        form = ContactForm(data=request.POST)
         if 'back' in request.POST:
             return redirect('inbox')
-        form = ContactForm(data=request.POST)
         if form.is_valid():
             # save contact information
             contact = form.save(commit=False)
@@ -260,16 +261,14 @@ def payment_info(request, message_id, bid_id, contact_id):
     message = get_object_or_404(models.Message, id=message_id)
     if request.user != bid.user:
         return HttpResponseForbidden("You do not have a premission to access this page. ")
-    
-    form = PaymentForm()  # Move this line outside the 'else' block
 
     if request.method == 'POST':
+        form = PaymentForm(data=request.POST)
         if 'back' in request.POST:
             # delete the contact information, so the user can enter it again
             contact.delete()
             return redirect('contact_info', message_id=message_id, bid_id=bid_id)
-        form = PaymentForm(data=request.POST)
-        if form.is_valid():
+        elif form.is_valid():
             # save payment information
             payment = form.save(commit=False)
             payment.user = request.user
@@ -281,7 +280,7 @@ def payment_info(request, message_id, bid_id, contact_id):
             payment.save()
             # redirect user to the next step of the checkout process
             return redirect('rating_seller', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id)
-    return render(request, "items/payment_info.html", {'form': form, 'message': message, 'bid': bid, 'contact': contact})
+    return render(request, "items/payment_info.html", {'form': PaymentForm(), 'message': message, 'bid': bid, 'contact': contact})
 
 def calc_avg_rating(user):
     '''Calculates the average rating of a user based on the reviews they have received'''
@@ -292,6 +291,7 @@ def calc_avg_rating(user):
     else:
         average_rating = 0.0
     return average_rating
+
 
 @login_required
 def rating_seller(request, message_id, bid_id, contact_id, payment_id):
@@ -313,32 +313,33 @@ def rating_seller(request, message_id, bid_id, contact_id, payment_id):
             payment.delete()
             order.delete()
             return redirect('payment_info', message_id=message_id, bid_id=bid_id, contact_id=contact_id)
-        if 'skip' in request.POST:
+        elif 'skip' in request.POST:
             # create an order without a review
             return redirect('order_review', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id, order_id=order.id, review_id=None)
-        form = ReviewForm(data=request.POST)
-        if form.is_valid():
-            # save the review
-            review = form.save(commit=False)
-            review.order = order
-            review.to_user = bid.item.user
-            review.from_user = request.user
-            review.rating = form.cleaned_data['rating']
-            if form.cleaned_data['comment']:
-                review.comment = form.cleaned_data['comment'].capitalize()
-            review.save()
-            # update the average rating of the seller
-            rated_user = bid.item.user
-            avgrating = AverageRating.objects.filter(user=rated_user).first()
-            if avgrating:
-                avgrating.average_rating = calc_avg_rating(rated_user)
-            else:
-                avgrating = AverageRating.objects.create(user=rated_user, average_rating=review.rating)
-            avgrating.save()
-            # redirect to the order review page
-            return redirect('order_review', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id, order_id=order.id, review_id=review.id)
         else:
-            print("Form errors:", form.errors)
+            form = ReviewForm(data=request.POST)
+            if form.is_valid():
+                # save the review
+                review = form.save(commit=False)
+                review.order = order
+                review.to_user = bid.item.user
+                review.from_user = request.user
+                review.rating = form.cleaned_data['rating']
+                if form.cleaned_data['comment']:
+                    review.comment = form.cleaned_data['comment'].capitalize()
+                review.save()
+                # update the average rating of the seller
+                rated_user = bid.item.user
+                avgrating = AverageRating.objects.filter(user=rated_user).first()
+                if avgrating:
+                    avgrating.average_rating = calc_avg_rating(rated_user)
+                else:
+                    avgrating = AverageRating.objects.create(user=rated_user, average_rating=review.rating)
+                avgrating.save()
+                # redirect to the order review page
+                return redirect('order_review', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id, order_id=order.id, review_id=review.id)
+            else:
+                print("Form errors:", form.errors)
     return render(request, 'items/rating_seller.html', {'form': ReviewForm(), 'message': message, 'bid': bid, 'contact': contact, 'payment': payment})
 
 @login_required
