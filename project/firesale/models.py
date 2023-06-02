@@ -31,13 +31,6 @@ class Category(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-class Location(models.Model):
-    street_name = models.CharField(max_length=100)
-    house_number = models.IntegerField()
-    city = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
-    postal_code = models.IntegerField()
-
 class Bid(models.Model):
     item = models.ForeignKey('Item', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
