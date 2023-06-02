@@ -1,6 +1,5 @@
 from django.forms import ModelForm, widgets
 from firesale.models import Review
-from django import forms
 
 class ReviewForm(ModelForm):
     class Meta:
