@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Reviews</h1>
+<div class="pages">
+    <h1 style="color: #784C92;">Reviews</h1>
     <div class="reviews">
         {% if reviews %}
             <table class="table table-striped">
@@ -24,4 +25,5 @@
             <p>No reviews yet.</p>
         {% endif %}
     </div>
+</div>
 {% endblock %}
