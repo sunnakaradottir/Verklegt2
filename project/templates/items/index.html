@@ -4,7 +4,7 @@
 {% block content %}
     {% if not user.is_authenticated %}
     <div id="introduction">
-        <h1>Welcome to FireSale!</h1>
+        <h1 style="color: #784C92;">Welcome to FireSale!</h1>
         <p>Experience the thrill of auctions and discover unique items from fellow users.<br>
             Whether you're looking to sell your items or find something special, this is the place for you.<br>
             If you already have an account, <a href="{% url 'login' %}" class="gradient-link">log in</a> to continue your journey. If not, join our community by <a href="{% url 'register' %}" class="gradient-link">registering</a> today!</p>

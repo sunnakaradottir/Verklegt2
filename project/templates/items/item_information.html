@@ -49,10 +49,6 @@
                     {% csrf_token %}
                     <button type="submit" id="deleteButton">Delete item</button>
                 </form>
-                <form class="view_bid_form" action="{% url 'view_bids' item.id %}" method="post" style="display: inline;">
-                    {% csrf_token %}
-                    <button type="submit" id="viewBidsButton">View Bids</button>
-                </form>
                 {% endif %}
             </div>
         <div class="seller_buttons">
@@ -81,6 +77,7 @@
                 <button type="submit" id="bidButton">Place an Offer</button>
                 {% endif %}
             </form>
+            {% if user.is_authenticated and user.id != item.user_id %}
             <form class="favorites-form" method="post" style="display: inline;">
                 {% csrf_token %}
                 {% if is_favorite %}
@@ -88,6 +85,12 @@
                 {% else %}
                     <button type="submit" name="favorites">Add to favorites</button>
                 {% endif %}
+            {% elif user.is_authenticated and user.id == item.user_id %}
+            <form class="view_bid_form" action="{% url 'view_bids' item.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" id="viewBidsButton">View Bids</button>
+            </form>
+            {% endif %}
             </form>
         </div>
         </div>
