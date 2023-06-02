@@ -26,7 +26,7 @@ footer {
 
 .single_item {
     padding: 15px;
-    min-width: 350px;
+    min-width: 300px;
     background-color: #F5F5F5;
     margin: 5px;
     position: relative;
@@ -68,9 +68,9 @@ footer {
 .single_item #price{
     font-size: 1.1em;
     font-weight: bold;
-    color: green;
+    color: rgb(19, 100, 19);
     margin-top:auto;
-    text-align: center;
+    margin-left: 35px;
 }
 
 .item_content{
@@ -123,7 +123,8 @@ footer {
 }
 
 div.item_information {
-    margin-left:55px;
+    margin-left:35px;
+    width:210px;
 }
 
 .item_container {
@@ -653,7 +654,7 @@ ul.navbar-nav.me-auto.mb-2.mb-lg-0#user_dropdown{
     display: flex;
     width: fit-content;
     height: fit-content;
-    max-width: 200px;
+    max-width: 215px;
     max-height: 200px;
     border: none !important;
     object-fit: contain;
@@ -740,4 +741,49 @@ ul.navbar-nav.me-auto.mb-2.mb-lg-0#user_dropdown{
 .error-msg {
     color: red;
     margin-top: 5px;
+}
+
+
+/* Sunna steps */
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-left: 15px;
+}
+  
+.step-item {
+    position: relative;
+    flex: 1;
+    text-align: center;
+}
+
+.step-item.active .step-number {
+    background-color: #784C92;
+    color: white;
+}
+
+
+.step-number {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #784C92;
+    border-radius: 50%;
+    color: #612b9b;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.step-label {
+    width: 30px;
+    height: 30px;
+    margin-top: 5px;
+    color: #784C92;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
 }

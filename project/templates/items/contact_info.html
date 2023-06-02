@@ -2,6 +2,24 @@
 {% block content %}
 <div class="contact_info">
     <h1 style="color: #784C92;">Please fill out your contact info</h1>
+    <div class="step-indicator">
+        <div class="step-item active">
+          <div class="step-number">1</div>
+          <div class="step-label">Contact</div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-label">Payment</div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-label">Rating</div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">4</div>
+          <div class="step-label">Review</div>
+        </div>
+    </div>
     <form class="form form-horizontal" action="{% url 'contact_info' message.id bid.id %}" method="post">
         {% csrf_token %}
         {{ form }}
