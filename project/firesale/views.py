@@ -150,6 +150,7 @@ def accept_bid(request, item_id, bid_id):
             sender = request.user
             receiver = otherbid.user
             message_content = f"Your bid of ${otherbid.bid_amount} on {item.name} has been rejected since another offer on the item was accepted."
+
             if otherbid.user.notificationsettings.email_notifications:
                 send_email(otherbid.user.notificationsettings.email_address, message_content)
             message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=otherbid)
@@ -168,22 +169,6 @@ def accept_bid(request, item_id, bid_id):
     item.status = 'sold'
     item.save()
     return redirect('index')
-
-def reject_bid(request, item_id, bid_id):
-    item = get_object_or_404(models.Item, id=item_id)
-    bids = models.Bid.objects.filter(item=item_id)
-    item_images = models.ItemImage.objects.all()
-    bid = get_object_or_404(models.Bid, id=bid_id)
-    # Bid is rejected
-    bid.status = 'rejected'
-    bid.save()
-    # Create a message from the sender to the reciever
-    sender = request.user
-    receiver = bid.user
-    message_content = f"Your bid of ${bid.bid_amount} on {item.name} has been rejected."
-    message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=bid)
-    #TODO: Only show pending bids to the seller
-    render(request, "items/item_bids.html", {'item': item, 'itemimages': item_images, 'bids': bids})
 
 @login_required
 def profile(request):
