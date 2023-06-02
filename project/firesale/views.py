@@ -150,6 +150,7 @@ def accept_bid(request, item_id, bid_id):
             sender = request.user
             receiver = otherbid.user
             message_content = f"Your bid of ${otherbid.bid_amount} on {item.name} has been rejected since another offer on the item was accepted."
+            
             if otherbid.user.notificationsettings.email_notifications:
                 send_email(otherbid.user.notificationsettings.email_address, message_content)
             message = models.Message.objects.create(sender=sender, receiver=receiver, message=message_content, bid=otherbid)
