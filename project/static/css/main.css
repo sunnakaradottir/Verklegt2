@@ -66,13 +66,13 @@ img.profile-image {
 }
 
 .sort-form button {
-    background-color: #784C92 !important;
-    border-color: #784C92 !important;
+    background-color: #784C92;
+    border-color: #784C92;
 }
 
 .sort-form button:hover {
-    background-color: gray !important;
-    border-color: #784C92 !important;
+    background-color: gray;
+    border-color: #784C92;
 }
 
 .all_items{
@@ -168,7 +168,6 @@ img.profile-image {
     height: fit-content;
     max-width: 200px;
     max-height: 200px;
-    border: none !important;
     object-fit: contain;
   }
 
@@ -476,8 +475,14 @@ div.item_information {
 }
 
 .input_group button{
-    background-color: #784C92 !important;
-    border-color: #784C92 !important;
+    background-color: #784C92;
+    border-color: #784C92;
+    color: #FFFFFF;
+}
+
+.input_group button:hover{
+    background-color: gray;
+    border-color: #784C92;
     color: #FFFFFF;
 }
 
@@ -753,7 +758,6 @@ ul.navbar-nav.me-auto.mb-2.mb-lg-0#user_dropdown{
     height: fit-content;
     max-width: 215px;
     max-height: 200px;
-    border: none !important;
     object-fit: contain;
   }
 
