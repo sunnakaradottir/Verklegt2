@@ -34,7 +34,7 @@ def profile(request):
 def inbox(request):
     recieved_messages = Message.objects.filter(receiver=request.user)
     bids = Bid.objects.filter(user=request.user)
-    return render(request, "user/inbox.html", {'messages': recieved_messages, 'bids': bids})
+    return render(request, "user/inbox.html", {'messages': recieved_messages, 'bids': bids, 'back': None})
 
 def my_listings(request):
     user = request.user
