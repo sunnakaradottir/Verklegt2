@@ -8,7 +8,7 @@
             {% for message in messages %}
                 {% for bid in bids %}
                     {% if bid == message.bid %}
-                        {% include "user/__single_message.html" with message=message bid=bid users=users %}
+                        {% include "user/__single_message.html" with message=message bid=bid users=users back=back %}
                     {% endif %}
                 {% endfor %}
                 {% if message.sender.username == 'administrator' %}

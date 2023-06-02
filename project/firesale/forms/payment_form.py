@@ -20,6 +20,7 @@ class PaymentForm(ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Expiration date (MM/YY)'}),
     )
 
+    
 
     class Meta:
         model = models.Payment
