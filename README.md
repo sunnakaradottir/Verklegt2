@@ -20,3 +20,4 @@
 - Favorite items you like
 - Favorite items are stored under favorites in your profile
 - Information on seller in item details
+
