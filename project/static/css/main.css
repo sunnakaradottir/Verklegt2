@@ -15,10 +15,13 @@ footer {
 }
 
 .home_page {
-    gap: 15px;
     display: flex;
-    margin-left: 15px;
-    margin-top: 15px;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 120px;
+    margin-left: 25px;
+    margin-top: 25px;
+
 }
 
 .home_page .category-buttons {
@@ -77,12 +80,10 @@ img.profile-image {
 
 .all_items{
     display: flex;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
     justify-content: flex-start;
-    margin: 0 auto;
+    margin: 0px auto;
     gap: 10px;
-    margin-left: 15px;
-    margin-right: 15px;
 }
 
 .single_item {
@@ -466,7 +467,8 @@ div.item_information {
 }
 
 .input_group {
-    margin-left:5px;
+    margin-top: 15px;
+    margin-left: 25px;
     margin-right:auto;
     display: flex;
     flex-direction: row;
