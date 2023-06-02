@@ -220,21 +220,18 @@ def sort_items(request):
 
 
 @login_required
-def contact_info(request, message_id, bid_id, back=None):
-    
+def contact_info(request, message_id, bid_id):
     # access the message and bid information
     bid = get_object_or_404(models.Bid, id=bid_id)
     message = get_object_or_404(models.Message, id=message_id)
 
     if request.user != bid.user:
         return HttpResponseForbidden("You do not have a premission to access this page. ")
-    if back:
-        return redirect('inbox')
-    if request.method == 'POST':
+    elif request.method == 'POST':
         form = ContactForm(data=request.POST)
-        if 'back' in request.POST:
-            return redirect('inbox')
+        print('django checks if form is valid')
         if form.is_valid():
+            print('contact form is valid')
             # save contact information
             contact = form.save(commit=False)
             contact.user = request.user
@@ -261,8 +258,7 @@ def payment_info(request, message_id, bid_id, contact_id):
     message = get_object_or_404(models.Message, id=message_id)
     if request.user != bid.user:
         return HttpResponseForbidden("You do not have a premission to access this page. ")
-
-    if request.method == 'POST':
+    elif request.method == 'POST':
         form = PaymentForm(data=request.POST)
         if 'back' in request.POST:
             # delete the contact information, so the user can enter it again
@@ -303,11 +299,11 @@ def rating_seller(request, message_id, bid_id, contact_id, payment_id):
 
     if request.user != bid.user:
         return HttpResponseForbidden("You do not have a premission to access this page. ")
-
-    if request.method == 'POST':
+    elif request.method == 'POST':
         # save the order
         order = models.Order.objects.create(buyer=contact.user, seller=bid.item.user, item=bid.item, contact=contact, payment=payment)
         order.save()
+        form = ReviewForm(data=request.POST)
         if 'back' in request.POST:
             # delete the payment and contact information, so the user can enter it again
             payment.delete()
@@ -316,9 +312,7 @@ def rating_seller(request, message_id, bid_id, contact_id, payment_id):
         elif 'skip' in request.POST:
             # create an order without a review
             return redirect('order_review', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id, order_id=order.id, review_id=None)
-        else:
-            form = ReviewForm(data=request.POST)
-            if form.is_valid():
+        elif form.is_valid():
                 # save the review
                 review = form.save(commit=False)
                 review.order = order
@@ -338,8 +332,6 @@ def rating_seller(request, message_id, bid_id, contact_id, payment_id):
                 avgrating.save()
                 # redirect to the order review page
                 return redirect('order_review', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id, order_id=order.id, review_id=review.id)
-            else:
-                print("Form errors:", form.errors)
     return render(request, 'items/rating_seller.html', {'form': ReviewForm(), 'message': message, 'bid': bid, 'contact': contact, 'payment': payment})
 
 @login_required
@@ -353,15 +345,14 @@ def order_review(request, message_id, bid_id, contact_id, payment_id, order_id, 
     review = get_object_or_404(models.Review, id=review_id)
     if request.user != bid.user:
         return HttpResponseForbidden("You do not have a premission to access this page. ")
-
-    if request.method == 'POST':
+    elif request.method == 'POST':
+        form = OrderReviewForm(data=request.POST)
         if 'back' in request.POST:
             # delete the review, so the user can enter it again
             order.delete()
             review.delete()
-            return redirect('payment_info', message_id=message_id, bid_id=bid_id, contact_id=contact_id)
-        form = OrderReviewForm(data=request.POST)
-        if form.is_valid():
+            return redirect('rating_seller', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment_id)
+        elif form.is_valid():
             # if the user confirms the order, redirect to the orders page
             ordered_items = models.Order.objects.filter(buyer=request.user).select_related('item')
             item_images = models.ItemImage.objects.all()
