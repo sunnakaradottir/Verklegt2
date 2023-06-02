@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="pages">
+    <h1 style="color: #784C92;">Favorites</h1>
     {% if favorite_items %}
          <div class="listings_page">
             <div id="item_display">
@@ -16,5 +18,6 @@
     {% else %}
         <p>No items favorited.</p>
     {% endif %}
+</div>
 {% endblock %}
 

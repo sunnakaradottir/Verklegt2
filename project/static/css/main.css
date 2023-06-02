@@ -162,7 +162,7 @@ img.profile-image {
     align-items: center;
   }
   
-  .image_container img {
+.image_container img {
     display: flex;
     width: fit-content;
     height: fit-content;

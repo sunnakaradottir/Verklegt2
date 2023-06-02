@@ -1,4 +1,6 @@
 
+//help from stackoverflow
+
 let btn = document.getElementById('button_enter');
     
 // when the btn is clicked print info in console 
