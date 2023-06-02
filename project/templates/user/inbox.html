@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="inbox">
+    <div class="pages">
         <h1 style="color: #784C92;">Inbox</h1>
+        <div class="inbox">
         {% if messages %}
             {% for message in messages %}
                 {% for bid in bids %}
@@ -17,6 +18,7 @@
         {% else %}
             <p>You have no messages yet.</p>
         {% endif %}
+        </div>
     </div>
 
 {% endblock %}

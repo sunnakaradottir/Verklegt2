@@ -13,7 +13,8 @@ def register(request):
     if request.method == 'POST':
         form = UserCreationForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            NotificationSettings.objects.create(user=user)
             return redirect("login")
     else: 
         form = UserCreationForm()
