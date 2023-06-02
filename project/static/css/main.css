@@ -100,6 +100,10 @@ img.profile-image {
     max-width: 400px;
 }
 
+.single_item:hover {
+    border: 1px solid #784C92;
+}
+
 .single_image {
     display: flex;
     align-items: center;
@@ -455,7 +459,12 @@ div.item_information {
 }
 
 #introduction {
-    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    margin: 20px 50px;
+    border: 1px solid #784C92;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .nav-link:hover {
@@ -489,13 +498,18 @@ div.item_information {
 }
 
 .item_info_bids{
+    display: flex;
+    flex-direction: column;
     margin: 20px;
+
 }
 
 #bids_header {
     margin-top: 30px;
     margin-bottom: 30px;
 }
+
+
 
 .item_bids {
     display: flex;
@@ -514,15 +528,18 @@ div.item_information {
     justify-content: space-between;
 }
 
+.single_item_bid {
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+}
+
 .bid_display {
     display: flex;
     flex-direction: row;
-    gap: 10px;
-}
-
-.bid_info {
-    display: flex;
-    flex-direction: column;
     gap: 10px;
 }
 
