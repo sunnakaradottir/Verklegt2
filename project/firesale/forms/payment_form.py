@@ -20,27 +20,22 @@ class PaymentForm(ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Expiration date (MM/YY)'}),
     )
 
-    
-
     class Meta:
         model = models.Payment
         exclude = ["id", "bid", "user"]
-        widgets = {
-            'cardholder_name': widgets.TextInput(attrs={'class': 'form-control',
-                                                        'placeholder': 'Enter name of cardholder as seen on card (max 100 char)'})
-        }
+        widgets = {'cardholder_name': widgets.TextInput(attrs={'class': 'form-control','placeholder': 'Enter name of cardholder as seen on card (max 100 char)'})}
         fields = ['cardholder_name', 'card_number', 'expiration_date', 'cvc']
 
     def clean_card_number(self):
         card_number = self.cleaned_data.get('card_number')
-        if len(card_number) < 16:
-            raise ValidationError("Card number is too short.")
+        if len(card_number) < 16 or len(card_number) > 16:
+            raise ValidationError("Card number needs to be 16 digits.")
         return card_number
 
     def clean_cvc(self):
         cvc = self.cleaned_data.get('cvc')
-        if len(cvc) < 3:
-            raise ValidationError("CVC is too short.")
+        if len(cvc) < 3 or len(cvc) > 3:
+            raise ValidationError("CVC needs to be 3 digits.")
         return cvc
 
     def clean_expiration_date(self):

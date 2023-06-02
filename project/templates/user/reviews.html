@@ -16,7 +16,10 @@
                 </thead>
                 <tbody>
                     {% for review in reviews %}
-                        {% include "user/__single_review.html" with review=review %}
+                        {% if review.rating == -1 %}
+                        {% else %}
+                            {% include "user/__single_review.html" with review=review %}
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>

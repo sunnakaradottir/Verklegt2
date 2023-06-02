@@ -22,13 +22,13 @@
     </div>
     <h3 style="color: #784C92;">If you need to make changes, press the back button</h3>
     <div class="rating_order" style="font-weight: bold;">
-      {% if review %}
+      {% if review.rating == -1 %}
+        <p>You did not rate {{ bid.item.user }}</p>
+      {% else %}
         <p>Your rating of {{ bid.item.user }}: {{ review.rating }}</p>
         {% if review.comment %}
           <p>Your comment: {{ review.comment }}</p>
         {% endif %}
-      {% else %}
-        <p>You did not rate {{ bid.item.user }}</p>
       {% endif %}
     </div>
     <div class="order">

@@ -256,6 +256,7 @@ def payment_info(request, message_id, bid_id, contact_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
     contact = get_object_or_404(models.Contact, id=contact_id)
     message = get_object_or_404(models.Message, id=message_id)
+    form = PaymentForm()
     if request.user != bid.user:
         return HttpResponseForbidden("You do not have a premission to access this page. ")
     elif request.method == 'POST':
@@ -276,12 +277,12 @@ def payment_info(request, message_id, bid_id, contact_id):
             payment.save()
             # redirect user to the next step of the checkout process
             return redirect('rating_seller', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id)
-    return render(request, "items/payment_info.html", {'form': PaymentForm(), 'message': message, 'bid': bid, 'contact': contact})
+    return render(request, "items/payment_info.html", {'form': form, 'message': message, 'bid': bid, 'contact': contact})
 
 def calc_avg_rating(user):
     '''Calculates the average rating of a user based on the reviews they have received'''
     reviews = models.Review.objects.filter(to_user=user)
-    ratings_list = [review.rating for review in reviews if review.rating is not None]
+    ratings_list = [review.rating for review in reviews if review.rating is not -1]
     if len(ratings_list) > 0:
         average_rating = sum(ratings_list) / len(ratings_list)
     else:
@@ -296,43 +297,40 @@ def rating_seller(request, message_id, bid_id, contact_id, payment_id):
     bid = get_object_or_404(models.Bid, id=bid_id)
     contact = get_object_or_404(models.Contact, id=contact_id)
     payment = get_object_or_404(models.Payment, id=payment_id)
-
+    form = ReviewForm()
     if request.user != bid.user:
         return HttpResponseForbidden("You do not have a premission to access this page. ")
     elif request.method == 'POST':
+        form = ReviewForm(data=request.POST)
         # save the order
         order = models.Order.objects.create(buyer=contact.user, seller=bid.item.user, item=bid.item, contact=contact, payment=payment)
         order.save()
-        form = ReviewForm(data=request.POST)
         if 'back' in request.POST:
             # delete the payment and contact information, so the user can enter it again
             payment.delete()
             order.delete()
             return redirect('payment_info', message_id=message_id, bid_id=bid_id, contact_id=contact_id)
-        elif 'skip' in request.POST:
-            # create an order without a review
-            return redirect('order_review', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id, order_id=order.id, review_id=None)
         elif form.is_valid():
-                # save the review
-                review = form.save(commit=False)
-                review.order = order
-                review.to_user = bid.item.user
-                review.from_user = request.user
-                review.rating = form.cleaned_data['rating']
-                if form.cleaned_data['comment']:
-                    review.comment = form.cleaned_data['comment'].capitalize()
-                review.save()
-                # update the average rating of the seller
-                rated_user = bid.item.user
-                avgrating = AverageRating.objects.filter(user=rated_user).first()
-                if avgrating:
-                    avgrating.average_rating = calc_avg_rating(rated_user)
-                else:
-                    avgrating = AverageRating.objects.create(user=rated_user, average_rating=review.rating)
-                avgrating.save()
-                # redirect to the order review page
-                return redirect('order_review', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id, order_id=order.id, review_id=review.id)
-    return render(request, 'items/rating_seller.html', {'form': ReviewForm(), 'message': message, 'bid': bid, 'contact': contact, 'payment': payment})
+            # save the review
+            review = form.save(commit=False)
+            review.order = order
+            review.to_user = bid.item.user
+            review.from_user = request.user
+            review.rating = form.cleaned_data['rating']
+            if form.cleaned_data['comment']:
+                review.comment = form.cleaned_data['comment'].capitalize()
+            review.save()
+            # update the average rating of the seller
+            rated_user = bid.item.user
+            avgrating = AverageRating.objects.filter(user=rated_user).first()
+            if avgrating:
+                avgrating.average_rating = calc_avg_rating(rated_user)
+            else:
+                avgrating = AverageRating.objects.create(user=rated_user, average_rating=review.rating)
+            avgrating.save()
+            # redirect to the order review page
+            return redirect('order_review', message_id=message_id, bid_id=bid_id, contact_id=contact_id, payment_id=payment.id, order_id=order.id, review_id=review.id)
+    return render(request, 'items/rating_seller.html', {'form': form, 'message': message, 'bid': bid, 'contact': contact, 'payment': payment})
 
 @login_required
 def order_review(request, message_id, bid_id, contact_id, payment_id, order_id, review_id=None):
