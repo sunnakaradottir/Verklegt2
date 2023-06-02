@@ -2,9 +2,7 @@ $(document).ready(function(){
     $('#search-btn').on('click', function(e){
         e.preventDefault();
         let searchText = $('#search-box').val().trim();  // Trim leading and trailing whitespaces
-        if (searchText === '') {
-            return;  // If search text is empty, do nothing
-        }
+
         console.log(searchText)
         $.ajax({
             url: '/?search_filter=' + searchText,
